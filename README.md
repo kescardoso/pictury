@@ -1,4 +1,4 @@
-# pictury README T
+# pictury README
 
 This is the README for your extension "pictury". After writing up a brief description, we recommend including the following sections.
 
