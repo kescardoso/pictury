@@ -5,9 +5,41 @@ const vscode = require('vscode');
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
-// Returns the HTML code for the webview
-function getWebviewContent(pictures_urls) {
-	var html = `<!DOCTYPE html>
+//Returns the HTML code for the search bar
+function getSearchBar(){
+	// TODO
+	let html = '';
+	return html;
+}
+
+//Returns the HTML code for each picture to be displayed in the webview
+function getImageHTML(imageSource){
+	// TODO add a 'selection' frame around the picture if it's clicked on, to show that a picture is selected by the user
+	let html = `<img src="${imageSource}" onclick="Copy_Picture_URL('${imageSource}')" width="300" /> \n`;
+	return html;
+}
+
+// Returns the HTML code for the initial webview (Welcome screen with just the searchbar, for now) 
+function getInitialPage(){
+	let html =`
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Pictury</title>
+	</head>
+	<body>`;
+	html.concat(getSearchBar());
+	html.concat(`
+	</body>
+	</html>`);
+
+}
+
+// Returns the HTML code for the search query
+function getSearchResult(pictures_urls) {
+	let html = `<!DOCTYPE html>
   <html lang="en">
   <head>
 	  <meta charset="UTF-8">
@@ -30,21 +62,15 @@ function getWebviewContent(pictures_urls) {
 		});
 	}
 	</script>
-	<div class="input-field">
-	<button class="btn-search" type="button">
-	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-	<path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-	</svg>
-	</button>
-	<input id="search" type="text" placeholder="" value="Ladies">
-	</div>
+	`;
+	html = html.concat(getSearchBar());
+	html.concat(`
   <h2>Search Result:</h2>
   <br>
-  `;
+  `);
   let picture_div;
   for(let i=0;i<12;i++){
-	picture_div =  
-	`<img src="${pictures_urls[i]}" onclick="Copy_Picture_URL('${pictures_urls[i]}')" width="300" /> \n`;
+	picture_div = getImageHTML(pictures_urls[i]);
 	html = html.concat(picture_div);
   }
 	html = html.concat(
@@ -53,7 +79,12 @@ function getWebviewContent(pictures_urls) {
 	console.log(html);
   	return html;
   }
-  
+
+function scraping(query){
+	// Uses unsplash API to get results for the user's query
+	// Returns an array containing the URLs of the pictures that will be displayed 
+}
+
 /**
  * @param {vscode.ExtensionContext} context
  */
@@ -79,6 +110,7 @@ function activate(context) {
 		);
 
 		// TODO Scrape unsplash.com and collect the pictures associated with the user's search
+		// TODO Remove this variable (pictures_urls) after adding that, it's just used for testing purposes
 		var pictures_urls = ["https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80 750w, https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80 1050w, https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
 		 			"https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80 750w, https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80 1050w, https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", 
 		 			"https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80 750w, https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80 1050w, https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
@@ -95,7 +127,7 @@ function activate(context) {
 
 
 		// And set its initial HTML content
-		panel.webview.html = getWebviewContent(pictures_urls);
+		panel.webview.html = getSearchResult(pictures_urls);
 
 		// Handle messages from the webview
 		panel.webview.onDidReceiveMessage(
@@ -105,8 +137,8 @@ function activate(context) {
 				vscode.window.showInformationMessage(message.text);
 				return;
 			case 'search' : // Handle Search Query from the user and display the results in WebView
-				var pictures_urls = scraping(); //Fetches Unsplash.com for the best results
-				panel.webview.html = getWebviewContent(pictures_urls);
+				var pictures_urls = scraping(message.text); //Fetches Unsplash.com for the best results
+				panel.webview.html = getSearchResult(pictures_urls); //Displays the Results Page
 				return;
 			}
 			},
