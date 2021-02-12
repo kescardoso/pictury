@@ -5,6 +5,13 @@ const vscode = require('vscode');
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
+//Returns the HTML code for the search bar
+function getSearchBar(){
+	// TODO
+	let html = '<h2>How to Use Pictory:</h2><p>1. Use the search box below to find your images.</p><p>2. Type in keywords and hit enter.</p><p>3. From the search results, select an image with your mouse.</p><p>4. Double click an image to download it to your workspace.</p><h2>Search Here:</h2><input type="text" placeholder="Search...">'
+	return html;
+}
+
 // Returns the HTML code for the webview
 function getWebviewContent(pictures_urls) {
 	var html = `<!DOCTYPE html>
@@ -29,18 +36,11 @@ function getWebviewContent(pictures_urls) {
 		text: 'URL Copied!'
 		});
 	}
-	</script>
-	<div class="input-field">
-	<button class="btn-search" type="button">
-	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-	<path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-	</svg>
-	</button>
-	<input id="search" type="text" placeholder="" value="Ladies">
-	</div>
-  <h2>Search Result:</h2>
+	</script>`
+html=html.concat(getSearchBar());	
+  html=html.concat(`<h2>Search Results:</h2>
   <br>
-  `;
+  `);
   let picture_div;
   for(let i=0;i<12;i++){
 	picture_div =  
