@@ -15,7 +15,7 @@ function getSearchBar(){
 //Returns the HTML code for each picture to be displayed in the webview
 function getImageHTML(imageSource){
 	// TODO add a 'selection' frame around the picture if it's clicked on, to show that a picture is selected by the user
-	let html = `<img src="${imageSource}" onclick="Copy_Picture_URL('${imageSource}')" width="300" /> \n`;
+	let html = `<img src="${imageSource}" onclick="Copy_Picture_URL('${imageSource}')" ondblclick="downloadPicture(${imageSource})" width="300" />\n`;
 	return html;
 }
 
@@ -64,7 +64,7 @@ function getSearchResult(pictures_urls) {
 	</script>
 	`;
 	html = html.concat(getSearchBar());
-	html.concat(`
+	html = html.concat(`
   <h2>Search Result:</h2>
   <br>
   `);
@@ -100,8 +100,8 @@ function activate(context) {
 	let disposable = vscode.commands.registerCommand('pictury.start', function () {
 		// Create and show a new webview
 		const panel = vscode.window.createWebviewPanel(
-		'catCoding', // Identifies the type of the webview. Used internally
-		'Cat Coding', // Title of the panel displayed to the user
+		'pictury', // Identifies the type of the webview. Used internally
+		'Pictury', // Title of the panel displayed to the user
 		vscode.ViewColumn.One, // Editor column to show the new webview panel in.
         {
             enableScripts: true
@@ -128,13 +128,14 @@ function activate(context) {
 
 		// And set its initial HTML content
 		panel.webview.html = getSearchResult(pictures_urls);
-
+		
 		// Handle messages from the webview
 		panel.webview.onDidReceiveMessage(
 		message => {
 			switch (message.command) {
 			case 'alert':    // Inform user that the picture's URL has been copied
-				vscode.window.showInformationMessage(message.text);
+				vscode.window.showInformationMessage("Pictury Notification: " + message.txt);
+				//vscode.window.setStatusBarMessage("Pictury Notification: " + message.text,2000);
 				return;
 			case 'search' : // Handle Search Query from the user and display the results in WebView
 				var pictures_urls = scraping(message.text); //Fetches Unsplash.com for the best results
