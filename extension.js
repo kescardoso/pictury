@@ -5,10 +5,17 @@ const vscode = require('vscode');
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
-//Returns the HTML code for the search bar
+// Returns the HTML code for the search bar and the tutorial on
+// How to use it
 function getSearchBar(){
 	// TODO
-	let html = '';
+	let html = `<h2>How to Use Pictory:</h2>
+	<p>1. Use the search box below to find your images.</p>
+	<p>2. Type in keywords and hit enter.</p>
+	<p>3. From the search results, select an image with your mouse.</p>
+	<p>4. Double click an image to download it to your workspace.</p>
+	<h2>Search Here:</h2>
+	<input type="text" placeholder="Search...">`
 	return html;
 }
 
@@ -134,8 +141,8 @@ function activate(context) {
 		message => {
 			switch (message.command) {
 			case 'alert':    // Inform user that the picture's URL has been copied
-				vscode.window.showInformationMessage("Pictury Notification: " + message.txt);
-				//vscode.window.setStatusBarMessage("Pictury Notification: " + message.text,2000);
+				//vscode.window.showInformationMessage("Pictury Notification: " + message.txt);
+				vscode.window.setStatusBarMessage("Pictury Notification: " + message.text,2000);
 				return;
 			case 'search' : // Handle Search Query from the user and display the results in WebView
 				var pictures_urls = scraping(message.text); //Fetches Unsplash.com for the best results
