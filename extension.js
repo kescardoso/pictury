@@ -5,16 +5,48 @@ const vscode = require('vscode');
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
-//Returns the HTML code for the search bar
+// Returns the HTML code for the search bar and the tutorial on
+// How to use it
 function getSearchBar(){
 	// TODO
-	let html = '<h2>How to Use Pictory:</h2><p>1. Use the search box below to find your images.</p><p>2. Type in keywords and hit enter.</p><p>3. From the search results, select an image with your mouse.</p><p>4. Double click an image to download it to your workspace.</p><h2>Search Here:</h2><input type="text" placeholder="Search...">'
+	let html = `<h2>How to Use Pictory:</h2>
+	<p>1. Use the search box below to find your images.</p>
+	<p>2. Type in keywords and hit enter.</p>
+	<p>3. From the search results, select an image with your mouse.</p>
+	<p>4. Double click an image to download it to your workspace.</p>
+	<h2>Search Here:</h2>
+	<input type="text" placeholder="Search...">`
 	return html;
 }
 
-// Returns the HTML code for the webview
-function getWebviewContent(pictures_urls) {
-	var html = `<!DOCTYPE html>
+//Returns the HTML code for each picture to be displayed in the webview
+function getImageHTML(imageSource){
+	// TODO add a 'selection' frame around the picture if it's clicked on, to show that a picture is selected by the user
+	let html = `<img src="${imageSource}" onclick="Copy_Picture_URL('${imageSource}')" ondblclick="downloadPicture(${imageSource})" width="300" />\n`;
+	return html;
+}
+
+// Returns the HTML code for the initial webview (Welcome screen with just the searchbar, for now) 
+function getInitialPage(){
+	let html =`
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Pictury</title>
+	</head>
+	<body>`;
+	html.concat(getSearchBar());
+	html.concat(`
+	</body>
+	</html>`);
+
+}
+
+// Returns the HTML code for the search query
+function getSearchResult(pictures_urls) {
+	let html = `<!DOCTYPE html>
   <html lang="en">
   <head>
 	  <meta charset="UTF-8">
@@ -36,15 +68,16 @@ function getWebviewContent(pictures_urls) {
 		text: 'URL Copied!'
 		});
 	}
-	</script>`
-html=html.concat(getSearchBar());	
-  html=html.concat(`<h2>Search Results:</h2>
+	</script>
+	`;
+	html = html.concat(getSearchBar());
+	html = html.concat(`
+  <h2>Search Result:</h2>
   <br>
   `);
   let picture_div;
   for(let i=0;i<12;i++){
-	picture_div =  
-	`<img src="${pictures_urls[i]}" onclick="Copy_Picture_URL('${pictures_urls[i]}')" width="300" /> \n`;
+	picture_div = getImageHTML(pictures_urls[i]);
 	html = html.concat(picture_div);
   }
 	html = html.concat(
@@ -53,7 +86,13 @@ html=html.concat(getSearchBar());
 	console.log(html);
   	return html;
   }
-  
+
+function scraping(query){
+	// Uses unsplash API to get results for the user's query
+	// Returns an array containing the URLs of the pictures that will be displayed 
+  // TODO
+}
+
 /**
  * @param {vscode.ExtensionContext} context
  */
@@ -69,8 +108,8 @@ function activate(context) {
 	let disposable = vscode.commands.registerCommand('pictury.start', function () {
 		// Create and show a new webview
 		const panel = vscode.window.createWebviewPanel(
-		'catCoding', // Identifies the type of the webview. Used internally
-		'Cat Coding', // Title of the panel displayed to the user
+		'pictury', // Identifies the type of the webview. Used internally
+		'Pictury', // Title of the panel displayed to the user
 		vscode.ViewColumn.One, // Editor column to show the new webview panel in.
         {
             enableScripts: true
@@ -79,6 +118,7 @@ function activate(context) {
 		);
 
 		// TODO Scrape unsplash.com and collect the pictures associated with the user's search
+		// TODO Remove this variable (pictures_urls) after adding that, it's just used for testing purposes
 		var pictures_urls = ["https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80 750w, https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80 1050w, https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
 		 			"https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80 750w, https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80 1050w, https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", 
 		 			"https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80 750w, https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80 1050w, https://images.unsplash.com/photo-1595077770871-f0ee31fe25d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
@@ -95,18 +135,19 @@ function activate(context) {
 
 
 		// And set its initial HTML content
-		panel.webview.html = getWebviewContent(pictures_urls);
-
+		panel.webview.html = getSearchResult(pictures_urls);
+		
 		// Handle messages from the webview
 		panel.webview.onDidReceiveMessage(
 		message => {
 			switch (message.command) {
 			case 'alert':    // Inform user that the picture's URL has been copied
-				vscode.window.showInformationMessage(message.text);
+				//vscode.window.showInformationMessage("Pictury Notification: " + message.txt);
+				vscode.window.setStatusBarMessage("Pictury Notification: " + message.text,2000);
 				return;
 			case 'search' : // Handle Search Query from the user and display the results in WebView
-				var pictures_urls = scraping(); //Fetches Unsplash.com for the best results
-				panel.webview.html = getWebviewContent(pictures_urls);
+				var pictures_urls = scraping(message.text); //Fetches Unsplash.com for the best results
+				panel.webview.html = getSearchResult(pictures_urls); //Displays the Results Page
 				return;
 			}
 			},
@@ -125,3 +166,4 @@ module.exports = {
 	activate,
 	deactivate
 }
+
