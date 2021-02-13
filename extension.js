@@ -103,7 +103,8 @@ function scraping(query){
 }
 
 
-
+	// Download the selected image to the current workplace
+	// TODO prompt the user asking him for a download folder, if no active workspace is active. 
 async function downloadImage(imageSource){
 	console.log('test');
 	let installFolder;
