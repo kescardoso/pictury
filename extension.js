@@ -92,7 +92,6 @@ function getSearchResult(pictures_urls) {
 	html = html.concat(
 	`</body>
 	</html>`);
-	console.log(html);
   	return html;
   }
 
@@ -106,30 +105,15 @@ function scraping(query){
 	// Download the selected image to the current workplace
 	// TODO prompt the user asking him for a download folder, if no active workspace is active. 
 async function downloadImage(imageSource){
-	console.log('test');
 	let installFolder;
 	if(vscode.workspace.rootPath != undefined)
 		installFolder = vscode.workspace.rootPath;
 	else 
 		{installFolder = '';} //TO DO, ASK THE USER FOR DOWNLOAD PATH
-	console.log(installFolder);
 
 	let downloadSettings= {
 		extract: false
 	};
-	console.log(path.join(installFolder, imageSource));
-	if(fs.existsSync(path.join(installFolder, imageSource)))
-		{const answer = await vscode.window.showQuickPick([
-			'Yes',
-			'No'
-		], {
-			canPickMany: false,
-			placeHolder: `The download may overwrite folders and files in the workspace. Are you sure?`
-		});
-		if (answer === 'No') {
-			return;
-		}
-	}
 	console.log('Downloading from: ' + imageSource);
 	download(imageSource, installFolder, downloadSettings);
 
@@ -180,13 +164,11 @@ function activate(context) {
 
 		// And set its initial HTML content
 		panel.webview.html = getSearchResult(pictures_urls);
-		console.log(vscode.workspace.rootPath);
 		// Handle messages from the webview
 		panel.webview.onDidReceiveMessage(
 		message => {
 			switch (message.command) {
 			case 'download': 
-				console.log('test_message_received');
 				downloadImage(message.text);
 				
 
