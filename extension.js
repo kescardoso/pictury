@@ -90,6 +90,7 @@ function getSearchResult(pictures_urls) {
 function scraping(query){
 	// Uses unsplash API to get results for the user's query
 	// Returns an array containing the URLs of the pictures that will be displayed 
+  // TODO
 }
 
 /**
@@ -165,3 +166,4 @@ module.exports = {
 	activate,
 	deactivate
 }
+
