@@ -196,4 +196,3 @@ module.exports = {
 	activate,
 	deactivate
 }
-
