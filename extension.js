@@ -23,7 +23,6 @@ function getSearchBar(){
 
 //Returns the HTML code for each picture to be displayed in the webview
 function getImageHTML(imageSource){
-	// TODO add a 'selection' frame around the picture if it's clicked on, to show that a picture is selected by the user
 	let html = `<img src="${imageSource}" onclick="Copy_Picture_URL('${imageSource}')" ondblclick="Download('${imageSource}')" width="300" />\n`;
 	return html;
 }
