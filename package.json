@@ -1,7 +1,7 @@
 {
   "name": "pictury",
   "displayName": "Pictury",
-  "description": "A VS-Code extension to search and upload stock-free images into a workspace",
+  "description": "A VS-Code extension for search and upload stock-free images into a workspace",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.53.0"
@@ -10,22 +10,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:pictury.start"
+    "onCommand:pictury.helloWorld"
   ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "pictury.start",
-        "title": "start",
-        "category": "pictury"
-      }
-    ],
-    "keybindings": [
-      {
-        "command": "pictury.start",
-        "key": "shift+A",
-        "mac": "shift+A"
+        "command": "pictury.helloWorld",
+        "title": "Hello World"
       }
     ]
   },
@@ -44,9 +36,5 @@
     "mocha": "^8.2.1",
     "typescript": "^4.1.3",
     "vscode-test": "^1.5.0"
-  },
-  "dependencies": {
-    "@types/download": "^6.2.4",
-    "download": "^8.0.0"
   }
 }
