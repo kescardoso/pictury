@@ -21,13 +21,11 @@
         "category": "pictury"
       }
     ],
-    "keybindings": [
-      {
-        "command": "pictury.start",
-        "key": "shift+A",
-        "mac": "shift+A"
-      }
-    ]
+    "keybindings": [{
+      "command": "pictury.start",
+      "key": "shift+A",
+      "mac": "shift+A"
+    }]
   },
   "scripts": {
     "lint": "eslint .",
@@ -44,9 +42,5 @@
     "mocha": "^8.2.1",
     "typescript": "^4.1.3",
     "vscode-test": "^1.5.0"
-  },
-  "dependencies": {
-    "@types/download": "^6.2.4",
-    "download": "^8.0.0"
   }
 }
