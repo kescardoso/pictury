@@ -12,7 +12,7 @@
   "activationEvents": [
     "onCommand:pictury.helloWorld"
   ],
-"main": "./extension.js",
+  "main": "./extension.js",
   "contributes": {
     "commands": [
       {
