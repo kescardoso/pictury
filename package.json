@@ -61,12 +61,8 @@
     "vscode-test": "^1.5.0"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "node-fetch": "^2.6.1"
-=======
     "@types/download": "^6.2.4",
     "download": "^8.0.0",
     "jimp": "^0.16.1"
->>>>>>> 76dd5bb18d0dc45950e8562ff80845bb647c8c3a
   }
 }
