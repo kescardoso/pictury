@@ -4,7 +4,7 @@ const vscode = require('vscode');
 const fs = require('fs');
 const download = require('download');
 const path = require('path');
-const jimp = require("jimp")
+const jimp = require("jimp");
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
