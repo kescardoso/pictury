@@ -10,7 +10,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:pictury.start"
+    "onCommand:pictury.start",
+    "onCommand:pictury.resize"
   ],
   "main": "./extension.js",
   "contributes": {
@@ -19,6 +20,10 @@
         "command": "pictury.start",
         "title": "start",
         "category": "pictury"
+      },
+      {
+        "command": "pictury.resize",
+        "title": "Resize"
       }
     ],
     "keybindings": [
@@ -27,7 +32,17 @@
         "key": "shift+A",
         "mac": "shift+A"
       }
-    ]
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "resourceExtname == .jpg || resourceExtname == .png || resourceExtname == jpeg",
+          "command": "pictury.resize",
+          "group": "navigation"
+        }
+      ]
+    }
+
   },
   "scripts": {
     "lint": "eslint .",
@@ -47,6 +62,7 @@
   },
   "dependencies": {
     "@types/download": "^6.2.4",
-    "download": "^8.0.0"
+    "download": "^8.0.0",
+    "jimp": "^0.16.1"
   }
 }

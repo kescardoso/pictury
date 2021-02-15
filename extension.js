@@ -4,6 +4,7 @@ const vscode = require('vscode');
 const fs = require('fs');
 const download = require('download');
 const path = require('path');
+const jimp = require("jimp")
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
@@ -109,13 +110,15 @@ async function downloadImage(imageSource){
 	if(vscode.workspace.rootPath != undefined)
 		installFolder = vscode.workspace.rootPath;
 	else 
-		{installFolder = '';} //TO DO, ASK THE USER FOR DOWNLOAD PATH
+		{installFolder = '';
+		vscode.window.showInformationMessage("No Active Workspace!");
+		return;} //TO DO, ASK THE USER FOR DOWNLOAD PATH
 
 	let downloadSettings= {
 		extract: false
 	};
-	console.log('Downloading from: ' + imageSource);
-	download(imageSource, installFolder, downloadSettings);
+	await download(imageSource, installFolder, downloadSettings);
+	vscode.window.showInformationMessage("Picture Downloaded!");
 
 	
 }
@@ -187,7 +190,46 @@ function activate(context) {
 		);		
 	});
 
+	let disposable2 = vscode.commands.registerCommand('pictury.resize', function (path=vscode.Uri) {
+		// This function's credits: https://github.com/lukapetrovic/vscode-imageresizer
+		let userInput = vscode.window.showInputBox();
+		userInput.then(widthXheight => {
+			let resizeDimensions = widthXheight.split("x");
+	
+			if (resizeDimensions[0] == null || resizeDimensions[1] == null) {
+			  vscode.window.showInformationMessage(
+				"Incorrect format. Should be widhtxheight"
+			  );
+			} else {
+			  let resizedImageLocationParts = path.fsPath.split(/(?:\.)([^\/]*)$/g);
+			  jimp
+				.read(path.fsPath)
+				.then(function (image) {
+				  // if only one of the dimensions is auto, it will be autoscaled
+				  let width = resizeDimensions[0].toLowerCase() == 'auto' ? jimp.AUTO : Number.parseInt(resizeDimensions[0]);
+				  let height = resizeDimensions[1].toLowerCase() == 'auto' ? jimp.AUTO : Number.parseInt(resizeDimensions[1]);
+				  image
+					.resize(width, height)
+					.write(resizedImageLocationParts[0] + "-" + widthXheight + "." + resizedImageLocationParts[1], (error) => {
+					  if (error === null) {
+						vscode.window.showInformationMessage("Image resized");
+					  } else {
+						vscode.window.showInformationMessage("Error resizing");
+					  }
+	
+					})
+	
+				})
+				.catch(function (err) {
+				  vscode.window.showInformationMessage(err);
+				});
+	
+			}
+		  });
+		}
+	  );
 	context.subscriptions.push(disposable);
+	context.subscriptions.push(disposable2);
 }
 
 // this method is called when your extension is deactivated
