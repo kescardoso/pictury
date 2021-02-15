@@ -1,7 +1,7 @@
 {
   "name": "pictury",
   "displayName": "Pictury",
-  "description": "A VS-Code extension to search and upload stock-free images into a workspace",
+  "description": "A VS-Code extension for search and upload stock-free images into a workspace",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.53.0"
@@ -31,6 +31,8 @@
         "command": "pictury.start",
         "key": "shift+A",
         "mac": "shift+A"
+        "command": "pictury.helloWorld",
+        "title": "Hello World"
       }
     ],
     "menus": {
