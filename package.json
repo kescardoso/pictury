@@ -10,16 +10,41 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:pictury.helloWorld"
+    "onCommand:pictury.start",
+    "onCommand:pictury.resize"
   ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
+        "command": "pictury.start",
+        "title": "start",
+        "category": "pictury"
+      },
+      {
+        "command": "pictury.resize",
+        "title": "Resize"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "pictury.start",
+        "key": "shift+A",
+        "mac": "shift+A"
         "command": "pictury.helloWorld",
         "title": "Hello World"
       }
-    ]
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "resourceExtname == .jpg || resourceExtname == .png || resourceExtname == jpeg",
+          "command": "pictury.resize",
+          "group": "navigation"
+        }
+      ]
+    }
+
   },
   "scripts": {
     "lint": "eslint .",
@@ -38,6 +63,12 @@
     "vscode-test": "^1.5.0"
   },
   "dependencies": {
+<<<<<<< HEAD
     "node-fetch": "^2.6.1"
+=======
+    "@types/download": "^6.2.4",
+    "download": "^8.0.0",
+    "jimp": "^0.16.1"
+>>>>>>> 76dd5bb18d0dc45950e8562ff80845bb647c8c3a
   }
 }
