@@ -25,6 +25,26 @@ function getSearchBar(){
 			<title>Pictury</title>
 		</head>
 		<body>
+			<div class="container pt-2 pb-4">
+				<h1>Pictury</h1>
+				<p>A VS-Code extension to search and upload stock-free images directly into a workspace.</p>
+				<p class="small">
+					Don't leave your sandbox!
+					<i>Pictury</i> will scrape free stock images from <a href="https://unsplash.com/" target="_blank" alt="Go to Unsplash">Unsplash</a> 
+					and display a selection of images, queried from your search output.
+					With <i>Pictury</i> you can <strong>search</strong>, 
+					<strong>download</strong>, and <strong>resize</strong> stock-free images directly 
+					from and into your workspace with a simple click. Our extension also gives you 
+					the ability to easily grab artist and image information 
+					so you can properly credit them on your projects.
+					<i>Pictury</i> was built by <a href="https://github.com/Ali-Doggaz" target="_blank" alt="Go to Ali's GitHub">@Ali-Doggaz</a>, 
+					<a href="https://github.com/jackbisceglia" target="_blank" alt="Go to Jack's GitHub">@JackBisceglia</a> 
+					and <a href="https://github.com/kescardoso" target="_blank" alt="Go to Kes's GitHub">@KesCardoso</a> 
+					-- we are <a href="https://fellowship.mlh.io/programs/explorer" target="_blank" alt="Go to MLH Explorer Fellowshiup">MLH Fellow Explorers</a>, 
+					and we are happy to help and hear your suggestions and comments.
+					Thank you for using <i>Pictury</i>, we hope you enjoy it!
+				</p>
+				</div>
 			<div class="container">
 				<!-- Instructions : -->
 				<div class="instructions">
