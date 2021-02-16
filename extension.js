@@ -24,16 +24,17 @@ function getSearchBar(){
 			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 			<!-- Custom CSS Style : -->
 			<style>
-				h1, h2, h3, h4, h5, h6 {
-					letter-spacing: .2em;
+				h1, h2, h3, h4, h5, h6, btn-pictury {
+					letter-spacing: .2em !important;
 				}
 			</style>
 			<!-- Title: -->
+			<!-- HTML Emoji instructions: https://medium.com/@hollybourneville/how-to-use-emojis-in-html-b3c671e21b92 -->
 			<!-- HTML Emoji cheatsheet: https://www.w3schools.com/charsets/ref_emoji.asp -->
 			<title>&#x1F4F8 Pictury</title>
 		</head>
 		<body>
-			<!-- Pictury header and instructions : -->
+			<!-- Pictury header and intro : -->
 			<div class="container pt-2 pb-2">
 				<h3 class="text-uppercase">&#x1F4F8 Pictury</h3>
 				<p>
@@ -59,16 +60,26 @@ function getSearchBar(){
 				</p>
 			</div>
 
-			<!-- Instructions : -->
+			<!-- Instructions (accordion with button) : -->
 			<div class="container pt-2 pb-2">
-				<div class="instructions">
-					<h6 class="text-uppercase">How to Use Pictory:</h6>
-					<ol>
-						<li>Use the search box below to find your images.</li>
-						<li>Type in keywords and hit enter.</li>
-						<li>From the search results, select an image with your mouse.</li>
-						<li>Double click an image to download it to your workspace.</li>
-					</ol>
+				<!-- Button, toogle accordion : -->
+				<button class="btn btn-info align-middle" 
+						type="button" data-toggle="collapse" 
+						data-target="#collapseExample" 
+						aria-expanded="false" 
+						aria-controls="collapseExample">
+						<h6 class="text-uppercase align-middle">How to Use Pictory (click to expand)</h6>
+				</button>
+				<!-- Accordion with ordered list : -->
+		  		<div class="collapse" id="collapseExample">
+					<div class="card card-body">
+						<ol>
+							<li>Use the search box below to find your images.</li>
+							<li>Type in keywords and hit enter.</li>
+							<li>From the search results, select an image with your mouse.</li>
+							<li>Double click an image to download it to your workspace.</li>
+						</ol>
+					</div>
 				</div>
 			</div>
 
