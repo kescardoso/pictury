@@ -101,6 +101,20 @@ function scraping(query){
   // TODO
 }
 
+async function rotatePicture(a, path){
+	let rotatedImage = path.fsPath.split(/(?:\.)([^\/]*)$/g);
+	jimp.read(path.fsPath, function (err, image) {
+		if (err) {
+		  console.log(err)
+		} else {
+			image.rotate(a)
+			.write(rotatedImage[0]+"-Rotated"+a+'.'+rotatedImage[1]); 
+			console.log(rotatedImage[0]+"-Rotated"+a+'.'+rotatedImage[1]);
+		}
+	  })
+}
+
+
 
 	// Download the selected image to the current workplace
 	// TODO prompt the user asking him for a download folder, if no active workspace is active. 
@@ -255,11 +269,27 @@ function activate(context) {
 		  })
 		}
 	  );	  
-
+	
+	let rotateRight90 = vscode.commands.registerCommand('pictury.rotateRight90', function(path=vscode.Uri) {
+		rotatePicture(270, path);
+	})
+	let rotateRight180 = vscode.commands.registerCommand('pictury.rotateRight180', function(path=vscode.Uri) {
+		rotatePicture(180, path);
+	})
+	let rotateLeft90 = vscode.commands.registerCommand('pictury.rotateLeft90', function(path=vscode.Uri) {
+		rotatePicture(90, path);
+	})
+	let rotateLeft180 = vscode.commands.registerCommand('pictury.rotateLeft180', function(path=vscode.Uri) {
+		rotatePicture(180, path);
+	})
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(disposable2);
 	context.subscriptions.push(toPNG);
 	context.subscriptions.push(toJPG);
+	context.subscriptions.push(rotateRight90);
+	context.subscriptions.push(rotateRight180);
+	context.subscriptions.push(rotateLeft90);
+	context.subscriptions.push(rotateLeft180);
 }
 
 // this method is called when your extension is deactivated
