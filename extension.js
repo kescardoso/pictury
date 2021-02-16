@@ -13,14 +13,19 @@ const jimp = require("jimp");
 function getSearchBar(){
 	// TODO
 	let html = 
-		`<head>
-			<!-- Bootstrap CSS -->
+		`<!DOCTYPE html>
+		<html lang="en">
+		<head>
+			<!-- Bootstrap CSS : -->
 			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+			<!-- Meta Tags : -->
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<!-- Title: -->
 			<title>Pictury</title>
 		</head>
 		<body>
-			<div class="container-fluid">
+			<div class="container">
 				<!-- Instructions : -->
 				<div class="instructions">
 					<h2>How to Use Pictory:</h2>
@@ -58,66 +63,61 @@ function getImageHTML(imageSource){
 // Returns the HTML code for the initial webview (Welcome screen with just the searchbar, for now) 
 function getInitialPage(){
 	let html =`
-	<!DOCTYPE html>
-	<html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Pictury</title>
-	</head>
-	<body>`;
-	html.concat(getSearchBar());
-	html.concat(`
-	</body>
-	</html>`);
-
+		<head>
+		</head>
+		<body>
+	`;
+		html.concat(getSearchBar());
+		html.concat(`
+			</body>
+			</html>
+		`);
 }
 
 // Returns the HTML code for the search query
 function getSearchResult(pictures_urls) {
-	let html = `<!DOCTYPE html>
-  <html lang="en">
-  <head>
-	  <meta charset="UTF-8">
-	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	  <title>Pictury</title>
-  </head>
-  <body>
-  <script>
-	var vscode=acquireVsCodeApi(); // initialize the VsCodeApi that is used to communicate between the extension and the webview
-  	function Copy_Picture_URL(txt) {
-		const el = document.createElement('textarea');
-		el.value = txt;
-		document.body.appendChild(el);
-		el.select();
-		document.execCommand('copy');
-		document.body.removeChild(el);
-		vscode.postMessage({
-		command: 'alert',
-		text: 'URL Copied!'
-		});
-	}
-
-	function Download(pictureSource) {
-		vscode.postMessage({
-		command: 'download',
-		text: pictureSource
-		});
-	}
-	</script>
-	`;
-	html = html.concat(getSearchBar());
-	html = html.concat(
-		`<h2>Search Result:</h2>
-		 <br>`);
+	let html = `
+		<head>
+		</head>
+		<body>
+		<script>
+			var vscode=acquireVsCodeApi(); // initialize the VsCodeApi that is used to communicate between the extension and the webview
+			function Copy_Picture_URL(txt) {
+				const el = document.createElement('textarea');
+				el.value = txt;
+				document.body.appendChild(el);
+				el.select();
+				document.execCommand('copy');
+				document.body.removeChild(el);
+				vscode.postMessage({
+				command: 'alert',
+				text: 'URL Copied!'
+				});
+			}
+			function Download(pictureSource) {
+				vscode.postMessage({
+				command: 'download',
+				text: pictureSource
+				});
+			}
+			</script>
+		`;
+		html = html.concat(getSearchBar());
+		html = html.concat(`
+			<div class="container">
+				<h2>Search Result:</h2>
+				<br>
+		`);
 		let picture_div;
 		for(let i=0;i<12;i++){
 			picture_div = getImageHTML(pictures_urls[i]);
 			html = html.concat(picture_div);
 		}
-			html = html.concat(
-				`</body>
-				</html>`);
+			html = html.concat(`
+				</div>
+					</body>
+					</html>
+			`);
 			return html;
 		}
 
