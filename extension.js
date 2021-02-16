@@ -27,6 +27,11 @@ function getSearchBar(){
 				h1, h2, h3, h4, h5, h6, btn-pictury {
 					letter-spacing: .2em !important;
 				}
+				.footer-credits {
+					text-transform: uppercase;
+					letter-spacing: .2em;
+					text-align: center;
+				}
 			</style>
 			<!-- Title: -->
 			<!-- HTML Emoji instructions: https://medium.com/@hollybourneville/how-to-use-emojis-in-html-b3c671e21b92 -->
@@ -153,7 +158,7 @@ function getSearchResult(pictures_urls) {
 		`;
 		html = html.concat(getSearchBar());
 		html = html.concat(`
-			<div class="container">
+			<div class="container pt-2 pb-4">
 				<h2>Search Result:</h2>
 				<br>
 		`);
@@ -164,6 +169,14 @@ function getSearchResult(pictures_urls) {
 		}
 			html = html.concat(`
 				</div>
+				<!-- Footer -->
+				<footer>
+					<p class="footer-credits small">
+						<strong>Pictury VSCode Extension</strong>
+						<br>
+						Powered by <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy</a>
+					</p>
+				</footer>
 					</body>
 					</html>
 			`);
