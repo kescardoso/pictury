@@ -12,13 +12,33 @@ const jimp = require("jimp");
 // How to use it
 function getSearchBar(){
 	// TODO
-	let html = `<h2>How to Use Pictory:</h2>
-	<p>1. Use the search box below to find your images.</p>
-	<p>2. Type in keywords and hit enter.</p>
-	<p>3. From the search results, select an image with your mouse.</p>
-	<p>4. Double click an image to download it to your workspace.</p>
-	<h2>Search Here:</h2>
-	<input type="text" placeholder="Search...">`
+	let html = 
+		`<head>
+			<!-- Bootstrap CSS -->
+			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+			<!-- Title: -->
+			<title>Pictury</title>
+		</head>
+		<body>
+			<!-- Instructions : -->
+			<div class="instructions">
+				<h2>How to Use Pictory:</h2>
+				<p>1. Use the search box below to find your images.</p>
+				<p>2. Type in keywords and hit enter.</p>
+				<p>3. From the search results, select an image with your mouse.</p>
+				<p>4. Double click an image to download it to your workspace.</p>
+			</div>
+			<!-- Search Input : -->
+			<h2>Search Here:</h2>
+			<form id="myForm" autocomplete="off">
+				<div class ="form-group">
+					<input type="text" class ="form-control" id="search" placeholder="Search image">
+		
+			<!-- Bootstrap Js, jQuery and Popper.js : -->		
+			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>			
+		</body>`
 	return html;
 }
 
@@ -80,20 +100,19 @@ function getSearchResult(pictures_urls) {
 	</script>
 	`;
 	html = html.concat(getSearchBar());
-	html = html.concat(`
-  <h2>Search Result:</h2>
-  <br>
-  `);
-  let picture_div;
-  for(let i=0;i<12;i++){
-	picture_div = getImageHTML(pictures_urls[i]);
-	html = html.concat(picture_div);
-  }
 	html = html.concat(
-	`</body>
-	</html>`);
-  	return html;
-  }
+		`<h2>Search Result:</h2>
+		 <br>`);
+		let picture_div;
+		for(let i=0;i<12;i++){
+			picture_div = getImageHTML(pictures_urls[i]);
+			html = html.concat(picture_div);
+		}
+			html = html.concat(
+				`</body>
+				</html>`);
+			return html;
+		}
 
 function scraping(query){
 	// Uses unsplash API to get results for the user's query
