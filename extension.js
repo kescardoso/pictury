@@ -24,11 +24,10 @@ function getSearchBar(){
 			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 			<!-- Custom CSS Style : -->
 			<style>
-				h1, h2, h3, h4, h5, h6, btn-pictury {
+				h1, h2, h3, h4, h5, h6 {
 					letter-spacing: .2em !important;
 				}
 				.footer-credits {
-					text-transform: uppercase;
 					letter-spacing: .2em;
 					text-align: center;
 				}
@@ -39,14 +38,16 @@ function getSearchBar(){
 			<title>&#x1F4F8 Pictury</title>
 		</head>
 		<body>
-			<!-- Pictury header and intro : -->
-			<div class="container pt-2 pb-2">
+			<div class="container pt-2 pb-4">
+
+				<!-- Pictury header : -->
 				<h3 class="text-uppercase">&#x1F4F8 Pictury</h3>
 				<p>
 					A VS-Code extension to search 
 					and upload stock-free images directly 
 					into a workspace.
 				</p>
+				<!-- Pictury intro : -->
 				<p class="small">
 					Don't leave your sandbox!
 					<i>Pictury</i> will scrape free stock images from <a href="https://unsplash.com/" target="_blank" alt="Go to Unsplash">Unsplash</a> 
@@ -60,14 +61,13 @@ function getSearchBar(){
 					<a href="https://github.com/jackbisceglia" target="_blank" alt="Go to Jack's GitHub">@JackBisceglia</a> 
 					and <a href="https://github.com/kescardoso" target="_blank" alt="Go to Kes's GitHub">@KesCardoso</a> 
 					-- we are <a href="https://fellowship.mlh.io/programs/explorer" target="_blank" alt="Go to MLH Explorer Fellowshiup">MLH Fellow Explorers</a>, 
+					members of the <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy Pod (Spring, 2021)</a>
 					and we are happy to help and hear your suggestions and comments.
 					Thank you for using <i>Pictury</i>, we hope you enjoy it!
 				</p>
-			</div>
 
-			<!-- Instructions (accordion with button) : -->
-			<div class="container pt-2 pb-2">
-				<!-- Button, toogle accordion : -->
+				<!-- Pictury Instructions : -->
+				<!-- Button, toogles accordion : -->
 				<button class="btn btn-info align-middle" 
 						type="button" data-toggle="collapse" 
 						data-target="#collapseExample" 
@@ -75,8 +75,9 @@ function getSearchBar(){
 						aria-controls="collapseExample">
 						<h6 class="text-uppercase align-middle">How to Use Pictory (click to expand)</h6>
 				</button>
+
 				<!-- Accordion with ordered list : -->
-		  		<div class="collapse" id="collapseExample">
+				<div class="collapse" id="collapseExample">
 					<div class="card card-body">
 						<ol>
 							<li>Use the search box below to find your images.</li>
@@ -86,10 +87,11 @@ function getSearchBar(){
 						</ol>
 					</div>
 				</div>
+
 			</div>
 
-			<!-- Search Input : -->
 			<div class="container pt-2 pb-2">
+				<!-- Search Input : -->
 				<div class="searchbox">
 				<h6 class="text-uppercase">Search Here:</h6>
 					<form id="myForm" autocomplete="off">
@@ -159,7 +161,7 @@ function getSearchResult(pictures_urls) {
 		html = html.concat(getSearchBar());
 		html = html.concat(`
 			<div class="container pt-2 pb-4">
-				<h2>Search Result:</h2>
+				<h6 class="text-uppercase">Search Results:</h6>
 				<br>
 		`);
 		let picture_div;
@@ -170,7 +172,7 @@ function getSearchResult(pictures_urls) {
 			html = html.concat(`
 				</div>
 				<!-- Footer -->
-				<footer>
+				<footer class="justify-content-center text-uppercase text-center pt-2 pb-4">
 					<p class="footer-credits small">
 						<strong>Pictury VSCode Extension</strong>
 						<br>
