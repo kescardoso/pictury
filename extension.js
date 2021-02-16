@@ -12,13 +12,101 @@ const jimp = require("jimp");
 // How to use it
 function getSearchBar(){
 	// TODO
-	let html = `<h2>How to Use Pictory:</h2>
-	<p>1. Use the search box below to find your images.</p>
-	<p>2. Type in keywords and hit enter.</p>
-	<p>3. From the search results, select an image with your mouse.</p>
-	<p>4. Double click an image to download it to your workspace.</p>
-	<h2>Search Here:</h2>
-	<input type="text" placeholder="Search...">`
+	let html = 
+		`<!DOCTYPE html>
+		<html lang="en">
+		<head>
+			<!-- Meta Tag for Emoji : -->
+			<meta charset="UTF-8">
+			<!-- Meta Tag for device display compatiobility : -->
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<!-- Bootstrap CSS : -->
+			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+			<!-- Custom CSS Style : -->
+			<style>
+				h1, h2, h3, h4, h5, h6 {
+					letter-spacing: .2em !important;
+				}
+				.footer-credits {
+					letter-spacing: .2em;
+					text-align: center;
+				}
+			</style>
+			<!-- Title: -->
+			<!-- HTML Emoji instructions: https://medium.com/@hollybourneville/how-to-use-emojis-in-html-b3c671e21b92 -->
+			<!-- HTML Emoji cheatsheet: https://www.w3schools.com/charsets/ref_emoji.asp -->
+			<title>&#x1F4F8 Pictury</title>
+		</head>
+		<body>
+			<div class="container pt-2 pb-4">
+
+				<!-- Pictury header : -->
+				<h3 class="text-uppercase">&#x1F4F8 Pictury</h3>
+				<p>
+					A VS-Code extension to search 
+					and upload stock-free images directly 
+					into a workspace.
+				</p>
+				<!-- Pictury intro : -->
+				<p class="small">
+					Don't leave your sandbox!
+					<i>Pictury</i> will scrape free stock images from <a href="https://unsplash.com/" target="_blank" alt="Go to Unsplash">Unsplash</a> 
+					and display a selection of images, queried from your search output.
+					With <i>Pictury</i> you can <strong>search</strong>, 
+					<strong>download</strong>, and <strong>resize</strong> stock-free images directly 
+					from and into your workspace with a simple click. Our extension also gives you 
+					the ability to easily grab artist and image information 
+					so you can properly credit them on your projects.
+					<i>Pictury</i> was built by <a href="https://github.com/Ali-Doggaz" target="_blank" alt="Go to Ali's GitHub">@Ali-Doggaz</a>, 
+					<a href="https://github.com/jackbisceglia" target="_blank" alt="Go to Jack's GitHub">@JackBisceglia</a> 
+					and <a href="https://github.com/kescardoso" target="_blank" alt="Go to Kes's GitHub">@KesCardoso</a> 
+					-- we are <a href="https://fellowship.mlh.io/programs/explorer" target="_blank" alt="Go to MLH Explorer Fellowshiup">MLH Fellow Explorers</a>, 
+					members of the <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy Pod (Spring, 2021)</a>
+					and we are happy to help and hear your suggestions and comments.
+					Thank you for using <i>Pictury</i>, we hope you enjoy it!
+				</p>
+
+				<!-- Pictury Instructions : -->
+				<!-- Button, toogles accordion : -->
+				<button class="btn btn-info align-middle" 
+						type="button" data-toggle="collapse" 
+						data-target="#collapseExample" 
+						aria-expanded="false" 
+						aria-controls="collapseExample">
+						<h6 class="text-uppercase align-middle">How to Use Pictory (click to expand)</h6>
+				</button>
+
+				<!-- Accordion with ordered list : -->
+				<div class="collapse" id="collapseExample">
+					<div class="card card-body">
+						<ol>
+							<li>Use the search box below to find your images.</li>
+							<li>Type in keywords and hit enter.</li>
+							<li>From the search results, select an image with your mouse.</li>
+							<li>Double click an image to download it to your workspace.</li>
+						</ol>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="container pt-2 pb-2">
+				<!-- Search Input : -->
+				<div class="searchbox">
+				<h6 class="text-uppercase">Search Here:</h6>
+					<form id="myForm" autocomplete="off">
+						<div class ="form-group">
+							<input type="text" class ="form-control" id="search" placeholder="Search image" required>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<!-- Bootstrap Js, jQuery and Popper.js : -->		
+			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>			
+		</body>`
 	return html;
 }
 
@@ -31,69 +119,71 @@ function getImageHTML(imageSource){
 // Returns the HTML code for the initial webview (Welcome screen with just the searchbar, for now) 
 function getInitialPage(){
 	let html =`
-	<!DOCTYPE html>
-	<html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Pictury</title>
-	</head>
-	<body>`;
-	html.concat(getSearchBar());
-	html.concat(`
-	</body>
-	</html>`);
-
+		<head>
+		</head>
+		<body>
+	`;
+		html.concat(getSearchBar());
+		html.concat(`
+			</body>
+			</html>
+		`);
 }
 
 // Returns the HTML code for the search query
 function getSearchResult(pictures_urls) {
-	let html = `<!DOCTYPE html>
-  <html lang="en">
-  <head>
-	  <meta charset="UTF-8">
-	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	  <title>Pictury</title>
-  </head>
-  <body>
-  <script>
-	var vscode=acquireVsCodeApi(); // initialize the VsCodeApi that is used to communicate between the extension and the webview
-  	function Copy_Picture_URL(txt) {
-		const el = document.createElement('textarea');
-		el.value = txt;
-		document.body.appendChild(el);
-		el.select();
-		document.execCommand('copy');
-		document.body.removeChild(el);
-		vscode.postMessage({
-		command: 'alert',
-		text: 'URL Copied!'
-		});
-	}
-
-	function Download(pictureSource) {
-		vscode.postMessage({
-		command: 'download',
-		text: pictureSource
-		});
-	}
-	</script>
-	`;
-	html = html.concat(getSearchBar());
-	html = html.concat(`
-  <h2>Search Result:</h2>
-  <br>
-  `);
-  let picture_div;
-  for(let i=0;i<12;i++){
-	picture_div = getImageHTML(pictures_urls[i]);
-	html = html.concat(picture_div);
-  }
-	html = html.concat(
-	`</body>
-	</html>`);
-  	return html;
-  }
+	let html = `
+		<head>
+		</head>
+		<body>
+		<script>
+			var vscode=acquireVsCodeApi(); // initialize the VsCodeApi that is used to communicate between the extension and the webview
+			function Copy_Picture_URL(txt) {
+				const el = document.createElement('textarea');
+				el.value = txt;
+				document.body.appendChild(el);
+				el.select();
+				document.execCommand('copy');
+				document.body.removeChild(el);
+				vscode.postMessage({
+				command: 'alert',
+				text: 'URL Copied!'
+				});
+			}
+			function Download(pictureSource) {
+				vscode.postMessage({
+				command: 'download',
+				text: pictureSource
+				});
+			}
+			</script>
+		`;
+		html = html.concat(getSearchBar());
+		html = html.concat(`
+			<div class="container pt-2 pb-4">
+				<h6 class="text-uppercase">Search Results:</h6>
+				<br>
+		`);
+		let picture_div;
+		for(let i=0;i<12;i++){
+			picture_div = getImageHTML(pictures_urls[i]);
+			html = html.concat(picture_div);
+		}
+			html = html.concat(`
+				</div>
+				<!-- Footer -->
+				<footer class="justify-content-center text-uppercase text-center pt-2 pb-4">
+					<p class="footer-credits small">
+						<strong>Pictury VSCode Extension</strong>
+						<br>
+						Powered by <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy</a>
+					</p>
+				</footer>
+					</body>
+					</html>
+			`);
+			return html;
+		}
 
 function scraping(query){
 	// Uses unsplash API to get results for the user's query
@@ -203,7 +293,6 @@ function activate(context) {
 		);		
 	});
 
-	// Downloads a picture to the active workspace
 	let disposable2 = vscode.commands.registerCommand('pictury.resize', function (path=vscode.Uri) {
 		// This function's credits: https://github.com/lukapetrovic/vscode-imageresizer
 		let userInput = vscode.window.showInputBox();
