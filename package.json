@@ -24,6 +24,30 @@
       {
         "command": "pictury.resize",
         "title": "Resize"
+      },
+      {
+        "command": "pictury.toJPG",
+        "title": "Convert to JPG"
+      },
+      {
+        "command": "pictury.toPNG",
+        "title": "Convert to PNG"
+      },
+      {
+        "command": "pictury.rotateRight90",
+        "title": "Rotate Right 90°"
+      },
+      {
+        "command": "pictury.rotateRight180",
+        "title": "Rotate Right 180°"
+      },
+      {
+        "command": "pictury.rotateLeft90",
+        "title": "Rotate Left 90°"
+      },
+      {
+        "command": "pictury.rotateLeft180",
+        "title": "Rotate Left 180°"
       }
     ],
     "keybindings": [
