@@ -16,18 +16,31 @@ function getSearchBar(){
 		`<!DOCTYPE html>
 		<html lang="en">
 		<head>
+			<!-- Meta Tag for Emoji : -->
+			<meta charset="UTF-8">
+			<!-- Meta Tag for device display compatiobility : -->
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<!-- Bootstrap CSS : -->
 			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-			<!-- Meta Tags : -->
-			<meta charset="UTF-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<!-- Custom CSS Style : -->
+			<style>
+				h1, h2, h3, h4, h5, h6 {
+					letter-spacing: .2em;
+				}
+			</style>
 			<!-- Title: -->
-			<title>Pictury</title>
+			<!-- HTML Emoji cheatsheet: https://www.w3schools.com/charsets/ref_emoji.asp -->
+			<title>&#x1F4F8 Pictury</title>
 		</head>
 		<body>
-			<div class="container pt-2 pb-4">
-				<h1>Pictury</h1>
-				<p>A VS-Code extension to search and upload stock-free images directly into a workspace.</p>
+			<!-- Pictury header and instructions : -->
+			<div class="container pt-2 pb-2">
+				<h3 class="text-uppercase">&#x1F4F8 Pictury</h3>
+				<p>
+					A VS-Code extension to search 
+					and upload stock-free images directly 
+					into a workspace.
+				</p>
 				<p class="small">
 					Don't leave your sandbox!
 					<i>Pictury</i> will scrape free stock images from <a href="https://unsplash.com/" target="_blank" alt="Go to Unsplash">Unsplash</a> 
@@ -44,20 +57,25 @@ function getSearchBar(){
 					and we are happy to help and hear your suggestions and comments.
 					Thank you for using <i>Pictury</i>, we hope you enjoy it!
 				</p>
-				</div>
-			<div class="container">
-				<!-- Instructions : -->
-				<div class="instructions">
-					<h2>How to Use Pictory:</h2>
-					<p>1. Use the search box below to find your images.</p>
-					<p>2. Type in keywords and hit enter.</p>
-					<p>3. From the search results, select an image with your mouse.</p>
-					<p>4. Double click an image to download it to your workspace.</p>
-				</div>
+			</div>
 
-				<!-- Search Input : -->
+			<!-- Instructions : -->
+			<div class="container pt-2 pb-2">
+				<div class="instructions">
+					<h6 class="text-uppercase">How to Use Pictory:</h6>
+					<ol>
+						<li>Use the search box below to find your images.</li>
+						<li>Type in keywords and hit enter.</li>
+						<li>From the search results, select an image with your mouse.</li>
+						<li>Double click an image to download it to your workspace.</li>
+					</ol>
+				</div>
+			</div>
+
+			<!-- Search Input : -->
+			<div class="container pt-2 pb-2">
 				<div class="searchbox">
-					<h2>Search Here:</h2>
+				<h6 class="text-uppercase">Search Here:</h6>
 					<form id="myForm" autocomplete="off">
 						<div class ="form-group">
 							<input type="text" class ="form-control" id="search" placeholder="Search image" required>
