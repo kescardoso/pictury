@@ -189,6 +189,7 @@ function activate(context) {
 		);		
 	});
 
+	// Downloads a picture to the active workspace
 	let disposable2 = vscode.commands.registerCommand('pictury.resize', function (path=vscode.Uri) {
 		// This function's credits: https://github.com/lukapetrovic/vscode-imageresizer
 		let userInput = vscode.window.showInputBox();
@@ -227,8 +228,38 @@ function activate(context) {
 		  });
 		}
 	  );
+
+	// Converts JPG to PNG
+	let toPNG = vscode.commands.registerCommand('pictury.toPNG', function (path=vscode.Uri) {
+		let convertedImage = path.fsPath.split(/(?:\.)([^\/]*)$/g);
+		console.log("Jawek behi : " + convertedImage[0] + ".png");
+		jimp.read(path.fsPath, function (err, image) {
+			if (err) {
+			  console.log(err)
+			} else {
+			  console.log("Jawek behi : " + convertedImage[0] + ".png");
+			  image.write(convertedImage[0] + ".png" );
+			}
+		  })
+		}
+	  );
+	
+	let toJPG = vscode.commands.registerCommand('pictury.toJPG', function (path=vscode.Uri) {
+		let convertedImage = path.fsPath.split(/(?:\.)([^\/]*)$/g);
+		jimp.read(path.fsPath, function (err, image) {
+			if (err) {
+			  console.log(err)
+			} else {
+			  image.write(convertedImage[0] + ".jpg" );
+			}
+		  })
+		}
+	  );	  
+
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(disposable2);
+	context.subscriptions.push(toPNG);
+	context.subscriptions.push(toJPG);
 }
 
 // this method is called when your extension is deactivated
