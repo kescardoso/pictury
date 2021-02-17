@@ -31,6 +31,9 @@ function getSearchBar(){
 					letter-spacing: .2em;
 					text-align: center;
 				}
+				.hand {
+					font-size: 20px;
+				}
 			</style>
 			<!-- Title: -->
 			<!-- HTML Emoji instructions: https://medium.com/@hollybourneville/how-to-use-emojis-in-html-b3c671e21b92 -->
@@ -39,7 +42,6 @@ function getSearchBar(){
 		</head>
 		<body>
 			<div class="container pt-2 pb-4">
-
 				<!-- Pictury header : -->
 				<h3 class="text-uppercase">&#x1F4F8 Pictury</h3>
 				<p>
@@ -69,11 +71,14 @@ function getSearchBar(){
 				<!-- Pictury Instructions : -->
 				<!-- Button, toogles accordion : -->
 				<button class="btn btn-info align-middle" 
-						type="button" data-toggle="collapse" 
+						type="button" 
+						data-toggle="collapse" 
 						data-target="#collapseExample" 
 						aria-expanded="false" 
 						aria-controls="collapseExample">
-						<h6 class="text-uppercase align-middle">How to Use Pictory (click to expand)</h6>
+						<h6 class="text-uppercase align-middle">
+							Instructions <span class="hand">&#128072;</span>
+						</h6>
 				</button>
 
 				<!-- Accordion with ordered list : -->
@@ -87,7 +92,6 @@ function getSearchBar(){
 						</ol>
 					</div>
 				</div>
-
 			</div>
 
 			<div class="container pt-2 pb-2">
