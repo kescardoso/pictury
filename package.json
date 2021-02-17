@@ -10,8 +10,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:pictury.start",
-    "onCommand:pictury.resize"
+    "*"
   ],
   "main": "./extension.js",
   "contributes": {
@@ -60,12 +59,47 @@
     "menus": {
       "explorer/context": [
         {
-          "when": "resourceExtname == .jpg || resourceExtname == .png || resourceExtname == jpeg",
-          "command": "pictury.resize",
-          "group": "navigation"
+          "submenu": "pictury",
+          "group": "navigation",
+          "when": "resourceExtname == .jpg || resourceExtname == .png || resourceExtname == jpeg" 
         }
       ]
-    }
+    ,
+    "pictury": [
+      {
+        "command": "pictury.resize",
+        "group": "navigation"
+      },
+      {
+        "command": "pictury.toPNG",
+        "group": "navigation",
+        "when": "resourceExtname == .jpeg || resourceExtname == .jpg"
+      },
+      {
+        "command": "pictury.toJPG",
+        "group": "navigation",
+        "when": "resourceExtname == .png"
+      },
+      {"command": "pictury.rotateRight90",
+       "group": "navigation"
+      },
+      {"command": "pictury.rotateRight180",
+       "group": "navigation"
+      },
+      {"command": "pictury.rotateLeft90",
+       "group": "navigation"
+      },
+      {"command": "pictury.rotateLeft180",
+       "group": "navigation"
+      }
+    ]
+  },
+    "submenus": [
+      {
+        "id": "pictury",
+        "label": "pictury"
+      }
+    ]
   },
   "scripts": {
     "lint": "eslint .",
