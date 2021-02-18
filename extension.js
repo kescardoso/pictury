@@ -5,6 +5,7 @@ const fs = require('fs');
 const download = require('download');
 const path = require('path');
 const jimp = require("jimp");
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
@@ -112,7 +113,7 @@ function getSearchBar(){
 			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>			
-		</body>`
+		`
 	return html;
 }
 
@@ -124,45 +125,57 @@ function getImageHTML(imageSource){
 
 // Returns the HTML code for the initial webview (Welcome screen with just the searchbar, for now) 
 function getInitialPage(){
-	let html =`
-		<head>
-		</head>
+	let html = `
 		<body>
-	`;
-		html.concat(getSearchBar());
-		html.concat(`
+		`;
+	html = html.concat(getSearchBar());
+
+	html = html.concat(`
+		</div>
+		<!-- Footer -->
+		<br>
+		<br>
+		<br>
+		<footer class="justify-content-center text-uppercase text-center pt-2 pb-4">
+			<p class="footer-credits small">
+				<strong>Pictury VSCode Extension</strong>
+				<br>
+				Powered by <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy</a>
+			</p>
+		</footer>
 			</body>
 			</html>
-		`);
+	`);
+
+	return html;
+
 }
 
 // Returns the HTML code for the search query
 function getSearchResult(pictures_urls) {
 	let html = `
-		<head>
-		</head>
 		<body>
 		<script>
-			var vscode=acquireVsCodeApi(); // initialize the VsCodeApi that is used to communicate between the extension and the webview
-			function Copy_Picture_URL(txt) {
-				const el = document.createElement('textarea');
-				el.value = txt;
-				document.body.appendChild(el);
-				el.select();
-				document.execCommand('copy');
-				document.body.removeChild(el);
-				vscode.postMessage({
-				command: 'alert',
-				text: 'URL Copied!'
-				});
-			}
-			function Download(pictureSource) {
-				vscode.postMessage({
-				command: 'download',
-				text: pictureSource
-				});
-			}
-			</script>
+		var vscode=acquireVsCodeApi(); // initialize the VsCodeApi that is used to communicate between the extension and the webview
+		function Copy_Picture_URL(txt) {
+			const el = document.createElement('textarea');
+			el.value = txt;
+			document.body.appendChild(el);
+			el.select();
+			document.execCommand('copy');
+			document.body.removeChild(el);
+			vscode.postMessage({
+			command: 'alert',
+			text: 'URL Copied!'
+			});
+		}
+		function Download(pictureSource) {
+			vscode.postMessage({
+			command: 'download',	
+			text: pictureSource
+			});
+		}
+		</script>
 		`;
 		html = html.concat(getSearchBar());
 		html = html.concat(`
@@ -209,23 +222,39 @@ async function rotatePicture(a, path){
 	  })
 }
 
+// Initialize the download path to the active workspace
+let downloadPath = vscode.workspace.rootPath;
+
+// Prompts the user with a file explorer, and changes the download
+// Path to the folder's path selected by the user
+async function changeDownloadPath(){
+	let folder = await vscode.window.showOpenDialog({
+		canSelectFolders: true,
+		canSelectFiles: false,
+	});
+	downloadPath = folder[0].fsPath;
+	console.log("New download path set to: " + downloadPath);
+}
 
 
 	// Download the selected image to the current workplace
 	// TODO prompt the user asking him for a download folder, if no active workspace is active. 
 async function downloadImage(imageSource){
-	let installFolder;
-	if(vscode.workspace.rootPath != undefined)
-		installFolder = vscode.workspace.rootPath;
-	else 
-		{installFolder = '';
-		vscode.window.showInformationMessage("No Active Workspace!");
-		return;} //TO DO, ASK THE USER FOR DOWNLOAD PATH
+	if(downloadPath === undefined){
+		console.log("undefined dP " + downloadPath);
+		if(vscode.workspace.rootPath === undefined)
+			await changeDownloadPath();
+		else 
+			{	console.log("defined dP " + downloadPath);
+				downloadPath = vscode.workspace.rootPath;
+			}
+	}
 
+	console.log(downloadPath);
 	let downloadSettings= {
 		extract: false
 	};
-	await download(imageSource, installFolder, downloadSettings);
+	await download(imageSource, downloadPath, downloadSettings);
 	vscode.window.showInformationMessage("Picture Downloaded!");
 
 	
@@ -287,6 +316,7 @@ function activate(context) {
 				//vscode.window.showInformationMessage("Pictury Notification: " + message.txt);
 				vscode.window.setStatusBarMessage("Pictury Notification: " + message.text,2000);
 				return;
+
 			case 'search' : // Handle Search Query from the user and display the results in WebView
 				var pictures_urls = scraping(message.text); //Fetches Unsplash.com for the best results
 				panel.webview.html = getSearchResult(pictures_urls); //Displays the Results Page
@@ -295,9 +325,10 @@ function activate(context) {
 			},
 			undefined,
 			context.subscriptions
-		);		
+		);	
 	});
 
+	// Resizes a picture with the width:height inputed by the user
 	let disposable2 = vscode.commands.registerCommand('pictury.resize', function (path=vscode.Uri) {
 		// This function's credits: https://github.com/lukapetrovic/vscode-imageresizer
 		let userInput = vscode.window.showInputBox();
@@ -337,21 +368,20 @@ function activate(context) {
 		}
 	  );
 
-	// Converts JPG to PNG
+	// Converts the picture selected by the user from JPG/JPEG to PNG
 	let toPNG = vscode.commands.registerCommand('pictury.toPNG', function (path=vscode.Uri) {
 		let convertedImage = path.fsPath.split(/(?:\.)([^\/]*)$/g);
-		console.log("Jawek behi : " + convertedImage[0] + ".png");
 		jimp.read(path.fsPath, function (err, image) {
 			if (err) {
 			  console.log(err)
 			} else {
-			  console.log("Jawek behi : " + convertedImage[0] + ".png");
 			  image.write(convertedImage[0] + ".png" );
 			}
 		  })
 		}
 	  );
-	
+
+	// Converts the picture selected by the user from PNG to JPG
 	let toJPG = vscode.commands.registerCommand('pictury.toJPG', function (path=vscode.Uri) {
 		let convertedImage = path.fsPath.split(/(?:\.)([^\/]*)$/g);
 		jimp.read(path.fsPath, function (err, image) {
@@ -364,6 +394,7 @@ function activate(context) {
 		}
 	  );	  
 	
+	//The following commands rotate the picture selected by the user
 	let rotateRight90 = vscode.commands.registerCommand('pictury.rotateRight90', function(path=vscode.Uri) {
 		rotatePicture(270, path);
 	})
@@ -376,6 +407,8 @@ function activate(context) {
 	let rotateLeft180 = vscode.commands.registerCommand('pictury.rotateLeft180', function(path=vscode.Uri) {
 		rotatePicture(180, path);
 	})
+
+
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(disposable2);
 	context.subscriptions.push(toPNG);
