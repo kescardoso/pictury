@@ -33,6 +33,15 @@ Pictury is a must for all your development endevevors. And it's free. Download i
 3. Python ?
 4. Fast API ?
 
+### How to use?
+1. As the extension is not yet available on the VS Code extensions market, you'll have to clone this repository to your workspace
+2. Launch the debugger
+3. A new VS Code window is opened. Go to its workspace, and load any folder of yours, as if you were working on a project.
+4. Use the Key-Binding SHIFT+A to launch the extension. A generic search result webview will appear. 
+5. Click on any picture to copy its URL. Double-Click to download it in your active workspace ( a new option to ask the user for a specific download path will soon be implemented).
+
+PS: the search bar isn't active yet, we're almost done with implementing it! The design will also be improved in the future, and several new features will be added (I.e: resize a picture, get results from several websites (not only unsplash), snippet to generate a random picture URL in your code, and many others!)
+
 # pictury README
 
 This is the README for your extension "pictury". After writing up a brief description, we recommend including the following sections.
