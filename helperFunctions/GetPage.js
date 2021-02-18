@@ -1,20 +1,19 @@
 const fetch = require('../node_modules/node-fetch');
-const { 
-    UNSPLASH, 
-    GET_CONFIG
-} = require('./Constants');
-const {
-    makeObj
-}
-= require('./MakeObj')
+
+const { UNSPLASH, 
+        GET_CONFIG } = require('./Constants');
+
+const { makeObj } = require('./MakeObj')
 
 
-const getAllResults = () => {
-    fetch(`${UNSPLASH}/search/photos?query=dogs`, GET_CONFIG)
+// RETURNS A PROMISE
+// Either await the result (async function), or treat as promise with
+// .then() chaining syntax
+const getAllResults = (queryTerm) => 
+    fetch(`${UNSPLASH}/search/photos?query=${queryTerm}`, GET_CONFIG)
         .then(res => res.json())
-        .then(data => {
-            makeObj(data.results)
-        });
-}
+        .then(data => makeObj(data.results));
 
-getAllResults()
+module.exports = {
+    getAllResults
+}

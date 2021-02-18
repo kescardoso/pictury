@@ -12,7 +12,7 @@ const makeObj = (jsonData) => {
         return toMake;
     })
 
-    console.log(retArr);
+    return retArr;
 }
 
 module.exports = {
