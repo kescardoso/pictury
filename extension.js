@@ -20,6 +20,10 @@ function getSearchBar(){
 			<meta charset="UTF-8">
 			<!-- Meta Tag for device display compatiobility : -->
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<!-- Title: -->
+			<!-- HTML Emoji instructions: https://medium.com/@hollybourneville/how-to-use-emojis-in-html-b3c671e21b92 -->
+			<!-- HTML Emoji cheatsheet: https://www.w3schools.com/charsets/ref_emoji.asp -->
+			<title>&#x1F4F8 Pictury</title>
 			<!-- Bootstrap CSS : -->
 			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 			<!-- Custom CSS Style : -->
@@ -31,15 +35,13 @@ function getSearchBar(){
 					letter-spacing: .2em;
 					text-align: center;
 				}
+				.hand {
+					font-size: 20px;
+				}
 			</style>
-			<!-- Title: -->
-			<!-- HTML Emoji instructions: https://medium.com/@hollybourneville/how-to-use-emojis-in-html-b3c671e21b92 -->
-			<!-- HTML Emoji cheatsheet: https://www.w3schools.com/charsets/ref_emoji.asp -->
-			<title>&#x1F4F8 Pictury</title>
 		</head>
 		<body>
-			<div class="container pt-2 pb-4">
-
+			<div class="container mt-2 pt-4 pb-4">
 				<!-- Pictury header : -->
 				<h3 class="text-uppercase">&#x1F4F8 Pictury</h3>
 				<p>
@@ -50,17 +52,19 @@ function getSearchBar(){
 				<!-- Pictury intro : -->
 				<p class="small">
 					Don't leave your sandbox!
-					<i>Pictury</i> will scrape free stock images from <a href="https://unsplash.com/" target="_blank" alt="Go to Unsplash">Unsplash</a> 
+					<i>Pictury</i> will scrape free stock images from 
+					<a href="https://unsplash.com/" target="_blank" alt="Go to Unsplash">Unsplash</a> 
 					and display a selection of images, queried from your search output.
 					With <i>Pictury</i> you can <strong>search</strong>, 
 					<strong>download</strong>, and <strong>resize</strong> stock-free images directly 
 					from and into your workspace with a simple click. Our extension also gives you 
 					the ability to easily grab artist and image information 
 					so you can properly credit them on your projects.
-					<i>Pictury</i> was built by <a href="https://github.com/Ali-Doggaz" target="_blank" alt="Go to Ali's GitHub">@Ali-Doggaz</a>, 
+					<i>Pictury</i> was built by 
+					<a href="https://github.com/Ali-Doggaz" target="_blank" alt="Go to Ali's GitHub">@Ali-Doggaz</a>, 
 					<a href="https://github.com/jackbisceglia" target="_blank" alt="Go to Jack's GitHub">@JackBisceglia</a> 
-					and <a href="https://github.com/kescardoso" target="_blank" alt="Go to Kes's GitHub">@KesCardoso</a> 
-					-- we are <a href="https://fellowship.mlh.io/programs/explorer" target="_blank" alt="Go to MLH Explorer Fellowshiup">MLH Fellow Explorers</a>, 
+					and <a href="https://github.com/kescardoso" target="_blank" alt="Go to Kes's GitHub">@KesCardoso</a> -- we are 
+					<a href="https://fellowship.mlh.io/programs/explorer" target="_blank" alt="Go to MLH Explorer Fellowshiup">MLH Fellow Explorers</a>, 
 					members of the <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy Pod (Spring, 2021)</a>
 					and we are happy to help and hear your suggestions and comments.
 					Thank you for using <i>Pictury</i>, we hope you enjoy it!
@@ -69,11 +73,14 @@ function getSearchBar(){
 				<!-- Pictury Instructions : -->
 				<!-- Button, toogles accordion : -->
 				<button class="btn btn-info align-middle" 
-						type="button" data-toggle="collapse" 
+						type="button" 
+						data-toggle="collapse" 
 						data-target="#collapseExample" 
 						aria-expanded="false" 
 						aria-controls="collapseExample">
-						<h6 class="text-uppercase align-middle">How to Use Pictory (click to expand)</h6>
+						<h6 class="text-uppercase align-middle">
+							Instructions <span class="hand">&#128072;</span>
+						</h6>
 				</button>
 
 				<!-- Accordion with ordered list : -->
@@ -87,7 +94,6 @@ function getSearchBar(){
 						</ol>
 					</div>
 				</div>
-
 			</div>
 
 			<div class="container pt-2 pb-2">
@@ -162,7 +168,6 @@ function getSearchResult(pictures_urls) {
 		html = html.concat(`
 			<div class="container pt-2 pb-4">
 				<h6 class="text-uppercase">Search Results:</h6>
-				<br>
 		`);
 		let picture_div;
 		for(let i=0;i<12;i++){
@@ -172,7 +177,7 @@ function getSearchResult(pictures_urls) {
 			html = html.concat(`
 				</div>
 				<!-- Footer -->
-				<footer class="justify-content-center text-uppercase text-center pt-2 pb-4">
+				<footer class="justify-content-center text-uppercase text-center pt-2 pb-2 mb-2">
 					<p class="footer-credits small">
 						<strong>Pictury VSCode Extension</strong>
 						<br>
