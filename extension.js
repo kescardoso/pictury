@@ -124,7 +124,7 @@ function getSearchBar(){
 
 					var search = $("#search").val()
 
-					var url = ""
+					var url = "https://localhost:3000/getQuery?searchTerm="searchTermHere"
 
 					$.ajax({
 						method: 'GET',
