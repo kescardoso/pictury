@@ -236,10 +236,16 @@ async function changeDownloadPath(){
 	console.log("New download path set to: " + downloadPath);
 }
 
+async function changeDownloadPath_onRightClick(path){
+
+	downloadPath = path.fsPath.split(/(?:\.)([^\/]*)$/g)[0];
+	console.log("New download path set to: " + downloadPath);
+}
 
 	// Download the selected image to the current workplace
 	// TODO prompt the user asking him for a download folder, if no active workspace is active. 
 async function downloadImage(imageSource){
+	console.log(downloadPath);
 	if(downloadPath === undefined){
 		console.log("undefined dP " + downloadPath);
 		if(vscode.workspace.rootPath === undefined)
@@ -254,7 +260,10 @@ async function downloadImage(imageSource){
 	let downloadSettings= {
 		extract: false
 	};
+	console.log(imageSource);
+	console.log(downloadPath);
 	await download(imageSource, downloadPath, downloadSettings);
+	console.log("fin download");
 	vscode.window.showInformationMessage("Picture Downloaded!");
 
 	
@@ -408,7 +417,10 @@ function activate(context) {
 		rotatePicture(180, path);
 	})
 
-
+	let downloadPathModifier = vscode.commands.registerCommand('pictury.downloadPathModifier', function(path=vscode.Uri) {
+		changeDownloadPath_onRightClick(path);
+	})
+	
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(disposable2);
 	context.subscriptions.push(toPNG);
@@ -417,6 +429,7 @@ function activate(context) {
 	context.subscriptions.push(rotateRight180);
 	context.subscriptions.push(rotateLeft90);
 	context.subscriptions.push(rotateLeft180);
+	context.subscriptions.push(downloadPathModifier);
 }
 
 // this method is called when your extension is deactivated
