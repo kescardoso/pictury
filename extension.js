@@ -17,16 +17,18 @@ function getSearchBar(){
 		`<!DOCTYPE html>
 		<html lang="en">
 		<head>
-			<!-- Meta Tag for Emoji : -->
+			<!-- Required Meta Tags : -->
 			<meta charset="UTF-8">
-			<!-- Meta Tag for device display compatiobility : -->
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 			<!-- Title: -->
 			<!-- HTML Emoji instructions: https://medium.com/@hollybourneville/how-to-use-emojis-in-html-b3c671e21b92 -->
 			<!-- HTML Emoji cheatsheet: https://www.w3schools.com/charsets/ref_emoji.asp -->
 			<title>&#x1F4F8 Pictury</title>
-			<!-- Bootstrap CSS : -->
-			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+			
+			<!-- Bootstrap 4.6.0 CSS : -->
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+			
 			<!-- Custom CSS Style : -->
 			<style>
 				h1, h2, h3, h4, h5, h6 {
@@ -99,9 +101,8 @@ function getSearchBar(){
 
 			<div class="container pt-2 pb-2">
 				<!-- Search Input : -->
-				
 				<h6 class="text-uppercase">Search Here:</h6>
-					<form id="pictory-form" autocomplete="off">
+					<form id="search-form" autocomplete="off">
 						<div class ="form-group">
 							<input type="text" 
 							class ="form-control" 
@@ -109,29 +110,9 @@ function getSearchBar(){
 							placeholder="Search image" required>
 						</div>
 					</form>
-				
+					<!-- Display Search results -->
+					<div id="result"></div>
 			</div>
-
-			<!-- Bootstrap Js, jQuery and Popper.js : -->		
-			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>			
-		
-			<--! Search Box jQuery Script : -->
-			<script>
-				$("#pictury-form").submit(function(event){
-					event.preventDefault()
-
-					var search = $("#search").val()
-
-					var url = "https://localhost:3000/getQuery?searchTerm="searchTermHere"
-
-					$.ajax({
-						method: 'GET',
-						url:''
-					})
-				})
-			</script>
 		</body>`
 	return html;
 }
@@ -141,6 +122,7 @@ function getImageHTML(imageSource){
 	let html = `<img src="${imageSource}" onclick="Copy_Picture_URL('${imageSource}')" ondblclick="Download('${imageSource}')" width="300" />\n`;
 	return html;
 }
+				
 
 // Returns the HTML code for the initial webview (Welcome screen with just the searchbar, for now) 
 function getInitialPage(){
@@ -150,20 +132,8 @@ function getInitialPage(){
 	html = html.concat(getSearchBar());
 
 	html = html.concat(`
-		</div>
-		<!-- Footer -->
-		<br>
-		<br>
-		<br>
-		<footer class="justify-content-center text-uppercase text-center pt-2 pb-4">
-			<p class="footer-credits small">
-				<strong>Pictury VSCode Extension</strong>
-				<br>
-				Powered by <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy</a>
-			</p>
-		</footer>
-			</body>
-			</html>
+		</body>
+		</html>
 	`);
 
 	return html;
@@ -216,8 +186,35 @@ function getSearchResult(pictures_urls) {
 						Powered by <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy</a>
 					</p>
 				</footer>
-					</body>
-					</html>
+
+				<!-- jQuery + Popper.js and Bootstrap Js : -->
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>		
+				<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+				<!-- Search Form with jQuery Script : -->
+				<script>
+				$("#pictury-form").submit(function(event){
+					event.preventDefault()
+				
+					var search = $("#search").val()
+				
+					var url = "https://localhost:3000/getQuery?searchTerm=%2"+search+"&per_page=12"
+				
+					$.ajax({
+						method:'GET',
+						url:url,
+						success:function(data){
+							// TESTING: this should display an array of 12 search results
+							// on the console (developer tools) 
+							// when a keyword such as "flower" is entered in the search box
+							console.log(data)
+						}
+					})
+				})
+				</script>
+
+				</body>
+				</html>
 			`);
 			return html;
 		}
