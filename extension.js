@@ -193,23 +193,31 @@ function getSearchResult(pictures_urls) {
 
 				<!-- Search Form with jQuery Script : -->
 				<script>
-				$("#pictury-form").submit(function(event){
+
+				$("#search-form").on("keypress",function(event){
 					event.preventDefault()
+
+					if(event.keyCode===13){
+						console.log("yahoo!")
+
+						var search = $("#search").val()
 				
-					var search = $("#search").val()
+						var url = "https://localhost:3000/getQuery?searchTerm=%2"+search+"&per_page=12"
+					
+						$.ajax({
+							method:'GET',
+							url:url,
+							success:function(data){
+								// TESTING: this should display an array of 12 search results
+								// on the console (developer tools) 
+								// when a keyword such as "flower" is entered in the search box
+								console.log(data)
+							}
+						})
+
+					}
 				
-					var url = "https://localhost:3000/getQuery?searchTerm=%2"+search+"&per_page=12"
-				
-					$.ajax({
-						method:'GET',
-						url:url,
-						success:function(data){
-							// TESTING: this should display an array of 12 search results
-							// on the console (developer tools) 
-							// when a keyword such as "flower" is entered in the search box
-							console.log(data)
-						}
-					})
+					
 				})
 				</script>
 
