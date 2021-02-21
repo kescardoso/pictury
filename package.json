@@ -1,7 +1,7 @@
 {
   "name": "pictury",
   "displayName": "Pictury",
-  "description": "A VS-Code extension for search and upload stock-free images into a workspace",
+  "description": "A VS-Code extension to search and upload stock-free images into a workspace",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.53.0"
@@ -10,14 +10,116 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:pictury.helloWorld"
+    "*"
   ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "pictury.helloWorld",
-        "title": "Hello World"
+        "command": "pictury.start",
+        "title": "start",
+        "category": "pictury"
+      },
+      {
+        "command": "pictury.resize",
+        "title": "Resize"
+      },
+      {
+        "command": "pictury.toJPG",
+        "title": "Convert to JPG"
+      },
+      {
+        "command": "pictury.toPNG",
+        "title": "Convert to PNG"
+      },
+      {
+        "command": "pictury.rotateRight90",
+        "title": "Rotate Right 90°"
+      },
+      {
+        "command": "pictury.rotateRight180",
+        "title": "Rotate Right 180°"
+      },
+      {
+        "command": "pictury.rotateLeft90",
+        "title": "Rotate Left 90°"
+      },
+      {
+        "command": "pictury.rotateLeft180",
+        "title": "Rotate Left 180°"
+      },
+      {
+        "command": "pictury.downloadPathModifier",
+        "title": "Set To Download Folder"
+      } 
+    ],
+    "keybindings": [
+      {
+        "command": "pictury.start",
+        "key": "shift+A",
+        "mac": "shift+A"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "submenu": "pictury",
+          "group": "navigation",
+          "when": "resourceExtname == .jpg || resourceExtname == .png || resourceExtname == jpeg"
+        },
+        {
+          "submenu": "Pictury",
+          "group": "navigation",
+          "when": "explorerResourceIsFolder"
+        }
+      ],
+      "Pictury": [
+        {
+          "command": "pictury.downloadPathModifier",
+          "group": "navigation"
+        }
+      ],
+      "pictury": [
+        {
+          "command": "pictury.resize",
+          "group": "navigation"
+        },
+        {
+          "command": "pictury.toPNG",
+          "group": "navigation",
+          "when": "resourceExtname == .jpeg || resourceExtname == .jpg"
+        },
+        {
+          "command": "pictury.toJPG",
+          "group": "navigation",
+          "when": "resourceExtname == .png"
+        },
+        {
+          "command": "pictury.rotateRight90",
+          "group": "navigation"
+        },
+        {
+          "command": "pictury.rotateRight180",
+          "group": "navigation"
+        },
+        {
+          "command": "pictury.rotateLeft90",
+          "group": "navigation"
+        },
+        {
+          "command": "pictury.rotateLeft180",
+          "group": "navigation"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "pictury",
+        "label": "pictury"
+      },
+      {
+        "id": "Pictury",
+        "label": "pictury"
       }
     ]
   },
@@ -36,5 +138,11 @@
     "mocha": "^8.2.1",
     "typescript": "^4.1.3",
     "vscode-test": "^1.5.0"
+  },
+  "dependencies": {
+    "@types/download": "^6.2.4",
+    "download": "^8.0.0",
+    "jimp": "^0.16.1",
+    "node-fetch": "^2.6.1"
   }
 }
