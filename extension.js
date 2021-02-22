@@ -141,6 +141,7 @@ function getSearchBar(){
 
 			<div class="container pt-2 pb-2">
 				<!-- Search Input : -->
+				<!-- Style credit: https://bootstrapious.com/p/bootstrap-search-bar -->
 				<h6 class="text-uppercase">Search Here:</h6>
 				<form action="" id="search-form" autocomplete="off">
 					<div class ="form-group">
