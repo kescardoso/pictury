@@ -83,7 +83,9 @@ function getSearchBar(){
 				}
 
 				/* -------- Photo grid (results) */
-				
+				img {
+					margin: 3px 2px 3px 0px !important;
+				}
 				
 				/* -------- Footer */
 				.footer-credits {
@@ -94,71 +96,93 @@ function getSearchBar(){
 		</head>
 		<body>
 			<div class="container mt-2 pt-4 pb-4">
-				<!-- Pictury header : -->
-				<h3 class="text-uppercase">&#x1F4F8 Pictury</h3>
-				<p class="tagline">
-					A VS-Code extension to search, 
-					upload and edit stock-free images directly 
-					into your workspace
-				</p>
-				<!-- Pictury intro : -->
-				<p class="small intro">
-					Don't leave your sandbox!
-					<i>Pictury</i> will scrape free stock images from 
-					<a href="https://unsplash.com/" target="_blank" alt="Go to Unsplash">Unsplash</a> 
-					and display a selection of images, queried from your search output.
-					With <i>Pictury</i> you can search, download, and edit stock-free images directly 
-					from and into your workspace with a simple click. Our extension also gives you 
-					the ability to easily grab artist and image information 
-					so you can properly credit them on your projects.
-					<i>Pictury</i> was built by 
-					<a href="https://github.com/Ali-Doggaz" target="_blank" alt="Go to Ali's GitHub">@Ali-Doggaz</a>, 
-					<a href="https://github.com/jackbisceglia" target="_blank" alt="Go to Jack's GitHub">@JackBisceglia</a> 
-					and <a href="https://github.com/kescardoso" target="_blank" alt="Go to Kes's GitHub">@KesCardoso</a> -- we are 
-					<a href="https://fellowship.mlh.io/programs/explorer" target="_blank" alt="Go to MLH Explorer Fellowshiup">MLH Fellow Explorers</a>, 
-					members of the <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy Pod (Spring, 2021)</a>
-					and we are happy to help and hear your suggestions and comments.
-					Thank you for using <i>Pictury</i>, we hope you enjoy it!
-				</p>
 
-				<!-- Pictury Instructions : -->
-				<!-- Button, toogles accordion : -->
-				<button class="btn btn-info align-middle pt-2 pb-1" 
-						type="button" 
-						data-toggle="collapse" 
-						data-target="#collapseExample" 
-						aria-expanded="false" 
-						aria-controls="collapseExample">
-						<h6 class="text-uppercase align-middle">
-							Instructions <span class="hand">&#128072;</span>
-						</h6>
-				</button>
-				<!-- Accordion with ordered list : -->
-				<div class="collapse" id="collapseExample">
-					<div class="card card-body">
-						<ol>
-							<li>Use the search box below to find your images.</li>
-							<li>Type in keywords and hit enter.</li>
-							<li>From the search results, select an image with your mouse.</li>
-							<li>Double click an image to download it to your workspace.</li>
-						</ol>
+				<!-- Pictury header : -->
+				<div class="row">
+					<div class="col">
+						<h3 class="text-uppercase">&#x1F4F8 Pictury</h3>
+						<p class="tagline">
+							A VS-Code extension to search, 
+							upload and edit stock-free images directly 
+							into your workspace
+						</p>
 					</div>
 				</div>
+
+				<!-- Pictury intro : -->
+				<div class="row">
+					<div class="col">
+						<p class="small intro">
+							Don't leave your sandbox!
+							<i>Pictury</i> will scrape free stock images from 
+							<a href="https://unsplash.com/" target="_blank" alt="Go to Unsplash">Unsplash</a> 
+							and display a selection of images, queried from your search output.
+							With <i>Pictury</i> you can search, download, and edit stock-free images directly 
+							from and into your workspace with a simple click. Our extension also gives you 
+							the ability to easily grab artist and image information 
+							so you can properly credit them on your projects.
+							<i>Pictury</i> was built by 
+							<a href="https://github.com/Ali-Doggaz" target="_blank" alt="Go to Ali's GitHub">@Ali-Doggaz</a>, 
+							<a href="https://github.com/jackbisceglia" target="_blank" alt="Go to Jack's GitHub">@JackBisceglia</a> 
+							and <a href="https://github.com/kescardoso" target="_blank" alt="Go to Kes's GitHub">@KesCardoso</a> -- we are 
+							<a href="https://fellowship.mlh.io/programs/explorer" target="_blank" alt="Go to MLH Explorer Fellowshiup">MLH Fellow Explorers</a>, 
+							members of the <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy Pod (Spring, 2021)</a>
+							and we are happy to help and hear your suggestions and comments.
+							Thank you for using <i>Pictury</i>, we hope you enjoy it!
+						</p>
+					</div>
+				</div>
+
+				<!-- Pictury Instructions : -->
+				<div class="row">
+					<div class="col">
+						<!-- Button, toogles accordion : -->
+						<button class="btn btn-info align-middle pt-2 pb-1" 
+								type="button" 
+								data-toggle="collapse" 
+								data-target="#collapseExample" 
+								aria-expanded="false" 
+								aria-controls="collapseExample">
+								<h6 class="text-uppercase align-middle">
+									Instructions <span class="hand">&#128072;</span>
+								</h6>
+						</button>
+						<!-- Accordion with ordered list : -->
+						<div class="collapse" id="collapseExample">
+							<div class="card card-body">
+								<ol>
+									<li>Use the search box below to find your images.</li>
+									<li>Type in keywords and hit enter.</li>
+									<li>From the search results, select an image with your mouse.</li>
+									<li>Double click an image to download it to your workspace.</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+			
 			</div>
+			<!-- End container -->
 
 			<div class="container pt-2 pb-2">
-				<!-- Search Input : -->
+
+				<!-- Search Box : -->
 				<!-- Style credit: https://bootstrapious.com/p/bootstrap-search-bar -->
 				<!-- Installation credit: https://youtu.be/Jpt6tQBm0Bo -->
-				<h6 class="text-uppercase">Search Here:</h6>
-				<form action="" id="search-form" autocomplete="off">
-					<div class ="form-group">
-						<input type="text" 
-						class ="form-control p-4 bg-light rounded rounded-pill shadow-sm mb-4" 
-						id="search" 
-						placeholder="Type query, hit enter, see the magic!" required>
+				<div class="row">
+					<div class="col justify-content-center text-center">
+						<h6 class="text-uppercase">Search Here:</h6>
+						<form class="justify-content-center mx-auto" id="search-form" autocomplete="off">
+							<div class ="form-group">
+								<input type="text" 
+								class ="form-control text-center p-4 bg-light rounded rounded-pill shadow-sm mb-4" 
+								id="search" 
+								placeholder="Type query, hit enter, see the magic!" required>
+							</div>
+						</form>
 					</div>
-				</form>
+				</div>
+
 			</div>
 		</body>`
 	return html;
@@ -217,7 +241,7 @@ function getSearchResult(pictures_urls) {
 		`;
 		html = html.concat(getSearchBar());
 		html = html.concat(`
-			<div class="container pt-2 pb-4">
+			<div class="container justify-content-center text-center pt-2 pb-4">
 				<h6 class="text-uppercase pb-1">Search Results:</h6>
 		`);
 		let picture_div;
@@ -228,7 +252,7 @@ function getSearchResult(pictures_urls) {
 			html = html.concat(`
 				</div>
 				<!-- Footer -->
-				<footer class="justify-content-center text-uppercase text-center pt-2 pb-2 mb-2">
+				<footer class="justify-content-center text-center text-uppercase pt-2 pb-2 mb-2">
 					<p class="footer-credits small">
 						<strong>Pictury VSCode Extension</strong>
 						<br>
