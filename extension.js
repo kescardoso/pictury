@@ -116,7 +116,7 @@ function getSearchBar(){
 
 				<!-- Pictury Instructions : -->
 				<!-- Button, toogles accordion : -->
-				<button class="btn btn-info align-middle pt-2" 
+				<button class="btn btn-info align-middle pt-2 pb-1" 
 						type="button" 
 						data-toggle="collapse" 
 						data-target="#collapseExample" 
