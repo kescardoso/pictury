@@ -99,8 +99,7 @@ function getSearchBar(){
 					<i>Pictury</i> will scrape free stock images from 
 					<a href="https://unsplash.com/" target="_blank" alt="Go to Unsplash">Unsplash</a> 
 					and display a selection of images, queried from your search output.
-					With <i>Pictury</i> you can <strong>search</strong>, 
-					<strong>download</strong>, and <strong>resize</strong> stock-free images directly 
+					With <i>Pictury</i> you can search, download, and edit stock-free images directly 
 					from and into your workspace with a simple click. Our extension also gives you 
 					the ability to easily grab artist and image information 
 					so you can properly credit them on your projects.
@@ -142,6 +141,7 @@ function getSearchBar(){
 			<div class="container pt-2 pb-2">
 				<!-- Search Input : -->
 				<!-- Style credit: https://bootstrapious.com/p/bootstrap-search-bar -->
+				<!-- Installation credit: https://youtu.be/Jpt6tQBm0Bo -->
 				<h6 class="text-uppercase">Search Here:</h6>
 				<form action="" id="search-form" autocomplete="off">
 					<div class ="form-group">
