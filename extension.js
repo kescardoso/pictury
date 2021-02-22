@@ -32,7 +32,8 @@ function getSearchBar(){
 			<!-- Custom CSS Style : -->
 			<style>
 				/* ------- Typography */
-				@import url('https://fonts.googleapis.com/css?family=Inconsolata:700');
+				@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@300;500;700&display=swap");
+				
 				
 				h1, h2, h3, h4, h5, h6 {
 					letter-spacing: .2em !important;
@@ -69,6 +70,14 @@ function getSearchBar(){
 					background-color: #3d3d3d;
 				}
 
+				/* -------- Instructions accordion */
+				.card {
+					background-color: #f5f5f5;
+					border: none;
+					font-family: 'Inconsolata', monospace;
+					font-weight: medium;
+				}
+
 				/* -------- Search form */
 				#search-form {
 					width: 40%;
@@ -76,6 +85,7 @@ function getSearchBar(){
 
 				input {
 					font-family: 'Inconsolata', monospace;
+					font-weight: bold;
 				}
 
 				.form-control {
@@ -117,7 +127,7 @@ function getSearchBar(){
 							<i>Pictury</i> will scrape free stock images from 
 							<a href="https://unsplash.com/" target="_blank" alt="Go to Unsplash">Unsplash</a> 
 							and display a selection of images, queried from your search output.
-							With <i>Pictury</i> you can search, download, and edit stock-free images directly 
+							With <i>Pictury</i> you can <strong>search</strong>, <strong>download</strong>, and <strong>edit</strong> stock-free images directly 
 							from and into your workspace with a simple click. Our extension also gives you 
 							the ability to easily grab artist and image information 
 							so you can properly credit them on your projects.
@@ -175,7 +185,7 @@ function getSearchBar(){
 						<form class="justify-content-center mx-auto" id="search-form" autocomplete="off">
 							<div class ="form-group">
 								<input type="text" 
-								class ="form-control text-center p-4 bg-light rounded rounded-pill shadow-sm mb-4" 
+								class ="form-control p-4 bg-light rounded rounded-pill shadow-sm mb-4" 
 								id="search" 
 								placeholder="Type query, hit enter, see the magic!" required>
 							</div>
@@ -184,6 +194,7 @@ function getSearchBar(){
 				</div>
 
 			</div>
+			<!-- End container -->
 		</body>`
 	return html;
 }
