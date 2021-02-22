@@ -31,12 +31,26 @@ function getSearchBar(){
 			
 			<!-- Custom CSS Style : -->
 			<style>
+				/* ------- Typography */
 				@import url('https://fonts.googleapis.com/css?family=Inconsolata:700');
 				
 				h1, h2, h3, h4, h5, h6 {
 					letter-spacing: .2em !important;
 				}
+
+				.tagline {
+					letter-spacing: .1em;
+				}
+
+				.intro {
+					font-family: 'Inconsolata', monospace;
+				}
+
+				.hand {
+					font-size: 20px;
+				}
 				
+				/* -------- links */
 				a:link, 
 				a:visited, 
 				a:hover, 
@@ -55,23 +69,7 @@ function getSearchBar(){
 					background-color: #3d3d3d;
 				}
 
-				.tagline {
-					letter-spacing: .1em;
-				}
-
-				.intro {
-					font-family: 'Inconsolata', monospace;
-				}
-
-				.footer-credits {
-					letter-spacing: .2em;
-					text-align: center;
-				}
-
-				.hand {
-					font-size: 20px;
-				}
-
+				/* -------- Search form */
 				#search-form {
 					width: 40%;
 				}
@@ -79,9 +77,19 @@ function getSearchBar(){
 				input {
 					font-family: 'Inconsolata', monospace;
 				}
+
 				.form-control {
 					border: none !important;
 				}
+
+				/* -------- Photo grid (results) */
+				
+				
+				/* -------- Footer */
+				.footer-credits {
+					letter-spacing: .2em;
+					text-align: center;
+				}				
 			</style>
 		</head>
 		<body>
