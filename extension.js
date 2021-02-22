@@ -73,7 +73,7 @@ function getSearchBar(){
 				}
 
 				#search-form {
-					width: 50%;
+					width: 40%;
 				}
 
 				input {
@@ -116,7 +116,7 @@ function getSearchBar(){
 
 				<!-- Pictury Instructions : -->
 				<!-- Button, toogles accordion : -->
-				<button class="btn btn-info align-middle" 
+				<button class="btn btn-info align-middle pt-2" 
 						type="button" 
 						data-toggle="collapse" 
 						data-target="#collapseExample" 
@@ -126,7 +126,6 @@ function getSearchBar(){
 							Instructions <span class="hand">&#128072;</span>
 						</h6>
 				</button>
-
 				<!-- Accordion with ordered list : -->
 				<div class="collapse" id="collapseExample">
 					<div class="card card-body">
