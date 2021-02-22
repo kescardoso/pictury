@@ -31,15 +31,56 @@ function getSearchBar(){
 			
 			<!-- Custom CSS Style : -->
 			<style>
+				@import url('https://fonts.googleapis.com/css?family=Inconsolata:700');
+				
 				h1, h2, h3, h4, h5, h6 {
 					letter-spacing: .2em !important;
 				}
+				
+				a:link, 
+				a:visited, 
+				a:hover, 
+				a:active  {
+					text-decoration: none;
+				}
+
+				a:link, 
+				a:visited {
+					color: #18A2B8;
+				}
+				
+				a:hover,
+				a:active {
+					color: #fff;
+					background-color: #3d3d3d;
+				}
+
+				.tagline {
+					letter-spacing: .1em;
+				}
+
+				.intro {
+					font-family: 'Inconsolata', monospace;
+				}
+
 				.footer-credits {
 					letter-spacing: .2em;
 					text-align: center;
 				}
+
 				.hand {
 					font-size: 20px;
+				}
+
+				#search-form {
+					width: 50%;
+				}
+
+				input {
+					font-family: 'Inconsolata', monospace;
+				}
+				.form-control {
+					border: none !important;
 				}
 			</style>
 		</head>
@@ -47,13 +88,13 @@ function getSearchBar(){
 			<div class="container mt-2 pt-4 pb-4">
 				<!-- Pictury header : -->
 				<h3 class="text-uppercase">&#x1F4F8 Pictury</h3>
-				<p>
-					A VS-Code extension to search 
-					and upload stock-free images directly 
-					into a workspace.
+				<p class="tagline">
+					A VS-Code extension to search, 
+					upload and edit stock-free images directly 
+					into your workspace
 				</p>
 				<!-- Pictury intro : -->
-				<p class="small">
+				<p class="small intro">
 					Don't leave your sandbox!
 					<i>Pictury</i> will scrape free stock images from 
 					<a href="https://unsplash.com/" target="_blank" alt="Go to Unsplash">Unsplash</a> 
@@ -102,16 +143,14 @@ function getSearchBar(){
 			<div class="container pt-2 pb-2">
 				<!-- Search Input : -->
 				<h6 class="text-uppercase">Search Here:</h6>
-					<form id="search-form" autocomplete="off">
-						<div class ="form-group">
-							<input type="text" 
-							class ="form-control" 
-							id="search" 
-							placeholder="Search image" required>
-						</div>
-					</form>
-					<!-- Display Search results -->
-					<div id="result"></div>
+				<form action="" id="search-form" autocomplete="off">
+					<div class ="form-group">
+						<input type="text" 
+						class ="form-control p-4 bg-light rounded rounded-pill shadow-sm mb-4" 
+						id="search" 
+						placeholder="Type query, hit enter, see the magic!" required>
+					</div>
+				</form>
 			</div>
 		</body>`
 	return html;
@@ -127,6 +166,8 @@ function getImageHTML(imageSource){
 // Returns the HTML code for the initial webview (Welcome screen with just the searchbar, for now) 
 function getInitialPage(){
 	let html = `
+		<head>
+		</head>
 		<body>
 		`;
 	html = html.concat(getSearchBar());
@@ -169,7 +210,7 @@ function getSearchResult(pictures_urls) {
 		html = html.concat(getSearchBar());
 		html = html.concat(`
 			<div class="container pt-2 pb-4">
-				<h6 class="text-uppercase">Search Results:</h6>
+				<h6 class="text-uppercase pb-1">Search Results:</h6>
 		`);
 		let picture_div;
 		for(let i=0;i<12;i++){
