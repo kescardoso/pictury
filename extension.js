@@ -305,7 +305,6 @@ function getSearchResult(pictures_urls) {
 				<script>
 
 				$("#search-form").on("keypress",function(event){
-					event.preventDefault()
 
 					if(event.keyCode===13){
 						console.log("yahoo!")
