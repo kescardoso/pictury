@@ -92,11 +92,27 @@ function getSearchBar(){
 					border: none !important;
 				}
 
-				/* -------- Photo grid (results) */
-				img {
-					margin: 3px 2px 3px 0px !important;
+				/* -------- Photo grid and overlay effect */
+				.image {
+					display: inline-block;
+					width: 300px;
+					height: auto;
+					object-fit: cover;
 				}
-				
+				/* Overlay: change opacity on hover */
+				.figure {
+					background: #18A2B8;
+					overflow: hidden;
+				}
+				.figure img {
+					opacity: 1;
+					-webkit-transition: .3s ease-in-out;
+					transition: .3s ease-in-out;
+				}
+				.figure:hover img {
+					opacity: .5;
+				}
+
 				/* -------- Footer */
 				.footer-credits {
 					letter-spacing: .2em;
@@ -201,7 +217,14 @@ function getSearchBar(){
 
 //Returns the HTML code for each picture to be displayed in the webview
 function getImageHTML(imageSource){
-	let html = `<img src="${imageSource}" onclick="Copy_Picture_URL('${imageSource}')" ondblclick="Download('${imageSource}')" width="300" />\n`;
+	let html =`
+		<span class="figure">
+			<img src="${imageSource}" 
+				onclick="Copy_Picture_URL('${imageSource}')" 
+				ondblclick="Download('${imageSource}')" 
+				class="image" />
+		</span>\n
+	`;
 	return html;
 }
 				
@@ -217,7 +240,7 @@ function getInitialPage(){
 
 	html = html.concat(`
 		</body>
-		</html>
+		</html><div class="hovereffect">
 	`);
 
 	return html;
