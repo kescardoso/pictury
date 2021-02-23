@@ -21,7 +21,7 @@ function getSearchBar(){
 			<meta charset="UTF-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-			<!-- Title: -->
+			<!-- Title : -->
 			<!-- HTML Emoji instructions: https://medium.com/@hollybourneville/how-to-use-emojis-in-html-b3c671e21b92 -->
 			<!-- HTML Emoji cheatsheet: https://www.w3schools.com/charsets/ref_emoji.asp -->
 			<title>&#x1F4F8 Pictury</title>
@@ -66,8 +66,8 @@ function getSearchBar(){
 				
 				a:hover,
 				a:active {
-					color: #fff;
-					background-color: #3d3d3d;
+					color: #000;
+					background-color: #fff89e;
 				}
 
 				/* -------- Instructions accordion */
@@ -99,7 +99,7 @@ function getSearchBar(){
 					height: auto;
 					object-fit: cover;
 				}
-				/* Overlay: change opacity on hover */
+				/* Overlay on hover */
 				/* Installation credit: https://codepen.io/nxworld/pen/ZYNOBZ */
 				/* Fix credit: https://dev.to/ellen_dev/two-ways-to-achieve-an-image-colour-overlay-with-css-eio */
 				.figure {
