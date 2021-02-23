@@ -100,6 +100,8 @@ function getSearchBar(){
 					object-fit: cover;
 				}
 				/* Overlay: change opacity on hover */
+				/* Installation credit: https://codepen.io/nxworld/pen/ZYNOBZ */
+				/* Fix credit: https://dev.to/ellen_dev/two-ways-to-achieve-an-image-colour-overlay-with-css-eio */
 				.figure {
 					background: #18A2B8;
 					overflow: hidden;
