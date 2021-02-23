@@ -113,6 +113,7 @@ function getSearchBar(){
 				}
 				.figure:hover img {
 					opacity: .5;
+					cursor: pointer;
 				}
 
 				/* -------- Footer */
