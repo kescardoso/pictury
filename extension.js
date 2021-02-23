@@ -106,11 +106,13 @@ function getSearchBar(){
 					background: #18A2B8;
 					overflow: hidden;
 				}
+
 				.figure img {
 					opacity: 1;
 					-webkit-transition: .3s ease-in-out;
 					transition: .3s ease-in-out;
 				}
+
 				.figure:hover img {
 					opacity: .5;
 					cursor: pointer;
@@ -182,9 +184,14 @@ function getSearchBar(){
 								<ol>
 									<li>Use the search box below to find your images.</li>
 									<li>Type in keywords and hit enter.</li>
-									<li>From the search results, select an image with your mouse.</li>
+									<li>From the display of search results, select an image.</li>
 									<li>Double click an image to download it to your workspace.</li>
+									<li>To edit an image, right-click to open the Pictury submenu</li>
+									<li>To resise: click on 'resize' in the menu input box, and provide new dimensions in the following format: widthxheight (auto is supported)</li>
+									<li>To rotate or to convert image to a different format: click on the corresponding function in the Pictury submenu</li>
+									<li>To change the folder in which your pictures are saved: right-click on a folder, go to the Pictury submenu, and click on 'set as download path'</li>
 								</ol>
+								<p class="text-right">Enjoy! &#x1F604</p>
 							</div>
 						</div>
 					</div>
