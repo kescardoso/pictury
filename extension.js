@@ -17,134 +17,233 @@ function getSearchBar(){
 		`<!DOCTYPE html>
 		<html lang="en">
 		<head>
-			<!-- Meta Tag for Emoji : -->
+			<!-- Required Meta Tags : -->
 			<meta charset="UTF-8">
-			<!-- Meta Tag for device display compatiobility : -->
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<!-- Title: -->
+
+			<!-- Title : -->
 			<!-- HTML Emoji instructions: https://medium.com/@hollybourneville/how-to-use-emojis-in-html-b3c671e21b92 -->
 			<!-- HTML Emoji cheatsheet: https://www.w3schools.com/charsets/ref_emoji.asp -->
 			<title>&#x1F4F8 Pictury</title>
-			<!-- Bootstrap CSS : -->
-			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+			
+			<!-- Bootstrap 4.6.0 CSS : -->
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+			
 			<!-- Custom CSS Style : -->
 			<style>
+				/* ------- Typography */
+				@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@300;500;700&display=swap");
+				
+				
 				h1, h2, h3, h4, h5, h6 {
 					letter-spacing: .2em !important;
 				}
-				.footer-credits {
-					letter-spacing: .2em;
-					text-align: center;
+
+				.tagline {
+					letter-spacing: .1em;
 				}
+
+				.intro {
+					font-family: 'Inconsolata', monospace;
+				}
+
 				.hand {
 					font-size: 20px;
 				}
+				
+				/* -------- links */
+				a:link, 
+				a:visited, 
+				a:hover, 
+				a:active  {
+					text-decoration: none;
+				}
+
+				a:link, 
+				a:visited {
+					color: #18A2B8;
+				}
+				
+				a:hover,
+				a:active {
+					color: #000;
+					background-color: #fff89e;
+				}
+
+				/* -------- Instructions accordion */
+				.card {
+					background-color: #f5f5f5;
+					border: none;
+					font-family: 'Inconsolata', monospace;
+					font-weight: medium;
+				}
+
+				/* -------- Search form */
+				#search-form {
+					width: 40%;
+				}
+
+				input {
+					font-family: 'Inconsolata', monospace;
+					font-weight: bold;
+				}
+
+				.form-control {
+					border: none !important;
+				}
+
+				/* -------- Photo grid and overlay effect */
+				.image {
+					display: inline-block;
+					width: 300px;
+					height: auto;
+					object-fit: cover;
+				}
+				/* Overlay on hover */
+				/* Installation credit: https://codepen.io/nxworld/pen/ZYNOBZ */
+				/* Fix credit: https://dev.to/ellen_dev/two-ways-to-achieve-an-image-colour-overlay-with-css-eio */
+				.figure {
+					background: #18A2B8;
+					overflow: hidden;
+				}
+				.figure img {
+					opacity: 1;
+					-webkit-transition: .3s ease-in-out;
+					transition: .3s ease-in-out;
+				}
+				.figure:hover img {
+					opacity: .5;
+					cursor: pointer;
+				}
+
+				/* -------- Footer */
+				.footer-credits {
+					letter-spacing: .2em;
+					text-align: center;
+				}				
 			</style>
 		</head>
 		<body>
 			<div class="container mt-2 pt-4 pb-4">
+
 				<!-- Pictury header : -->
-				<h3 class="text-uppercase">&#x1F4F8 Pictury</h3>
-				<p>
-					A VS-Code extension to search 
-					and upload stock-free images directly 
-					into a workspace.
-				</p>
-				<!-- Pictury intro : -->
-				<p class="small">
-					Don't leave your sandbox!
-					<i>Pictury</i> will scrape free stock images from 
-					<a href="https://unsplash.com/" target="_blank" alt="Go to Unsplash">Unsplash</a> 
-					and display a selection of images, queried from your search output.
-					With <i>Pictury</i> you can <strong>search</strong>, 
-					<strong>download</strong>, and <strong>resize</strong> stock-free images directly 
-					from and into your workspace with a simple click. Our extension also gives you 
-					the ability to easily grab artist and image information 
-					so you can properly credit them on your projects.
-					<i>Pictury</i> was built by 
-					<a href="https://github.com/Ali-Doggaz" target="_blank" alt="Go to Ali's GitHub">@Ali-Doggaz</a>, 
-					<a href="https://github.com/jackbisceglia" target="_blank" alt="Go to Jack's GitHub">@JackBisceglia</a> 
-					and <a href="https://github.com/kescardoso" target="_blank" alt="Go to Kes's GitHub">@KesCardoso</a> -- we are 
-					<a href="https://fellowship.mlh.io/programs/explorer" target="_blank" alt="Go to MLH Explorer Fellowshiup">MLH Fellow Explorers</a>, 
-					members of the <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy Pod (Spring, 2021)</a>
-					and we are happy to help and hear your suggestions and comments.
-					Thank you for using <i>Pictury</i>, we hope you enjoy it!
-				</p>
-
-				<!-- Pictury Instructions : -->
-				<!-- Button, toogles accordion : -->
-				<button class="btn btn-info align-middle" 
-						type="button" 
-						data-toggle="collapse" 
-						data-target="#collapseExample" 
-						aria-expanded="false" 
-						aria-controls="collapseExample">
-						<h6 class="text-uppercase align-middle">
-							Instructions <span class="hand">&#128072;</span>
-						</h6>
-				</button>
-
-				<!-- Accordion with ordered list : -->
-				<div class="collapse" id="collapseExample">
-					<div class="card card-body">
-						<ol>
-							<li>Use the search box below to find your images.</li>
-							<li>Type in keywords and hit enter.</li>
-							<li>From the search results, select an image with your mouse.</li>
-							<li>Double click an image to download it to your workspace.</li>
-						</ol>
+				<div class="row">
+					<div class="col">
+						<h3 class="text-uppercase">&#x1F4F8 Pictury</h3>
+						<p class="tagline">
+							A VS-Code extension to search, 
+							upload and edit stock-free images directly 
+							into your workspace
+						</p>
 					</div>
 				</div>
+
+				<!-- Pictury intro : -->
+				<div class="row">
+					<div class="col">
+						<p class="small intro">
+							Don't leave your sandbox!
+							<i>Pictury</i> will scrape free stock images from 
+							<a href="https://unsplash.com/" target="_blank" alt="Go to Unsplash">Unsplash</a> 
+							and display a selection of images, queried from your search output.
+							With <i>Pictury</i> you can <strong>search</strong>, <strong>download</strong>, and <strong>edit</strong> stock-free images directly 
+							from and into your workspace with a simple click. Our extension also gives you 
+							the ability to easily grab artist and image information 
+							so you can properly credit them on your projects.
+							<i>Pictury</i> was built by 
+							<a href="https://github.com/Ali-Doggaz" target="_blank" alt="Go to Ali's GitHub">@Ali-Doggaz</a>, 
+							<a href="https://github.com/jackbisceglia" target="_blank" alt="Go to Jack's GitHub">@JackBisceglia</a> 
+							and <a href="https://github.com/kescardoso" target="_blank" alt="Go to Kes's GitHub">@KesCardoso</a> -- we are 
+							<a href="https://fellowship.mlh.io/programs/explorer" target="_blank" alt="Go to MLH Explorer Fellowshiup">MLH Fellow Explorers</a>, 
+							members of the <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy Pod (Spring, 2021)</a>
+							and we are happy to help and hear your suggestions and comments.
+							Thank you for using <i>Pictury</i>, we hope you enjoy it!
+						</p>
+					</div>
+				</div>
+
+				<!-- Pictury Instructions : -->
+				<div class="row">
+					<div class="col">
+						<!-- Button, toogles accordion : -->
+						<button class="btn btn-info align-middle pt-2 pb-1" 
+								type="button" 
+								data-toggle="collapse" 
+								data-target="#collapseExample" 
+								aria-expanded="false" 
+								aria-controls="collapseExample">
+								<h6 class="text-uppercase align-middle">
+									Instructions <span class="hand">&#128072;</span>
+								</h6>
+						</button>
+						<!-- Accordion with ordered list : -->
+						<div class="collapse" id="collapseExample">
+							<div class="card card-body">
+								<ol>
+									<li>Use the search box below to find your images.</li>
+									<li>Type in keywords and hit enter.</li>
+									<li>From the search results, select an image with your mouse.</li>
+									<li>Double click an image to download it to your workspace.</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+			
 			</div>
+			<!-- End container -->
 
 			<div class="container pt-2 pb-2">
-				<!-- Search Input : -->
-				<div class="searchbox">
-				<h6 class="text-uppercase">Search Here:</h6>
-					<form id="myForm" autocomplete="off">
-						<div class ="form-group">
-							<input type="text" class ="form-control" id="search" placeholder="Search image" required>
-						</div>
-					</form>
-				</div>
-			</div>
 
-			<!-- Bootstrap Js, jQuery and Popper.js : -->		
-			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>			
-		`
+				<!-- Search Box : -->
+				<!-- Style credit: https://bootstrapious.com/p/bootstrap-search-bar -->
+				<!-- Installation credit: https://youtu.be/Jpt6tQBm0Bo -->
+				<div class="row">
+					<div class="col justify-content-center text-center">
+						<h6 class="text-uppercase">Search Here:</h6>
+						<form class="justify-content-center mx-auto" id="search-form" autocomplete="off">
+							<div class ="form-group">
+								<input type="text" 
+								class ="form-control p-4 bg-light rounded rounded-pill shadow-sm mb-4" 
+								id="search" 
+								placeholder="Type query, hit enter, see the magic!" required>
+							</div>
+						</form>
+					</div>
+				</div>
+
+			</div>
+			<!-- End container -->
+		</body>`
 	return html;
 }
 
 //Returns the HTML code for each picture to be displayed in the webview
 function getImageHTML(imageSource){
-	let html = `<img src="${imageSource}" onclick="Copy_Picture_URL('${imageSource}')" ondblclick="Download('${imageSource}')" width="300" />\n`;
+	let html =`
+		<span class="figure">
+			<img src="${imageSource}" 
+				onclick="Copy_Picture_URL('${imageSource}')" 
+				ondblclick="Download('${imageSource}')" 
+				class="image" />
+		</span>\n
+	`;
 	return html;
 }
+				
 
 // Returns the HTML code for the initial webview (Welcome screen with just the searchbar, for now) 
 function getInitialPage(){
 	let html = `
+		<head>
+		</head>
 		<body>
 		`;
 	html = html.concat(getSearchBar());
 
 	html = html.concat(`
-		</div>
-		<!-- Footer -->
-		<br>
-		<br>
-		<br>
-		<footer class="justify-content-center text-uppercase text-center pt-2 pb-4">
-			<p class="footer-credits small">
-				<strong>Pictury VSCode Extension</strong>
-				<br>
-				Powered by <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy</a>
-			</p>
-		</footer>
-			</body>
-			</html>
+		</body>
+		</html>
 	`);
 
 	return html;
@@ -179,8 +278,8 @@ function getSearchResult(pictures_urls) {
 		`;
 		html = html.concat(getSearchBar());
 		html = html.concat(`
-			<div class="container pt-2 pb-4">
-				<h6 class="text-uppercase">Search Results:</h6>
+			<div class="container justify-content-center text-center pt-2 pb-4">
+				<h6 class="text-uppercase pb-1">Search Results:</h6>
 		`);
 		let picture_div;
 		for(let i=0;i<12;i++){
@@ -190,15 +289,50 @@ function getSearchResult(pictures_urls) {
 			html = html.concat(`
 				</div>
 				<!-- Footer -->
-				<footer class="justify-content-center text-uppercase text-center pt-2 pb-2 mb-2">
+				<footer class="justify-content-center text-center text-uppercase pt-2 pb-2 mb-2">
 					<p class="footer-credits small">
 						<strong>Pictury VSCode Extension</strong>
 						<br>
 						Powered by <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy</a>
 					</p>
 				</footer>
-					</body>
-					</html>
+
+				<!-- jQuery + Popper.js and Bootstrap Js : -->
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>		
+				<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+				<!-- Search Form with jQuery Script : -->
+				<script>
+
+				$("#search-form").on("keypress",function(event){
+					event.preventDefault()
+
+					if(event.keyCode===13){
+						console.log("yahoo!")
+
+						var search = $("#search").val()
+				
+						var url = "https://localhost:3000/getQuery?searchTerm=%2"+search+"&per_page=12"
+					
+						$.ajax({
+							method:'GET',
+							url:url,
+							success:function(data){
+								// TESTING: this should display an array of 12 search results
+								// on the console (developer tools) 
+								// when a keyword such as "flower" is entered in the search box
+								console.log(data)
+							}
+						})
+
+					}
+				
+					
+				})
+				</script>
+
+				</body>
+				</html>
 			`);
 			return html;
 		}
