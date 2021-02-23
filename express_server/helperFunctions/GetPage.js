@@ -1,4 +1,4 @@
-const fetch = require('../node_modules/node-fetch');
+const fetch = require('../../node_modules/node-fetch');
 
 const { UNSPLASH, 
         GET_CONFIG } = require('./Constants');

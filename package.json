@@ -143,6 +143,7 @@
     "@types/download": "^6.2.4",
     "download": "^8.0.0",
     "jimp": "^0.16.1",
+    "jquery": "^3.5.1",
     "node-fetch": "^2.6.1"
   }
 }
