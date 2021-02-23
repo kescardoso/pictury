@@ -243,7 +243,7 @@ function getInitialPage(){
 
 	html = html.concat(`
 		</body>
-		</html><div class="hovereffect">
+		</html>
 	`);
 
 	return html;
