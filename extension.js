@@ -5,6 +5,8 @@ const fs = require('fs');
 const download = require('download');
 const path = require('path');
 const jimp = require("jimp");
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var xhr = new XMLHttpRequest();
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -311,25 +313,20 @@ function getSearchResult(pictures_urls) {
 				<!-- Search Form with jQuery Script : -->
 				<script>
 
-				$("#search-form").on("keypress",function(event){
+				document.getElementById('search').addEventListener("keypress",function(event){
 
 					if(event.keyCode===13){
-						console.log("yahoo!")
+						
 
-						var search = $("#search").val()
+						var search = $(this).val()
+						console.log(search)
 				
-						var url = "https://localhost:3000/getQuery?searchTerm=%2"+search+"&per_page=12"
-					
-						$.ajax({
-							method:'GET',
-							url:url,
-							success:function(data){
-								// TESTING: this should display an array of 12 search results
-								// on the console (developer tools) 
-								// when a keyword such as "flower" is entered in the search box
-								console.log(data)
-							}
-						})
+						var url = "https://localhost:3000/getQuery/"+search
+
+						vscode.postMessage({
+							command: 'searchResult',	
+							text: url
+							});
 
 					}
 				
@@ -453,6 +450,22 @@ function activate(context) {
 
 		// And set its initial HTML content
 		panel.webview.html = getSearchResult(pictures_urls);
+				
+
+		var getJSON = function(url, callback) {
+			xhr.open('GET', url, true);
+			xhr.responseType = 'json';
+			xhr.onload = function() {
+			  var status = xhr.status;
+			  if (status === 200) {
+				callback(null, xhr.response);
+			  } else {
+				callback(status, xhr.response);
+			  }
+			};
+			xhr.send();
+		};
+		
 		// Handle messages from the webview
 		panel.webview.onDidReceiveMessage(
 		message => {
@@ -466,8 +479,19 @@ function activate(context) {
 				vscode.window.setStatusBarMessage("Pictury Notification: " + message.text,2000);
 				return;
 
-			case 'search' : // Handle Search Query from the user and display the results in WebView
-				var pictures_urls = scraping(message.text); //Fetches Unsplash.com for the best results
+			case 'searchResult' : // Handle Search Query from the user and display the results in WebView
+				let url = message.txt
+				
+				getJSON(url,
+				function(err, data) {
+				if (err !== null) {
+					console.log('Something went wrong: ' + err);
+				} else {
+					console.log('Your query count: ' + data);
+				}
+				});
+
+				let pictures_urls=[]
 				panel.webview.html = getSearchResult(pictures_urls); //Displays the Results Page
 				return;
 			}

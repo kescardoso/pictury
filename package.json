@@ -51,7 +51,7 @@
       {
         "command": "pictury.downloadPathModifier",
         "title": "Set To Download Folder"
-      } 
+      }
     ],
     "keybindings": [
       {
@@ -141,10 +141,12 @@
   },
   "dependencies": {
     "@types/download": "^6.2.4",
+    "cross-fetch": "^3.0.6",
     "download": "^8.0.0",
     "express": "^4.17.1",
     "jimp": "^0.16.1",
     "jquery": "^3.5.1",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "xmlhttprequest": "^1.8.0"
   }
 }
