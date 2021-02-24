@@ -142,6 +142,7 @@
   "dependencies": {
     "@types/download": "^6.2.4",
     "download": "^8.0.0",
+    "express": "^4.17.1",
     "jimp": "^0.16.1",
     "node-fetch": "^2.6.1"
   }
