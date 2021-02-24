@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 
 // GETQUERY PATH
 // URL TAKES 1 PARAM: ?searchTerm=__termToBeSearched__
-app.get('/getQuery', async (req, res) => {
+app.get('/getQuery/:searchTerm', async (req, res) => {
     const { searchTerm } = req.params;
 
     let data = await getAllResults(searchTerm);
