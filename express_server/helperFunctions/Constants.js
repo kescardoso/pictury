@@ -3,7 +3,7 @@ const UNSPLASH = 'https://api.unsplash.com'
 const GET_CONFIG = {
         method: 'GET', 
         headers: {
-          'Authorization': 'Client-ID ex5qpix09qiA6abEiPJ-_8XSCm-6zdAA2BLO-50gOv8',
+          'Authorization': 'Client-ID yG19ug3Pu14DbIM1OU3o-RDqS_9t929mEigt5u8mJwY'
         }
 }
 

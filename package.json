@@ -47,6 +47,10 @@
       {
         "command": "pictury.rotateLeft180",
         "title": "Rotate Left 180°"
+      },
+      {
+        "command": "pictury.downloadPathModifier",
+        "title": "Set To Download Folder"
       }
     ],
     "keybindings": [
@@ -62,6 +66,17 @@
           "submenu": "pictury",
           "group": "navigation",
           "when": "resourceExtname == .jpg || resourceExtname == .png || resourceExtname == jpeg"
+        },
+        {
+          "submenu": "Pictury",
+          "group": "navigation",
+          "when": "explorerResourceIsFolder"
+        }
+      ],
+      "Pictury": [
+        {
+          "command": "pictury.downloadPathModifier",
+          "group": "navigation"
         }
       ],
       "pictury": [
@@ -101,6 +116,10 @@
       {
         "id": "pictury",
         "label": "pictury"
+      },
+      {
+        "id": "Pictury",
+        "label": "pictury"
       }
     ]
   },
@@ -122,9 +141,12 @@
   },
   "dependencies": {
     "@types/download": "^6.2.4",
+    "cross-fetch": "^3.0.6",
     "download": "^8.0.0",
+    "express": "^4.17.1",
     "jimp": "^0.16.1",
     "jquery": "^3.5.1",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "unsplash-js": "^7.0.4"
   }
 }
