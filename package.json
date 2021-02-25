@@ -147,6 +147,6 @@
     "jimp": "^0.16.1",
     "jquery": "^3.5.1",
     "node-fetch": "^2.6.1",
-    "xmlhttprequest": "^1.8.0"
+    "unsplash-js": "^7.0.4"
   }
 }

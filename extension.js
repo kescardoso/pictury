@@ -5,9 +5,8 @@ const fs = require('fs');
 const download = require('download');
 const path = require('path');
 const jimp = require("jimp");
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-var xhr = new XMLHttpRequest();
 
+var i = 1;
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
@@ -231,7 +230,7 @@ function getSearchBar(){
 function getImageHTML(imageSource){
 	let html =`
 		<span class="figure">
-			<img src="${imageSource}" 
+			<img style="width:300px;height:300px;"  src="${imageSource}" 
 				onclick="Copy_Picture_URL('${imageSource}')" 
 				ondblclick="Download('${imageSource}')" 
 				class="image" />
@@ -260,7 +259,7 @@ function getInitialPage(){
 }
 
 // Returns the HTML code for the search query
-function getSearchResult(pictures_urls) {
+function getSearchResult(pictures_urls, searchQuery, i) {
 	let html = `
 		<body>
 		<script>
@@ -287,15 +286,17 @@ function getSearchResult(pictures_urls) {
 		`;
 		html = html.concat(getSearchBar());
 		html = html.concat(`
-			<div class="container justify-content-center text-center pt-2 pb-4">
+			<div class="container justify-content-center text-center pt-2 pb-4" id="images-container">
 				<h6 class="text-uppercase pb-1">Search Results:</h6>
 		`);
 		let picture_div;
-		for(let i=0;i<12;i++){
-			picture_div = getImageHTML(pictures_urls[i]);
+		for(let s=0;s<30;s++){
+			picture_div = getImageHTML(pictures_urls[s]);
 			html = html.concat(picture_div);
 		}
+			if(i>1) html = html.concat('<button type="button" onClick=getPreviousPage()> Previous Page </button>')
 			html = html.concat(`
+				<button type="button" onClick=getNextPage() > Next Page </button>
 				</div>
 				<!-- Footer -->
 				<footer class="justify-content-center text-center text-uppercase pt-2 pb-2 mb-2">
@@ -312,26 +313,97 @@ function getSearchResult(pictures_urls) {
 
 				<!-- Search Form with jQuery Script : -->
 				<script>
-
+				var search = '${searchQuery}';
+				var i = ${i} ;
 				document.getElementById('search').addEventListener("keypress",function(event){
 
 					if(event.keyCode===13){
-						
-
-						var search = $(this).val()
+						i = 1;
+						search = $(this).val()
 						console.log(search)
-				
-						var url = "https://localhost:3000/getQuery/"+search
+						
+						let url = "https://api.unsplash.com/search/photos?per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
+						let picture_urls = search + "<sp>"
 
-						vscode.postMessage({
+						fetch(url)
+						.then(function(response){
+							return response.json()
+						})
+						.then(function(data){
+							data = JSON.parse(JSON.stringify(data))
+							for(let j=0;j<30;j++)
+							{
+							let elem = data.results[j].urls.small
+							elem = elem.concat("<sp>")
+							picture_urls = picture_urls.concat(elem)
+							}
+							return picture_urls;
+						})
+						.then(function (picture_urls) {
+							console.log(picture_urls)
+							vscode.postMessage({
 							command: 'searchResult',	
-							text: url
+							text: picture_urls
 							});
-
+						})
 					}
 				
 					
-				})
+				})				
+
+				function getNextPage(){
+					let url = "https://api.unsplash.com/search/photos?page="+${i+1}+"&per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
+					let picture_urls = search + "<sp>"
+
+					fetch(url)
+					.then(function(response){
+						return response.json()
+					})
+					.then(function(data){
+						data = JSON.parse(JSON.stringify(data))
+						for(let j=0;j<30;j++)
+						{
+						let elem = data.results[j].urls.small
+						elem = elem.concat("<sp>")
+						picture_urls = picture_urls.concat(elem)
+						}
+						return picture_urls;
+					})
+					.then(function (picture_urls) {
+						console.log(picture_urls)
+						vscode.postMessage({
+						command: 'nextPage',	
+						text: picture_urls
+						});
+					})
+				}
+				function getPreviousPage(){
+					let url = "https://api.unsplash.com/search/photos?page="+${i-1}+"&per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
+					let picture_urls = search + "<sp>"
+
+					fetch(url)
+					.then(function(response){
+						return response.json()
+					})
+					.then(function(data){
+						data = JSON.parse(JSON.stringify(data))
+						for(let j=0;j<30;j++)
+						{
+						let elem = data.results[j].urls.small
+						elem = elem.concat("<sp>")
+						picture_urls = picture_urls.concat(elem)
+						}
+						return picture_urls;
+					})
+					.then(function (picture_urls) {
+						console.log(picture_urls)
+						vscode.postMessage({
+							command: 'previousPage',	
+							text: picture_urls
+						});
+					})
+					
+				}
 				</script>
 
 				</body>
@@ -339,12 +411,6 @@ function getSearchResult(pictures_urls) {
 			`);
 			return html;
 		}
-
-function scraping(query){
-	// Uses unsplash API to get results for the user's query
-	// Returns an array containing the URLs of the pictures that will be displayed 
-  // TODO
-}
 
 async function rotatePicture(a, path){
 	let rotatedImage = path.fsPath.split(/(?:\.)([^\/]*)$/g);
@@ -426,7 +492,7 @@ function activate(context) {
 		'Pictury', // Title of the panel displayed to the user
 		vscode.ViewColumn.One, // Editor column to show the new webview panel in.
         {
-            enableScripts: true
+            enableScripts: true,
 			
         } // Webview options. More on these later.
 		);
@@ -451,21 +517,6 @@ function activate(context) {
 		// And set its initial HTML content
 		panel.webview.html = getSearchResult(pictures_urls);
 				
-
-		var getJSON = function(url, callback) {
-			xhr.open('GET', url, true);
-			xhr.responseType = 'json';
-			xhr.onload = function() {
-			  var status = xhr.status;
-			  if (status === 200) {
-				callback(null, xhr.response);
-			  } else {
-				callback(status, xhr.response);
-			  }
-			};
-			xhr.send();
-		};
-		
 		// Handle messages from the webview
 		panel.webview.onDidReceiveMessage(
 		message => {
@@ -480,19 +531,31 @@ function activate(context) {
 				return;
 
 			case 'searchResult' : // Handle Search Query from the user and display the results in WebView
-				let url = message.txt
-				
-				getJSON(url,
-				function(err, data) {
-				if (err !== null) {
-					console.log('Something went wrong: ' + err);
-				} else {
-					console.log('Your query count: ' + data);
-				}
-				});
+				i = 1
+				let picture_urls = message.text.split("<sp>")
+				let searchQuery = picture_urls[0]
+				console.log("Search Query " + searchQuery + " " + typeof searchQuery)
+				picture_urls.shift()
 
-				let pictures_urls=[]
-				panel.webview.html = getSearchResult(pictures_urls); //Displays the Results Page
+				panel.webview.html = getSearchResult(picture_urls, searchQuery, i); //Displays the Results Page
+				return;
+
+			case 'nextPage':
+				let picture_urls_next = message.text.split("<sp>")
+				let searchQuery_next = picture_urls_next[0]
+				console.log("Search Query " + searchQuery_next + " " + typeof searchQuery_next)
+				picture_urls_next.shift()
+				i++
+				panel.webview.html = getSearchResult(picture_urls_next, searchQuery_next, i);
+				return;
+				
+			case 'previousPage':
+				let picture_urls_before = message.text.split("<sp>")
+				let searchQuery_before = picture_urls_before[0]
+				console.log("Search Query " + searchQuery_before + " " + typeof searchQuery_before)
+				picture_urls_before.shift()
+				i--
+				panel.webview.html = getSearchResult(picture_urls_before, searchQuery_before, i);
 				return;
 			}
 			},
