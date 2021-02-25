@@ -335,9 +335,9 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 			picture_div = getImageHTML(pictures_urls[s]);
 			html = html.concat(picture_div);
 		}
-			if(i>1) html = html.concat('<button type="button" onClick=getPreviousPage()> Previous Page </button>')
+			if(i>1) html = html.concat('<button class="btn btn-dark" type="button" onClick=getPreviousPage()> ⇠ Previous Page </button>')
 			html = html.concat(`
-				<button type="button" onClick=getNextPage() > Next Page </button>
+				<button class="btn btn-dark" type="button" onClick=getNextPage() > Next Page ⇢ </button>
 				</div>
 				<!-- Footer -->
 				<footer class="justify-content-center text-center text-uppercase pt-2 pb-2 mb-2">
@@ -393,6 +393,7 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 				})				
 
 				function getNextPage(){
+					$("html, body").animate({scrollTop:0}, 400);
 					let url = "https://api.unsplash.com/search/photos?page="+${i+1}+"&per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
 					let picture_urls = search + "<sp>"
 
