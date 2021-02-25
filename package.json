@@ -50,7 +50,7 @@
       },
       {
         "command": "pictury.downloadPathModifier",
-        "title": "Set To Download Folder"
+        "title": "Set As Download Folder"
       }
     ],
     "keybindings": [

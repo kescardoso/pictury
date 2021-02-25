@@ -125,6 +125,7 @@ function getSearchBar(){
 					text-align: center;
 				}				
 			</style>
+
 		</head>
 		<body>
 			<div class="container mt-2 pt-4 pb-4">
@@ -242,16 +243,59 @@ function getImageHTML(imageSource){
 
 // Returns the HTML code for the initial webview (Welcome screen with just the searchbar, for now) 
 function getInitialPage(){
-	let html = `
-		<head>
-		</head>
-		<body>
-		`;
+	let html = ``
 	html = html.concat(getSearchBar());
 
 	html = html.concat(`
-		</body>
-		</html>
+	<!-- Footer -->
+	<footer class="justify-content-center text-center text-uppercase pt-2 pb-2 mb-2">
+		<p class="footer-credits small">
+			<strong>Pictury VSCode Extension</strong>
+			<br>
+			Powered by <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy</a>
+		</p>
+	</footer>
+
+	<!-- jQuery + Popper.js and Bootstrap Js : -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>		
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+	<script>
+	var vscode=acquireVsCodeApi();
+	document.getElementById('search').addEventListener("keypress",function(event){
+		if(event.keyCode===13){
+			i = 1;
+			search = $(this).val()
+			console.log(search)
+			
+			let url = "https://api.unsplash.com/search/photos?per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
+			let picture_urls = search + "<sp>"
+
+			fetch(url)
+			.then(function(response){
+				return response.json()
+			})
+			.then(function(data){
+				data = JSON.parse(JSON.stringify(data))
+				for(let j=0;j<30;j++)
+				{
+				let elem = data.results[j].urls.small
+				elem = elem.concat("<sp>")
+				picture_urls = picture_urls.concat(elem)
+				}
+				return picture_urls;
+			})
+			.then(function (picture_urls) {
+				vscode.postMessage({
+				command: 'searchResult',	
+				text: picture_urls
+				});
+			})
+		}
+	})
+	</script>		
+	</body>
+	</html>
 	`);
 
 	return html;
@@ -294,7 +338,8 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 			picture_div = getImageHTML(pictures_urls[s]);
 			html = html.concat(picture_div);
 		}
-			if(i>1) html = html.concat('<button type="button" onClick=getPreviousPage()> Previous Page </button>')
+			if(i>1) {html = html.concat('</div> <button type="button" onClick=getPreviousPage()> Previous Page </button>')}
+			else html = html.concat('</div>');
 			html = html.concat(`
 				<button type="button" onClick=getNextPage() > Next Page </button>
 				</div>
@@ -315,6 +360,7 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 				<script>
 				var search = '${searchQuery}';
 				var i = ${i} ;
+
 				document.getElementById('search').addEventListener("keypress",function(event){
 
 					if(event.keyCode===13){
@@ -352,6 +398,7 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 				})				
 
 				function getNextPage(){
+					$("html, body").animate({scrollTop:0}, 400);
 					let url = "https://api.unsplash.com/search/photos?page="+${i+1}+"&per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
 					let picture_urls = search + "<sp>"
 
@@ -370,7 +417,6 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 						return picture_urls;
 					})
 					.then(function (picture_urls) {
-						console.log(picture_urls)
 						vscode.postMessage({
 						command: 'nextPage',	
 						text: picture_urls
@@ -380,7 +426,6 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 				function getPreviousPage(){
 					let url = "https://api.unsplash.com/search/photos?page="+${i-1}+"&per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
 					let picture_urls = search + "<sp>"
-
 					fetch(url)
 					.then(function(response){
 						return response.json()
@@ -396,7 +441,6 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 						return picture_urls;
 					})
 					.then(function (picture_urls) {
-						console.log(picture_urls)
 						vscode.postMessage({
 							command: 'previousPage',	
 							text: picture_urls
@@ -494,28 +538,12 @@ function activate(context) {
         {
             enableScripts: true,
 			
-        } // Webview options. More on these later.
+        } // Webview options
 		);
-
-		// TODO Scrape unsplash.com and collect the pictures associated with the user's search
-		// TODO Remove this variable (pictures_urls) after adding that, it's just used for testing purposes
-		var pictures_urls = ["https://images.unsplash.com/photo-1610614810013-40aaecad27d7?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080",
-		 			"https://images.unsplash.com/photo-1613092869277-6e02af5564aa?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080",
-					"https://images.unsplash.com/photo-1611161323875-496bd460d7f5?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max",
-					"https://images.unsplash.com/photo-1611957150145-d17dbfc97a3d?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max",
-		 			"https://images.unsplash.com/photo-1611920855276-06e04c91213a?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max", 
-					"https://images.unsplash.com/photo-1611207479391-b89565579fd9?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080",
-					"https://images.unsplash.com/photo-1611862301382-fdf70949ab6d?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080",
-					"https://images.unsplash.com/photo-1611928171065-5b989f3ea235?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080",
-					"https://images.unsplash.com/photo-1612011692306-3e709cf395cc?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080",
-					"https://images.unsplash.com/photo-1610717077228-39c7b13e07cb?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080",
-					"https://images.unsplash.com/photo-1612109592939-029b082f46b8?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080", 
-		 			"https://images.unsplash.com/photo-1610880976291-2c0f6b1e1651?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080"
-				];
 
 
 		// And set its initial HTML content
-		panel.webview.html = getSearchResult(pictures_urls);
+		panel.webview.html = getInitialPage();
 				
 		// Handle messages from the webview
 		panel.webview.onDidReceiveMessage(
