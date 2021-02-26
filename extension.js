@@ -6,6 +6,7 @@ const download = require('download');
 const path = require('path');
 const jimp = require("jimp");
 
+var i = 1;
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
@@ -17,134 +18,280 @@ function getSearchBar(){
 		`<!DOCTYPE html>
 		<html lang="en">
 		<head>
-			<!-- Meta Tag for Emoji : -->
+			<!-- Required Meta Tags : -->
 			<meta charset="UTF-8">
-			<!-- Meta Tag for device display compatiobility : -->
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<!-- Title: -->
+
+			<!-- Title : -->
 			<!-- HTML Emoji instructions: https://medium.com/@hollybourneville/how-to-use-emojis-in-html-b3c671e21b92 -->
 			<!-- HTML Emoji cheatsheet: https://www.w3schools.com/charsets/ref_emoji.asp -->
 			<title>&#x1F4F8 Pictury</title>
-			<!-- Bootstrap CSS : -->
-			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+			
+			<!-- Bootstrap 4.6.0 CSS : -->
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+			
 			<!-- Custom CSS Style : -->
 			<style>
+				/* ------- Typography */
+				@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@300;500;700&display=swap");
+				
+				
 				h1, h2, h3, h4, h5, h6 {
 					letter-spacing: .2em !important;
 				}
-				.footer-credits {
-					letter-spacing: .2em;
-					text-align: center;
+
+				.tagline {
+					letter-spacing: .1em;
 				}
+
+				.intro {
+					font-family: 'Inconsolata', monospace;
+				}
+
 				.hand {
 					font-size: 20px;
 				}
+				
+				/* -------- links */
+				a:link, 
+				a:visited, 
+				a:hover, 
+				a:active  {
+					text-decoration: none;
+				}
+
+				a:link, 
+				a:visited {
+					color: #18A2B8;
+				}
+				
+				a:hover,
+				a:active {
+					color: #000;
+					background-color: #fff89e;
+				}
+
+				/* -------- Instructions accordion */
+				.card {
+					background-color: #f5f5f5;
+					border: none;
+					font-family: 'Inconsolata', monospace;
+					font-weight: medium;
+				}
+
+				/* -------- Search form */
+				#search-form {
+					width: 40%;
+				}
+
+				input {
+					font-family: 'Inconsolata', monospace;
+					font-weight: bold;
+				}
+
+				.form-control {
+					border: none !important;
+				}
+
+				/* -------- Photo grid and overlay effect */
+				.image {
+					display: inline-block;
+					width: 300px;
+					height: auto;
+					object-fit: cover;
+				}
+				/* Overlay on hover */
+				/* Installation credit: https://codepen.io/nxworld/pen/ZYNOBZ */
+				/* Fix credit: https://dev.to/ellen_dev/two-ways-to-achieve-an-image-colour-overlay-with-css-eio */
+				.figure {
+					background: #18A2B8;
+					overflow: hidden;
+				}
+
+				.figure img {
+					opacity: 1;
+					-webkit-transition: .3s ease-in-out;
+					transition: .3s ease-in-out;
+				}
+
+				.figure:hover img {
+					opacity: .5;
+					cursor: pointer;
+				}
+
+				/* -------- Footer */
+				.footer-credits {
+					letter-spacing: .2em;
+					text-align: center;
+				}				
 			</style>
 		</head>
 		<body>
 			<div class="container mt-2 pt-4 pb-4">
+
 				<!-- Pictury header : -->
-				<h3 class="text-uppercase">&#x1F4F8 Pictury</h3>
-				<p>
-					A VS-Code extension to search 
-					and upload stock-free images directly 
-					into a workspace.
-				</p>
-				<!-- Pictury intro : -->
-				<p class="small">
-					Don't leave your sandbox!
-					<i>Pictury</i> will scrape free stock images from 
-					<a href="https://unsplash.com/" target="_blank" alt="Go to Unsplash">Unsplash</a> 
-					and display a selection of images, queried from your search output.
-					With <i>Pictury</i> you can <strong>search</strong>, 
-					<strong>download</strong>, and <strong>resize</strong> stock-free images directly 
-					from and into your workspace with a simple click. Our extension also gives you 
-					the ability to easily grab artist and image information 
-					so you can properly credit them on your projects.
-					<i>Pictury</i> was built by 
-					<a href="https://github.com/Ali-Doggaz" target="_blank" alt="Go to Ali's GitHub">@Ali-Doggaz</a>, 
-					<a href="https://github.com/jackbisceglia" target="_blank" alt="Go to Jack's GitHub">@JackBisceglia</a> 
-					and <a href="https://github.com/kescardoso" target="_blank" alt="Go to Kes's GitHub">@KesCardoso</a> -- we are 
-					<a href="https://fellowship.mlh.io/programs/explorer" target="_blank" alt="Go to MLH Explorer Fellowshiup">MLH Fellow Explorers</a>, 
-					members of the <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy Pod (Spring, 2021)</a>
-					and we are happy to help and hear your suggestions and comments.
-					Thank you for using <i>Pictury</i>, we hope you enjoy it!
-				</p>
-
-				<!-- Pictury Instructions : -->
-				<!-- Button, toogles accordion : -->
-				<button class="btn btn-info align-middle" 
-						type="button" 
-						data-toggle="collapse" 
-						data-target="#collapseExample" 
-						aria-expanded="false" 
-						aria-controls="collapseExample">
-						<h6 class="text-uppercase align-middle">
-							Instructions <span class="hand">&#128072;</span>
-						</h6>
-				</button>
-
-				<!-- Accordion with ordered list : -->
-				<div class="collapse" id="collapseExample">
-					<div class="card card-body">
-						<ol>
-							<li>Use the search box below to find your images.</li>
-							<li>Type in keywords and hit enter.</li>
-							<li>From the search results, select an image with your mouse.</li>
-							<li>Double click an image to download it to your workspace.</li>
-						</ol>
+				<div class="row">
+					<div class="col">
+						<h3 class="text-uppercase">&#x1F4F8 Pictury</h3>
+						<p class="tagline">
+							A VS-Code extension to search, 
+							upload and edit stock-free images directly 
+							into your workspace
+						</p>
 					</div>
 				</div>
+
+				<!-- Pictury intro : -->
+				<div class="row">
+					<div class="col">
+						<p class="small intro">
+							Don't leave your sandbox!
+							<i>Pictury</i> will scrape free stock images from 
+							<a href="https://unsplash.com/" target="_blank" alt="Go to Unsplash">Unsplash</a> 
+							and display a selection of images, queried from your search output.
+							With <i>Pictury</i> you can <strong>search</strong>, <strong>download</strong>, and <strong>edit</strong> stock-free images directly 
+							from and into your workspace with a simple click. Our extension also gives you 
+							the ability to easily grab artist and image information 
+							so you can properly credit them on your projects.
+							<i>Pictury</i> was built by 
+							<a href="https://github.com/Ali-Doggaz" target="_blank" alt="Go to Ali's GitHub">@Ali-Doggaz</a>, 
+							<a href="https://github.com/jackbisceglia" target="_blank" alt="Go to Jack's GitHub">@JackBisceglia</a> 
+							and <a href="https://github.com/kescardoso" target="_blank" alt="Go to Kes's GitHub">@KesCardoso</a> -- we are 
+							<a href="https://fellowship.mlh.io/programs/explorer" target="_blank" alt="Go to MLH Explorer Fellowshiup">MLH Fellow Explorers</a>, 
+							members of the <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy Pod (Spring, 2021)</a>
+							and we are happy to help and hear your suggestions and comments.
+							Thank you for using <i>Pictury</i>, we hope you enjoy it!
+						</p>
+					</div>
+				</div>
+
+				<!-- Pictury Instructions : -->
+				<div class="row">
+					<div class="col">
+						<!-- Button, toogles accordion : -->
+						<button class="btn btn-info align-middle pt-2 pb-1" 
+								type="button" 
+								data-toggle="collapse" 
+								data-target="#collapseExample" 
+								aria-expanded="false" 
+								aria-controls="collapseExample">
+								<h6 class="text-uppercase align-middle">
+									Instructions <span class="hand">&#128072;</span>
+								</h6>
+						</button>
+						<!-- Accordion with ordered list : -->
+						<div class="collapse" id="collapseExample">
+							<div class="card card-body">
+								<ol>
+									<li>Use the search box below to find your images.</li>
+									<li>Type in keywords and hit enter.</li>
+									<li>From the display of search results, select an image.</li>
+									<li>Double click an image to download it to your workspace.</li>
+									<li>To edit an image, right-click to open the Pictury submenu</li>
+									<li>To resise: click on 'resize' in the menu input box, and provide new dimensions in the following format: widthxheight (auto is supported)</li>
+									<li>To rotate or to convert image to a different format: click on the corresponding function in the Pictury submenu</li>
+									<li>To change the folder in which your pictures are saved: right-click on a folder, go to the Pictury submenu, and click on 'set as download path'</li>
+								</ol>
+								<p class="text-right">Enjoy! &#x1F604</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			
 			</div>
+			<!-- End container -->
 
 			<div class="container pt-2 pb-2">
-				<!-- Search Input : -->
-				<div class="searchbox">
-				<h6 class="text-uppercase">Search Here:</h6>
-					<form id="myForm" autocomplete="off">
-						<div class ="form-group">
-							<input type="text" class ="form-control" id="search" placeholder="Search image" required>
-						</div>
-					</form>
-				</div>
-			</div>
 
-			<!-- Bootstrap Js, jQuery and Popper.js : -->		
-			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>			
-		`
+				<!-- Search Box : -->
+				<!-- Style credit: https://bootstrapious.com/p/bootstrap-search-bar -->
+				<!-- Installation credit: https://youtu.be/Jpt6tQBm0Bo -->
+				<div class="row">
+					<div class="col justify-content-center text-center">
+						<h6 class="text-uppercase">Search Here:</h6>
+						<form class="justify-content-center mx-auto" id="search-form" autocomplete="off">
+							<div class ="form-group">
+								<input type="text" 
+								class ="form-control p-4 bg-light rounded rounded-pill shadow-sm mb-4" 
+								id="search" 
+								placeholder="Type query, hit enter, see the magic!" required>
+							</div>
+						</form>
+					</div>
+				</div>
+
+			</div>
+			<!-- End container -->
+		</body>`
 	return html;
 }
 
 //Returns the HTML code for each picture to be displayed in the webview
 function getImageHTML(imageSource){
-	let html = `<img src="${imageSource}" onclick="Copy_Picture_URL('${imageSource}')" ondblclick="Download('${imageSource}')" width="300" />\n`;
+	let html =`
+		<span class="figure">
+			<img style="width:300px;height:300px;"  src="${imageSource}" 
+				onclick="Copy_Picture_URL('${imageSource}')" 
+				ondblclick="Download('${imageSource}')" 
+				class="image" />
+		</span>\n
+	`;
 	return html;
 }
+				
 
 // Returns the HTML code for the initial webview (Welcome screen with just the searchbar, for now) 
 function getInitialPage(){
-	let html = `
-		<body>
-		`;
+	let html = ``
+
 	html = html.concat(getSearchBar());
 
 	html = html.concat(`
-		</div>
 		<!-- Footer -->
-		<br>
-		<br>
-		<br>
-		<footer class="justify-content-center text-uppercase text-center pt-2 pb-4">
-			<p class="footer-credits small">
-				<strong>Pictury VSCode Extension</strong>
-				<br>
-				Powered by <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy</a>
-			</p>
-		</footer>
-			</body>
-			</html>
+	<footer class="justify-content-center text-center text-uppercase pt-2 pb-2 mb-2">
+		<p class="footer-credits small">
+			<strong>Pictury VSCode Extension</strong>
+			<br>
+			Powered by <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy</a>
+		</p>
+	</footer>
+	<!-- jQuery + Popper.js and Bootstrap Js : -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>		
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+	<script>
+	var vscode=acquireVsCodeApi();
+	document.getElementById('search').addEventListener("keypress",function(event){
+		if(event.keyCode===13){
+			i = 1;
+			search = $(this).val()
+			
+			let url = "https://api.unsplash.com/search/photos?per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
+			let picture_urls = search + "<sp>"
+			fetch(url)
+			.then(function(response){
+				return response.json()
+			})
+			.then(function(data){
+				data = JSON.parse(JSON.stringify(data))
+				for(let j=0;j<30;j++)
+				{
+				let elem = data.results[j].urls.small
+				elem = elem.concat("<sp>")
+				picture_urls = picture_urls.concat(elem)
+				}
+				return picture_urls;
+			})
+			.then(function (picture_urls) {
+				vscode.postMessage({
+				command: 'searchResult',	
+				text: picture_urls
+				});
+			})
+		}
+	})
+	</script>		
+	</body>
+	</html>
 	`);
 
 	return html;
@@ -152,7 +299,7 @@ function getInitialPage(){
 }
 
 // Returns the HTML code for the search query
-function getSearchResult(pictures_urls) {
+function getSearchResult(pictures_urls, searchQuery, i) {
 	let html = `
 		<body>
 		<script>
@@ -179,35 +326,128 @@ function getSearchResult(pictures_urls) {
 		`;
 		html = html.concat(getSearchBar());
 		html = html.concat(`
-			<div class="container pt-2 pb-4">
-				<h6 class="text-uppercase">Search Results:</h6>
+			<div class="container justify-content-center text-center pt-2 pb-4" id="images-container">
+				<h6 class="text-uppercase pb-1">Search Results:</h6>
 		`);
 		let picture_div;
-		for(let i=0;i<12;i++){
-			picture_div = getImageHTML(pictures_urls[i]);
+		for(let s=0;s<30;s++){
+			picture_div = getImageHTML(pictures_urls[s]);
 			html = html.concat(picture_div);
 		}
+			if(i>1) html = html.concat('</div><div class="buttons" style="display: flex;justify-content: center; align-items: center;"><button class="btn btn-dark mt-4" type="button" style="display:inline-block;justify-content=center;" onClick=getPreviousPage()> ⇠ Previous Page </button> &nbsp;')
+			else html = html.concat('</div><div class="buttons" style="display: flex;justify-content: center; align-items: center;">')
 			html = html.concat(`
+				<button class="btn btn-dark mt-4" type="button" style="display:inline-block;display: flex;justify-content=center" onClick=getNextPage() > Next Page ⇢ </button> </div>
 				</div>
 				<!-- Footer -->
-				<footer class="justify-content-center text-uppercase text-center pt-2 pb-2 mb-2">
+				<footer class="justify-content-center text-center text-uppercase pt-2 pb-2 mb-2">
 					<p class="footer-credits small">
 						<strong>Pictury VSCode Extension</strong>
 						<br>
 						Powered by <a href="https://github.com/goofy-goofy" target="_blank" alt="Go to Goofy-Goofy Pod on Github">Goofy-Goofy</a>
 					</p>
 				</footer>
-					</body>
-					</html>
+
+				<!-- jQuery + Popper.js and Bootstrap Js : -->
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>		
+				<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+				<!-- Search Form with jQuery Script : -->
+				<script>
+				var search = '${searchQuery}';
+				var i = ${i} ;
+				document.getElementById('search').addEventListener("keypress",function(event){
+
+					if(event.keyCode===13){
+						i = 1;
+						search = $(this).val()						
+						let url = "https://api.unsplash.com/search/photos?per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
+						let picture_urls = search + "<sp>"
+
+						fetch(url)
+						.then(function(response){
+							return response.json()
+						})
+						.then(function(data){
+							data = JSON.parse(JSON.stringify(data))
+							for(let j=0;j<30;j++)
+							{
+							let elem = data.results[j].urls.small
+							elem = elem.concat("<sp>")
+							picture_urls = picture_urls.concat(elem)
+							}
+							return picture_urls;
+						})
+						.then(function (picture_urls) {
+							vscode.postMessage({
+							command: 'searchResult',	
+							text: picture_urls
+							});
+						})
+					}
+				
+					
+				})				
+
+				function getNextPage(){
+					$("html, body").animate({scrollTop:0}, 400);
+					let url = "https://api.unsplash.com/search/photos?page="+${i+1}+"&per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
+					let picture_urls = search + "<sp>"
+
+					fetch(url)
+					.then(function(response){
+						return response.json()
+					})
+					.then(function(data){
+						data = JSON.parse(JSON.stringify(data))
+						for(let j=0;j<30;j++)
+						{
+						let elem = data.results[j].urls.small
+						elem = elem.concat("<sp>")
+						picture_urls = picture_urls.concat(elem)
+						}
+						return picture_urls;
+					})
+					.then(function (picture_urls) {
+						vscode.postMessage({
+						command: 'nextPage',	
+						text: picture_urls
+						});
+					})
+				}
+				function getPreviousPage(){
+					let url = "https://api.unsplash.com/search/photos?page="+${i-1}+"&per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
+					let picture_urls = search + "<sp>"
+
+					fetch(url)
+					.then(function(response){
+						return response.json()
+					})
+					.then(function(data){
+						data = JSON.parse(JSON.stringify(data))
+						for(let j=0;j<30;j++)
+						{
+						let elem = data.results[j].urls.small
+						elem = elem.concat("<sp>")
+						picture_urls = picture_urls.concat(elem)
+						}
+						return picture_urls;
+					})
+					.then(function (picture_urls) {
+						vscode.postMessage({
+							command: 'previousPage',	
+							text: picture_urls
+						});
+					})
+					
+				}
+				</script>
+
+				</body>
+				</html>
 			`);
 			return html;
 		}
-
-function scraping(query){
-	// Uses unsplash API to get results for the user's query
-	// Returns an array containing the URLs of the pictures that will be displayed 
-  // TODO
-}
 
 async function rotatePicture(a, path){
 	let rotatedImage = path.fsPath.split(/(?:\.)([^\/]*)$/g);
@@ -256,17 +496,12 @@ async function downloadImage(imageSource){
 			}
 	}
 
-	console.log(downloadPath);
 	let downloadSettings= {
 		extract: false
 	};
-	console.log(imageSource);
-	console.log(downloadPath);
 	await download(imageSource, downloadPath, downloadSettings);
-	console.log("fin download");
 	vscode.window.showInformationMessage("Picture Downloaded!");
 
-	
 }
 
 
@@ -275,8 +510,6 @@ async function downloadImage(imageSource){
  */
 function activate(context) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "pictury" is now active!');
 
 	// The command has been defined in the package.json file
@@ -289,30 +522,15 @@ function activate(context) {
 		'Pictury', // Title of the panel displayed to the user
 		vscode.ViewColumn.One, // Editor column to show the new webview panel in.
         {
-            enableScripts: true
+            enableScripts: true,
 			
-        } // Webview options. More on these later.
+        } // Webview options.
 		);
-
-		// TODO Scrape unsplash.com and collect the pictures associated with the user's search
-		// TODO Remove this variable (pictures_urls) after adding that, it's just used for testing purposes
-		var pictures_urls = ["https://images.unsplash.com/photo-1610614810013-40aaecad27d7?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080",
-		 			"https://images.unsplash.com/photo-1613092869277-6e02af5564aa?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080",
-					"https://images.unsplash.com/photo-1611161323875-496bd460d7f5?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max",
-					"https://images.unsplash.com/photo-1611957150145-d17dbfc97a3d?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max",
-		 			"https://images.unsplash.com/photo-1611920855276-06e04c91213a?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max", 
-					"https://images.unsplash.com/photo-1611207479391-b89565579fd9?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080",
-					"https://images.unsplash.com/photo-1611862301382-fdf70949ab6d?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080",
-					"https://images.unsplash.com/photo-1611928171065-5b989f3ea235?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080",
-					"https://images.unsplash.com/photo-1612011692306-3e709cf395cc?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080",
-					"https://images.unsplash.com/photo-1610717077228-39c7b13e07cb?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080",
-					"https://images.unsplash.com/photo-1612109592939-029b082f46b8?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080", 
-		 			"https://images.unsplash.com/photo-1610880976291-2c0f6b1e1651?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1618&ixlib=rb-1.2.1&q=80&w=1080"
-				];
 
 
 		// And set its initial HTML content
-		panel.webview.html = getSearchResult(pictures_urls);
+		panel.webview.html = getInitialPage();
+				
 		// Handle messages from the webview
 		panel.webview.onDidReceiveMessage(
 		message => {
@@ -326,9 +544,29 @@ function activate(context) {
 				vscode.window.setStatusBarMessage("Pictury Notification: " + message.text,2000);
 				return;
 
-			case 'search' : // Handle Search Query from the user and display the results in WebView
-				var pictures_urls = scraping(message.text); //Fetches Unsplash.com for the best results
-				panel.webview.html = getSearchResult(pictures_urls); //Displays the Results Page
+			case 'searchResult' : // Handle Search Query from the user and display the results in WebView
+				i = 1
+				let picture_urls = message.text.split("<sp>")
+				let searchQuery = picture_urls[0]
+				picture_urls.shift()
+
+				panel.webview.html = getSearchResult(picture_urls, searchQuery, i); //Displays the Results Page
+				return;
+
+			case 'nextPage':
+				let picture_urls_next = message.text.split("<sp>")
+				let searchQuery_next = picture_urls_next[0]
+				picture_urls_next.shift()
+				i++
+				panel.webview.html = getSearchResult(picture_urls_next, searchQuery_next, i);
+				return;
+				
+			case 'previousPage':
+				let picture_urls_before = message.text.split("<sp>")
+				let searchQuery_before = picture_urls_before[0]
+				picture_urls_before.shift()
+				i--
+				panel.webview.html = getSearchResult(picture_urls_before, searchQuery_before, i);
 				return;
 			}
 			},
