@@ -264,7 +264,6 @@ function getInitialPage(){
 		if(event.keyCode===13){
 			i = 1;
 			search = $(this).val()
-			console.log(search)
 			
 			let url = "https://api.unsplash.com/search/photos?per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
 			let picture_urls = search + "<sp>"
@@ -335,9 +334,10 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 			picture_div = getImageHTML(pictures_urls[s]);
 			html = html.concat(picture_div);
 		}
-			if(i>1) html = html.concat('<button class="btn btn-dark mt-4" type="button" onClick=getPreviousPage()> ⇠ Previous Page </button>')
+			if(i>1) html = html.concat('</div><div class="buttons" style="display: flex;justify-content: center; align-items: center;"><button class="btn btn-dark mt-4" type="button" style="display:inline-block;justify-content=center;" onClick=getPreviousPage()> ⇠ Previous Page </button> &nbsp;')
+			else html = html.concat('</div><div class="buttons" style="display: flex;justify-content: center; align-items: center;">')
 			html = html.concat(`
-				<button class="btn btn-dark mt-4" type="button" onClick=getNextPage() > Next Page ⇢ </button>
+				<button class="btn btn-dark mt-4" type="button" style="display:inline-block;display: flex;justify-content=center" onClick=getNextPage() > Next Page ⇢ </button> </div>
 				</div>
 				<!-- Footer -->
 				<footer class="justify-content-center text-center text-uppercase pt-2 pb-2 mb-2">
@@ -360,9 +360,7 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 
 					if(event.keyCode===13){
 						i = 1;
-						search = $(this).val()
-						console.log(search)
-						
+						search = $(this).val()						
 						let url = "https://api.unsplash.com/search/photos?per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
 						let picture_urls = search + "<sp>"
 
@@ -381,7 +379,6 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 							return picture_urls;
 						})
 						.then(function (picture_urls) {
-							console.log(picture_urls)
 							vscode.postMessage({
 							command: 'searchResult',	
 							text: picture_urls
@@ -412,7 +409,6 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 						return picture_urls;
 					})
 					.then(function (picture_urls) {
-						console.log(picture_urls)
 						vscode.postMessage({
 						command: 'nextPage',	
 						text: picture_urls
@@ -438,7 +434,6 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 						return picture_urls;
 					})
 					.then(function (picture_urls) {
-						console.log(picture_urls)
 						vscode.postMessage({
 							command: 'previousPage',	
 							text: picture_urls
@@ -501,17 +496,12 @@ async function downloadImage(imageSource){
 			}
 	}
 
-	console.log(downloadPath);
 	let downloadSettings= {
 		extract: false
 	};
-	console.log(imageSource);
-	console.log(downloadPath);
 	await download(imageSource, downloadPath, downloadSettings);
-	console.log("fin download");
 	vscode.window.showInformationMessage("Picture Downloaded!");
 
-	
 }
 
 
@@ -520,8 +510,6 @@ async function downloadImage(imageSource){
  */
 function activate(context) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "pictury" is now active!');
 
 	// The command has been defined in the package.json file
@@ -560,7 +548,6 @@ function activate(context) {
 				i = 1
 				let picture_urls = message.text.split("<sp>")
 				let searchQuery = picture_urls[0]
-				console.log("Search Query " + searchQuery + " " + typeof searchQuery)
 				picture_urls.shift()
 
 				panel.webview.html = getSearchResult(picture_urls, searchQuery, i); //Displays the Results Page
@@ -569,7 +556,6 @@ function activate(context) {
 			case 'nextPage':
 				let picture_urls_next = message.text.split("<sp>")
 				let searchQuery_next = picture_urls_next[0]
-				console.log("Search Query " + searchQuery_next + " " + typeof searchQuery_next)
 				picture_urls_next.shift()
 				i++
 				panel.webview.html = getSearchResult(picture_urls_next, searchQuery_next, i);
@@ -578,7 +564,6 @@ function activate(context) {
 			case 'previousPage':
 				let picture_urls_before = message.text.split("<sp>")
 				let searchQuery_before = picture_urls_before[0]
-				console.log("Search Query " + searchQuery_before + " " + typeof searchQuery_before)
 				picture_urls_before.shift()
 				i--
 				panel.webview.html = getSearchResult(picture_urls_before, searchQuery_before, i);

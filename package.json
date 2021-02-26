@@ -1,8 +1,9 @@
 {
   "name": "pictury",
   "displayName": "Pictury",
-  "description": "A VS-Code extension to search and upload stock-free images into a workspace",
+  "description": "A VS-Code extension to search and download stock-free images into a workspace",
   "version": "0.0.1",
+  "publisher": "Pictury",
   "engines": {
     "vscode": "^1.53.0"
   },
@@ -143,10 +144,9 @@
     "@types/download": "^6.2.4",
     "cross-fetch": "^3.0.6",
     "download": "^8.0.0",
-    "express": "^4.17.1",
     "jimp": "^0.16.1",
     "jquery": "^3.5.1",
-    "node-fetch": "^2.6.1",
-    "unsplash-js": "^7.0.4"
+    "node-fetch": "^2.6.1"
   }
 }
+
