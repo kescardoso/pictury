@@ -58,7 +58,7 @@ Instruction Box
 ![Initial Webview Page](https://github.com/kescardoso/pictury/blob/master/Readme-Images/3.png)
 
 Pagination Buttons
-![Initial Webview Page](https://github.com/kescardoso/pictury/blob/master/Readme-Images/5.jpg)
+![Initial Webview Page](https://github.com/kescardoso/pictury/blob/master/Readme-Images/5.png)
 
 
 ## Release Notes
