@@ -46,6 +46,21 @@ Pictury is a must for all your development endevevors. And it's free. Download i
 
 N/A
 
+## Screenshots
+
+Initial Webview Page
+![Initial Webview Page](https://github.com/kescardoso/pictury/blob/master/Readme-Images/01.png)
+
+Search Result Page
+![Search Result Page](https://github.com/kescardoso/pictury/blob/master/Readme-Images/02.png)
+
+Instruction Box
+![Initial Webview Page](https://github.com/kescardoso/pictury/blob/master/Readme-Images/03.png)
+
+Pagination Buttons
+![Initial Webview Page](https://github.com/kescardoso/pictury/blob/master/Readme-Images/05.png)
+
+
 ## Release Notes
 
 0.0.1:
