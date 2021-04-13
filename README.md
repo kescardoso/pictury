@@ -19,7 +19,7 @@ Pictury is a must for all your development endevevors. And it's free. Download i
 3. HTML
 
 ### How to use?
-1. Launch Pictury using the key binding "Shift + A"
+1. Launch Pictury using the key binding "Ctrl+Alt+P"
 2. Use the search box below to find your images.
 3. Type in keywords and hit enter.
 4. From the display of search results, select an image.
