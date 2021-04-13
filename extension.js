@@ -104,8 +104,9 @@ function getSearchBar(){
 				/* Installation credit: https://codepen.io/nxworld/pen/ZYNOBZ */
 				/* Fix credit: https://dev.to/ellen_dev/two-ways-to-achieve-an-image-colour-overlay-with-css-eio */
 				.figure {
-					background: #18A2B8;
+					// background: #18A2B8;
 					overflow: hidden;
+
 				}
 
 				.figure img {
@@ -117,6 +118,13 @@ function getSearchBar(){
 				.figure:hover img {
 					opacity: .5;
 					cursor: pointer;
+					text-decoration: underline
+				}
+				.credit-footer{
+					padding:8px
+				}
+				.credit-footer a{
+					color : black
 				}
 
 				/* -------- Footer */
@@ -227,14 +235,21 @@ function getSearchBar(){
 }
 
 //Returns the HTML code for each picture to be displayed in the webview
-function getImageHTML(imageSource, credits){
+function getImageHTML(imageSource, credits,username){
 	let html =`
 		<span class="figure">
 			<img style="width:300px;height:300px;"  src="${imageSource}" 
 				onmouseover="AttributeCredits('${imageSource}')"
 				onclick="Copy_Picture_URL('${imageSource}')" 
 				ondblclick="Download('${imageSource}')" 
-				class="image" > ${credits}</img>
+				class="image" > </img> 
+				</br>
+				<div class="credit-footer">
+				Photo by 
+				<a href="https://unsplash.com/@${username}?utm_source=picturye&utm_medium=referral">${credits}</a> 
+				on 
+				<a href="https://unsplash.com/?utm_source=picturye&utm_medium=referral">Unsplash</a>
+				</div>
 		</span>\n
 	`;
 	return html;
@@ -311,13 +326,7 @@ function getSearchResult(pictures_urls, searchQuery, i, credits) {
 		<script>
 		var vscode=acquireVsCodeApi(); // initialize the VsCodeApi that is used to communicate between the extension and the webview
 
-		function AttributeCredits(imageUrl){
-			
-			const userName, Name;
-			String userLink = "https://unsplash.com/@" + userName + "?utm_source=your_app_name&utm_medium=referral" ;
-			const attribution = <a href={userLink}>{Name}</a> on <a href="https://unsplash.com/?utm_source=your_app_name&utm_medium=referral">Unsplash</a>
-			return attribution;
-		}
+
 		function Copy_Picture_URL(txt) {
 			const el = document.createElement('textarea');
 			el.value = txt;
@@ -344,9 +353,8 @@ function getSearchResult(pictures_urls, searchQuery, i, credits) {
 				<h6 class="text-uppercase pb-1">Search Results:</h6>
 		`);
 		let picture_div;
-		console.log(credits[0].first_name)
 		for(let s=0;s<30;s++){
-			picture_div = getImageHTML(pictures_urls[s], credits[s].first_name);
+			picture_div = getImageHTML(pictures_urls[s],credits[s].first_name,credits[s].username);
 			html = html.concat(picture_div);
 		}
 			if(i>1) html = html.concat('</div><div class="buttons" style="display: flex;justify-content: center; align-items: center;"><button class="btn btn-dark mt-4" type="button" style="display:inline-block;justify-content=center;" onClick=getPreviousPage()> ⇠ Previous Page </button> &nbsp;')
