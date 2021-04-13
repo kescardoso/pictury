@@ -18,7 +18,7 @@
     "commands": [
       {
         "command": "pictury.start",
-        "title": "start",
+        "title": "Open Webview",
         "category": "pictury"
       },
       {
@@ -57,8 +57,8 @@
     "keybindings": [
       {
         "command": "pictury.start",
-        "key": "shift+A",
-        "mac": "shift+A"
+        "key": "Ctrl+Alt+P",
+        "mac": "Ctrl+Alt+P"
       }
     ],
     "menus": {
@@ -72,11 +72,28 @@
           "submenu": "Pictury",
           "group": "navigation",
           "when": "explorerResourceIsFolder"
+        },
+        {
+          "submenu": "WebView",
+          "group": "navigation",
+          "when": "!explorerResourceIsFolder && resourceExtname != .jpg && resourceExtname != .png && resourceExtname != jpeg"
         }
       ],
+      
+      "WebView": [
+        {
+          "command": "pictury.start",
+          "group": "navigation"
+        }
+      ],
+
       "Pictury": [
         {
           "command": "pictury.downloadPathModifier",
+          "group": "navigation"
+        },
+        {
+          "command" : "pictury.start",
           "group": "navigation"
         }
       ],
@@ -121,6 +138,10 @@
       {
         "id": "Pictury",
         "label": "pictury"
+      },
+      {
+        "id": "WebView",
+        "label": "pictury"
       }
     ]
   },
@@ -144,9 +165,9 @@
     "@types/download": "^6.2.4",
     "cross-fetch": "^3.0.6",
     "download": "^8.0.0",
+    "express": "^4.17.1",
     "jimp": "^0.16.1",
     "jquery": "^3.5.1",
     "node-fetch": "^2.6.1"
   }
 }
-
