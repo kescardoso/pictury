@@ -577,6 +577,8 @@ function activate(context) {
 				
 			case 'previousPage':
 				let picture_urls_before = message.text.split("<sp>")
+				console.log("here prev",message.name[0]);
+
 				let searchQuery_before = picture_urls_before[0]
 				picture_urls_before.shift()
 				i--
