@@ -104,8 +104,9 @@ function getSearchBar(){
 				/* Installation credit: https://codepen.io/nxworld/pen/ZYNOBZ */
 				/* Fix credit: https://dev.to/ellen_dev/two-ways-to-achieve-an-image-colour-overlay-with-css-eio */
 				.figure {
-					background: #18A2B8;
+					// background: #18A2B8;
 					overflow: hidden;
+
 				}
 
 				.figure img {
@@ -117,6 +118,13 @@ function getSearchBar(){
 				.figure:hover img {
 					opacity: .5;
 					cursor: pointer;
+					text-decoration: underline
+				}
+				.credit-footer{
+					padding:8px
+				}
+				.credit-footer a{
+					color : black
 				}
 
 				/* -------- Footer */
@@ -227,13 +235,21 @@ function getSearchBar(){
 }
 
 //Returns the HTML code for each picture to be displayed in the webview
-function getImageHTML(imageSource){
+function getImageHTML(imageSource, credits,username){
 	let html =`
 		<span class="figure">
 			<img style="width:300px;height:300px;"  src="${imageSource}" 
+				onmouseover="AttributeCredits('${imageSource}')"
 				onclick="Copy_Picture_URL('${imageSource}')" 
 				ondblclick="Download('${imageSource}')" 
-				class="image" />
+				class="image" > </img> 
+				</br>
+				<div class="credit-footer">
+				Photo by 
+				<a href="https://unsplash.com/@${username}?utm_source=picturye&utm_medium=referral">${credits}</a> 
+				on 
+				<a href="https://unsplash.com/?utm_source=picturye&utm_medium=referral">Unsplash</a>
+				</div>
 		</span>\n
 	`;
 	return html;
@@ -267,6 +283,7 @@ function getInitialPage(){
 			
 			let url = "https://api.unsplash.com/search/photos?per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
 			let picture_urls = search + "<sp>"
+			let name = []
 			fetch(url)
 			.then(function(response){
 				return response.json()
@@ -277,14 +294,18 @@ function getInitialPage(){
 				{
 				let elem = data.results[j].urls.small
 				elem = elem.concat("<sp>")
+				let elename = data.results[j].user
+				name = name.concat(elename)
 				picture_urls = picture_urls.concat(elem)
+				
 				}
 				return picture_urls;
 			})
 			.then(function (picture_urls) {
 				vscode.postMessage({
 				command: 'searchResult',	
-				text: picture_urls
+				text: picture_urls,
+				name : name
 				});
 			})
 		}
@@ -299,11 +320,13 @@ function getInitialPage(){
 }
 
 // Returns the HTML code for the search query
-function getSearchResult(pictures_urls, searchQuery, i) {
+function getSearchResult(pictures_urls, searchQuery, i, credits) {
 	let html = `
 		<body>
 		<script>
 		var vscode=acquireVsCodeApi(); // initialize the VsCodeApi that is used to communicate between the extension and the webview
+
+
 		function Copy_Picture_URL(txt) {
 			const el = document.createElement('textarea');
 			el.value = txt;
@@ -331,7 +354,7 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 		`);
 		let picture_div;
 		for(let s=0;s<30;s++){
-			picture_div = getImageHTML(pictures_urls[s]);
+			picture_div = getImageHTML(pictures_urls[s],credits[s].first_name,credits[s].username);
 			html = html.concat(picture_div);
 		}
 			if(i>1) html = html.concat('</div><div class="buttons" style="display: flex;justify-content: center; align-items: center;"><button class="btn btn-dark mt-4" type="button" style="display:inline-block;justify-content=center;" onClick=getPreviousPage()> ⇠ Previous Page </button> &nbsp;')
@@ -393,7 +416,7 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 					$("html, body").animate({scrollTop:0}, 400);
 					let url = "https://api.unsplash.com/search/photos?page="+${i+1}+"&per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
 					let picture_urls = search + "<sp>"
-
+					let name = []
 					fetch(url)
 					.then(function(response){
 						return response.json()
@@ -405,20 +428,23 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 						let elem = data.results[j].urls.small
 						elem = elem.concat("<sp>")
 						picture_urls = picture_urls.concat(elem)
+						let elename = data.results[j].user
+						name = name.concat(elename)
 						}
 						return picture_urls;
 					})
 					.then(function (picture_urls) {
 						vscode.postMessage({
 						command: 'nextPage',	
-						text: picture_urls
+						text: picture_urls,
+						name
 						});
 					})
 				}
 				function getPreviousPage(){
 					let url = "https://api.unsplash.com/search/photos?page="+${i-1}+"&per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
 					let picture_urls = search + "<sp>"
-
+					let name = []
 					fetch(url)
 					.then(function(response){
 						return response.json()
@@ -430,13 +456,16 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 						let elem = data.results[j].urls.small
 						elem = elem.concat("<sp>")
 						picture_urls = picture_urls.concat(elem)
+						let elename = data.results[j].user
+				name = name.concat(elename)
 						}
 						return picture_urls;
 					})
 					.then(function (picture_urls) {
 						vscode.postMessage({
 							command: 'previousPage',	
-							text: picture_urls
+							text: picture_urls,
+							name
 						});
 					})
 					
@@ -547,26 +576,33 @@ function activate(context) {
 			case 'searchResult' : // Handle Search Query from the user and display the results in WebView
 				i = 1
 				let picture_urls = message.text.split("<sp>")
+				console.log("here",message.name[0]);
 				let searchQuery = picture_urls[0]
 				picture_urls.shift()
-
-				panel.webview.html = getSearchResult(picture_urls, searchQuery, i); //Displays the Results Page
+				
+				panel.webview.html = getSearchResult(picture_urls, searchQuery, i, message.name); //Displays the Results Page
 				return;
 
 			case 'nextPage':
 				let picture_urls_next = message.text.split("<sp>")
+				console.log("here next",message.name);
+
 				let searchQuery_next = picture_urls_next[0]
 				picture_urls_next.shift()
 				i++
-				panel.webview.html = getSearchResult(picture_urls_next, searchQuery_next, i);
+				
+				panel.webview.html = getSearchResult(picture_urls_next, searchQuery_next, i, message.name);
 				return;
 				
 			case 'previousPage':
 				let picture_urls_before = message.text.split("<sp>")
+				console.log("here prev",message.name[0]);
+
 				let searchQuery_before = picture_urls_before[0]
 				picture_urls_before.shift()
 				i--
-				panel.webview.html = getSearchResult(picture_urls_before, searchQuery_before, i);
+				
+				panel.webview.html = getSearchResult(picture_urls_before, searchQuery_before, i, message.name);
 				return;
 			}
 			},
