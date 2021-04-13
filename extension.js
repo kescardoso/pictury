@@ -227,13 +227,14 @@ function getSearchBar(){
 }
 
 //Returns the HTML code for each picture to be displayed in the webview
-function getImageHTML(imageSource){
+function getImageHTML(imageSource, credits){
 	let html =`
 		<span class="figure">
 			<img style="width:300px;height:300px;"  src="${imageSource}" 
+				onmouseover="AttributeCredits('${imageSource}')"
 				onclick="Copy_Picture_URL('${imageSource}')" 
 				ondblclick="Download('${imageSource}')" 
-				class="image" >yo</img>
+				class="image" > ${credits}</img>
 		</span>\n
 	`;
 	return html;
@@ -304,11 +305,19 @@ function getInitialPage(){
 }
 
 // Returns the HTML code for the search query
-function getSearchResult(pictures_urls, searchQuery, i) {
+function getSearchResult(pictures_urls, searchQuery, i, credits) {
 	let html = `
 		<body>
 		<script>
 		var vscode=acquireVsCodeApi(); // initialize the VsCodeApi that is used to communicate between the extension and the webview
+
+		function AttributeCredits(imageUrl){
+			
+			const userName, Name;
+			String userLink = "https://unsplash.com/@" + userName + "?utm_source=your_app_name&utm_medium=referral" ;
+			const attribution = <a href={userLink}>{Name}</a> on <a href="https://unsplash.com/?utm_source=your_app_name&utm_medium=referral">Unsplash</a>
+			return attribution;
+		}
 		function Copy_Picture_URL(txt) {
 			const el = document.createElement('textarea');
 			el.value = txt;
@@ -335,8 +344,9 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 				<h6 class="text-uppercase pb-1">Search Results:</h6>
 		`);
 		let picture_div;
+		console.log(credits[0].first_name)
 		for(let s=0;s<30;s++){
-			picture_div = getImageHTML(pictures_urls[s]);
+			picture_div = getImageHTML(pictures_urls[s], credits[s].first_name);
 			html = html.concat(picture_div);
 		}
 			if(i>1) html = html.concat('</div><div class="buttons" style="display: flex;justify-content: center; align-items: center;"><button class="btn btn-dark mt-4" type="button" style="display:inline-block;justify-content=center;" onClick=getPreviousPage()> ⇠ Previous Page </button> &nbsp;')
@@ -561,18 +571,19 @@ function activate(context) {
 				console.log("here",message.name[0]);
 				let searchQuery = picture_urls[0]
 				picture_urls.shift()
-
-				panel.webview.html = getSearchResult(picture_urls, searchQuery, i); //Displays the Results Page
+				
+				panel.webview.html = getSearchResult(picture_urls, searchQuery, i, message.name); //Displays the Results Page
 				return;
 
 			case 'nextPage':
 				let picture_urls_next = message.text.split("<sp>")
-				console.log("here next",message.name[0]);
+				console.log("here next",message.name);
 
 				let searchQuery_next = picture_urls_next[0]
 				picture_urls_next.shift()
 				i++
-				panel.webview.html = getSearchResult(picture_urls_next, searchQuery_next, i);
+				
+				panel.webview.html = getSearchResult(picture_urls_next, searchQuery_next, i, message.name);
 				return;
 				
 			case 'previousPage':
@@ -582,7 +593,8 @@ function activate(context) {
 				let searchQuery_before = picture_urls_before[0]
 				picture_urls_before.shift()
 				i--
-				panel.webview.html = getSearchResult(picture_urls_before, searchQuery_before, i);
+				
+				panel.webview.html = getSearchResult(picture_urls_before, searchQuery_before, i, message.name);
 				return;
 			}
 			},
