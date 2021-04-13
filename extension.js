@@ -233,7 +233,7 @@ function getImageHTML(imageSource){
 			<img style="width:300px;height:300px;"  src="${imageSource}" 
 				onclick="Copy_Picture_URL('${imageSource}')" 
 				ondblclick="Download('${imageSource}')" 
-				class="image" />
+				class="image" >yo</img>
 		</span>\n
 	`;
 	return html;
@@ -267,6 +267,7 @@ function getInitialPage(){
 			
 			let url = "https://api.unsplash.com/search/photos?per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
 			let picture_urls = search + "<sp>"
+			let name = []
 			fetch(url)
 			.then(function(response){
 				return response.json()
@@ -277,14 +278,18 @@ function getInitialPage(){
 				{
 				let elem = data.results[j].urls.small
 				elem = elem.concat("<sp>")
+				let elename = data.results[j].user
+				name = name.concat(elename)
 				picture_urls = picture_urls.concat(elem)
+				
 				}
 				return picture_urls;
 			})
 			.then(function (picture_urls) {
 				vscode.postMessage({
 				command: 'searchResult',	
-				text: picture_urls
+				text: picture_urls,
+				name : name
 				});
 			})
 		}
@@ -393,7 +398,7 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 					$("html, body").animate({scrollTop:0}, 400);
 					let url = "https://api.unsplash.com/search/photos?page="+${i+1}+"&per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
 					let picture_urls = search + "<sp>"
-
+					let name = []
 					fetch(url)
 					.then(function(response){
 						return response.json()
@@ -405,13 +410,16 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 						let elem = data.results[j].urls.small
 						elem = elem.concat("<sp>")
 						picture_urls = picture_urls.concat(elem)
+						let elename = data.results[j].user
+						name = name.concat(elename)
 						}
 						return picture_urls;
 					})
 					.then(function (picture_urls) {
 						vscode.postMessage({
 						command: 'nextPage',	
-						text: picture_urls
+						text: picture_urls,
+						name
 						});
 					})
 				}
@@ -547,6 +555,7 @@ function activate(context) {
 			case 'searchResult' : // Handle Search Query from the user and display the results in WebView
 				i = 1
 				let picture_urls = message.text.split("<sp>")
+				console.log("here",message.name[0]);
 				let searchQuery = picture_urls[0]
 				picture_urls.shift()
 
@@ -555,6 +564,8 @@ function activate(context) {
 
 			case 'nextPage':
 				let picture_urls_next = message.text.split("<sp>")
+				console.log("here next",message.name[0]);
+
 				let searchQuery_next = picture_urls_next[0]
 				picture_urls_next.shift()
 				i++
