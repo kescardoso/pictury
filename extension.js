@@ -426,7 +426,7 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 				function getPreviousPage(){
 					let url = "https://api.unsplash.com/search/photos?page="+${i-1}+"&per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
 					let picture_urls = search + "<sp>"
-
+					let name = []
 					fetch(url)
 					.then(function(response){
 						return response.json()
@@ -438,13 +438,16 @@ function getSearchResult(pictures_urls, searchQuery, i) {
 						let elem = data.results[j].urls.small
 						elem = elem.concat("<sp>")
 						picture_urls = picture_urls.concat(elem)
+						let elename = data.results[j].user
+				name = name.concat(elename)
 						}
 						return picture_urls;
 					})
 					.then(function (picture_urls) {
 						vscode.postMessage({
 							command: 'previousPage',	
-							text: picture_urls
+							text: picture_urls,
+							name
 						});
 					})
 					
