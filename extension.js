@@ -109,11 +109,19 @@ function getSearchBar(){
 
 				}
 
+				.figure {
+					// background: #18A2B8;
+					overflow: hidden;
+
+				}
+
 				.figure img {
 					opacity: 1;
 					-webkit-transition: .3s ease-in-out;
 					transition: .3s ease-in-out;
 				}
+
+
 
 				.figure:hover img {
 					opacity: .5;
@@ -126,6 +134,21 @@ function getSearchBar(){
 				.credit-footer a{
 					color : black
 				}
+
+.copy{
+      position: relative;
+    bottom: 304px;
+    font-size: 24px;
+    width: 300px;
+    height: 300px;
+    display: flex;
+  opacity : 0;
+    justify-content: center;
+    align-items: center;
+    background: #faebd7a3;
+    font-weight: bolder;
+  transition: 1s ease;
+}
 
 				/* -------- Footer */
 				.footer-credits {
@@ -238,11 +261,14 @@ function getSearchBar(){
 function getImageHTML(imageSource, credits,username){
 	let html =`
 		<span class="figure">
+		<div style="width:300px;height:300px;" onclick="overlay()" >
 			<img style="width:300px;height:300px;"  src="${imageSource}" 
 				onmouseover="AttributeCredits('${imageSource}')"
 				onclick="Copy_Picture_URL('${imageSource}')" 
 				ondblclick="Download('${imageSource}')" 
 				class="image" > </img> 
+				<div  id="img1" class="copy">URL Copied!</div>
+				</div>
 				</br>
 				<div class="credit-footer">
 				Photo by 
@@ -276,6 +302,7 @@ function getInitialPage(){
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 	<script>
 	var vscode=acquireVsCodeApi();
+
 	document.getElementById('search').addEventListener("keypress",function(event){
 		if(event.keyCode===13){
 			i = 1;
