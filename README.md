@@ -63,16 +63,16 @@ N/A
 ## Screenshots
 
 Initial Webview Page
-![Initial Webview Page](https://github.com/kescardoso/pictury/blob/master/Readme-Images/01.png)
+![Initial Webview Page](https://github.com/kescardoso/pictury/blob/master/Readme-Images/1.png)
 
 Search Result Page
-![Search Result Page](https://github.com/kescardoso/pictury/blob/master/Readme-Images/02.png)
+![Search Result Page](https://github.com/kescardoso/pictury/blob/master/Readme-Images/2.png)
 
 Instruction Box
-![Initial Webview Page](https://github.com/kescardoso/pictury/blob/master/Readme-Images/03.png)
+![Initial Webview Page](https://github.com/kescardoso/pictury/blob/master/Readme-Images/3.png)
 
 Pagination Buttons
-![Initial Webview Page](https://github.com/kescardoso/pictury/blob/master/Readme-Images/05.png)
+![Initial Webview Page](https://github.com/kescardoso/pictury/blob/master/Readme-Images/5.png)
 
 
 ## Release Notes
