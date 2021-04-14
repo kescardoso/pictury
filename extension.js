@@ -576,7 +576,6 @@ function activate(context) {
 			case 'searchResult' : // Handle Search Query from the user and display the results in WebView
 				i = 1
 				let picture_urls = message.text.split("<sp>")
-				console.log("here",message.name[0]);
 				let searchQuery = picture_urls[0]
 				picture_urls.shift()
 				
@@ -585,7 +584,6 @@ function activate(context) {
 
 			case 'nextPage':
 				let picture_urls_next = message.text.split("<sp>")
-				console.log("here next",message.name);
 
 				let searchQuery_next = picture_urls_next[0]
 				picture_urls_next.shift()
@@ -596,8 +594,6 @@ function activate(context) {
 				
 			case 'previousPage':
 				let picture_urls_before = message.text.split("<sp>")
-				console.log("here prev",message.name[0]);
-
 				let searchQuery_before = picture_urls_before[0]
 				picture_urls_before.shift()
 				i--
