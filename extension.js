@@ -134,6 +134,9 @@ function getSearchBar(){
 				.credit-footer a{
 					color : black
 				}
+				.pic-box{
+					cursor: pointer;
+				}
 
 				.copy{
 				  position: relative;
@@ -258,16 +261,16 @@ function getSearchBar(){
 }
 
 //Returns the HTML code for each picture to be displayed in the webview
-function getImageHTML(imageSource, credits,username){
+function getImageHTML(imageSource, credits,username, id){
 	let html =`
 		<span class="figure">
-		<div style="width:300px;height:300px;" onclick="overlay()" >
+		<div class="pic-box" style="width:300px;height:300px;" onclick="overlay(${id})" >
 			<img style="width:300px;height:300px;"  src="${imageSource}" 
 				onmouseover="AttributeCredits('${imageSource}')"
 				onclick="Copy_Picture_URL('${imageSource}')" 
 				ondblclick="Download('${imageSource}')" 
 				class="image" > </img> 
-			<div id="img1" class="copy">URL Copied!</div>
+			<div id="img${id}" class="copy">URL Copied!</div>
 		</div>
 				</br>
 				<div class="credit-footer">
@@ -366,10 +369,10 @@ function getSearchResult(pictures_urls, searchQuery, i, credits) {
 			text: 'URL Copied!'
 			});
 		}
-		function overlay(){
-			document.querySelector("#img1").style.opacity = "1";
-			setTimeout(function(){  document.querySelector("#img1").style.opacity = "0"; }, 1000);
-	
+		function overlay(id){
+			document.querySelector("#img" + id).style.opacity = "1";
+			setTimeout(function(){  document.querySelector("#img" + id).style.opacity = "0"; }, 1000);
+			console.log("called", id)
 		}
 		function Download(pictureSource) {
 			vscode.postMessage({
@@ -386,7 +389,7 @@ function getSearchResult(pictures_urls, searchQuery, i, credits) {
 		`);
 		let picture_div;
 		for(let s=0;s<30;s++){
-			picture_div = getImageHTML(pictures_urls[s],credits[s].first_name,credits[s].username);
+			picture_div = getImageHTML(pictures_urls[s],credits[s].first_name,credits[s].username, s);
 			html = html.concat(picture_div);
 		}
 			if(i>1) html = html.concat('</div><div class="buttons" style="display: flex;justify-content: center; align-items: center;"><button class="btn btn-dark mt-4" type="button" style="display:inline-block;justify-content=center;" onClick=getPreviousPage()> ⇠ Previous Page </button> &nbsp;')
