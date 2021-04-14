@@ -135,20 +135,20 @@ function getSearchBar(){
 					color : black
 				}
 
-.copy{
-      position: relative;
-    bottom: 304px;
-    font-size: 24px;
-    width: 300px;
-    height: 300px;
-    display: flex;
-  opacity : 0;
-    justify-content: center;
-    align-items: center;
-    background: #faebd7a3;
-    font-weight: bolder;
-  transition: 1s ease;
-}
+				.copy{
+				  position: relative;
+				  bottom: 304px;
+				  font-size: 24px;
+				  width: 300px;
+				  height: 300px;
+				  display: flex;
+				  opacity : 0;
+				  justify-content: center;
+				  align-items: center;
+				  background: #faebd7a3;
+				  font-weight: bolder;
+				  transition: 1s ease;
+			  }
 
 				/* -------- Footer */
 				.footer-credits {
@@ -267,8 +267,8 @@ function getImageHTML(imageSource, credits,username){
 				onclick="Copy_Picture_URL('${imageSource}')" 
 				ondblclick="Download('${imageSource}')" 
 				class="image" > </img> 
-				<div  id="img1" class="copy">URL Copied!</div>
-				</div>
+			<div id="img1" class="copy">URL Copied!</div>
+		</div>
 				</br>
 				<div class="credit-footer">
 				Photo by 
@@ -365,6 +365,11 @@ function getSearchResult(pictures_urls, searchQuery, i, credits) {
 			command: 'alert',
 			text: 'URL Copied!'
 			});
+		}
+		function overlay(){
+			document.querySelector("#img1").style.opacity = "1";
+			setTimeout(function(){  document.querySelector("#img1").style.opacity = "0"; }, 1000);
+	
 		}
 		function Download(pictureSource) {
 			vscode.postMessage({
