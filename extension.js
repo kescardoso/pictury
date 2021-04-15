@@ -109,11 +109,19 @@ function getSearchBar(){
 
 				}
 
+				.figure {
+					// background: #18A2B8;
+					overflow: hidden;
+
+				}
+
 				.figure img {
 					opacity: 1;
 					-webkit-transition: .3s ease-in-out;
 					transition: .3s ease-in-out;
 				}
+
+
 
 				.figure:hover img {
 					opacity: .5;
@@ -126,6 +134,24 @@ function getSearchBar(){
 				.credit-footer a{
 					color : black
 				}
+				.pic-box{
+					cursor: pointer;
+				}
+
+				.copy{
+				  position: relative;
+				  bottom: 304px;
+				  font-size: 24px;
+				  width: 300px;
+				  height: 300px;
+				  display: flex;
+				  opacity : 0;
+				  justify-content: center;
+				  align-items: center;
+				  background: #faebd7a3;
+				  font-weight: bolder;
+				  transition: 1s ease;
+			  }
 
 				/* -------- Footer */
 				.footer-credits {
@@ -235,14 +261,15 @@ function getSearchBar(){
 }
 
 //Returns the HTML code for each picture to be displayed in the webview
-function getImageHTML(imageSource, credits,username){
+function getImageHTML(imageSource, credits,username, id){
 	let html =`
 		<span class="figure">
+		<div class="pic-box" style="width:300px;height:300px;" onclick="Copy_Picture_URL('${imageSource}', ${id})" ondblclick="Download('${imageSource}', ${id})" >
 			<img style="width:300px;height:300px;"  src="${imageSource}" 
-				onmouseover="AttributeCredits('${imageSource}')"
-				onclick="Copy_Picture_URL('${imageSource}')" 
-				ondblclick="Download('${imageSource}')" 
+				
 				class="image" > </img> 
+			<div id="img${id}" class="copy"></div>
+		</div>
 				</br>
 				<div class="credit-footer">
 				Photo by 
@@ -250,7 +277,7 @@ function getImageHTML(imageSource, credits,username){
 				on 
 				<a href="https://unsplash.com/?utm_source=picturye&utm_medium=referral">Unsplash</a>
 				</div>
-		</span>\n
+		</span>
 	`;
 	return html;
 }
@@ -276,6 +303,7 @@ function getInitialPage(){
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 	<script>
 	var vscode=acquireVsCodeApi();
+
 	document.getElementById('search').addEventListener("keypress",function(event){
 		if(event.keyCode===13){
 			i = 1;
@@ -326,8 +354,11 @@ function getSearchResult(pictures_urls, searchQuery, i, credits) {
 		<script>
 		var vscode=acquireVsCodeApi(); // initialize the VsCodeApi that is used to communicate between the extension and the webview
 
+		function Copy_Picture_URL(txt, id) {
+			document.querySelector("#img" + id).innerHTML = "URL Copied!"
+			document.querySelector("#img" + id).style.opacity = "1";
+			setTimeout(function(){  document.querySelector("#img" + id).style.opacity = "0"; }, 1000);
 
-		function Copy_Picture_URL(txt) {
 			const el = document.createElement('textarea');
 			el.value = txt;
 			document.body.appendChild(el);
@@ -338,13 +369,20 @@ function getSearchResult(pictures_urls, searchQuery, i, credits) {
 			command: 'alert',
 			text: 'URL Copied!'
 			});
+			
 		}
-		function Download(pictureSource) {
+		
+		function Download(pictureSource, id) {
+			document.querySelector("#img" + id).innerHTML = "Picture Downloaded!"
+			document.querySelector("#img" + id).style.opacity = "1";
+			setTimeout(function(){  document.querySelector("#img" + id).style.opacity = "0"; }, 1000);
 			vscode.postMessage({
 			command: 'download',	
 			text: pictureSource
 			});
 		}
+		
+		
 		</script>
 		`;
 		html = html.concat(getSearchBar());
@@ -354,7 +392,7 @@ function getSearchResult(pictures_urls, searchQuery, i, credits) {
 		`);
 		let picture_div;
 		for(let s=0;s<30;s++){
-			picture_div = getImageHTML(pictures_urls[s],credits[s].first_name,credits[s].username);
+			picture_div = getImageHTML(pictures_urls[s],credits[s].first_name,credits[s].username, s);
 			html = html.concat(picture_div);
 		}
 			if(i>1) html = html.concat('</div><div class="buttons" style="display: flex;justify-content: center; align-items: center;"><button class="btn btn-dark mt-4" type="button" style="display:inline-block;justify-content=center;" onClick=getPreviousPage()> ⇠ Previous Page </button> &nbsp;')
@@ -576,6 +614,7 @@ function activate(context) {
 			case 'searchResult' : // Handle Search Query from the user and display the results in WebView
 				i = 1
 				let picture_urls = message.text.split("<sp>")
+				console.log("here",message.name[0]);
 				let searchQuery = picture_urls[0]
 				picture_urls.shift()
 				
@@ -584,6 +623,7 @@ function activate(context) {
 
 			case 'nextPage':
 				let picture_urls_next = message.text.split("<sp>")
+				console.log("here next",message.name);
 
 				let searchQuery_next = picture_urls_next[0]
 				picture_urls_next.shift()
@@ -594,6 +634,8 @@ function activate(context) {
 				
 			case 'previousPage':
 				let picture_urls_before = message.text.split("<sp>")
+				console.log("here prev",message.name[0]);
+
 				let searchQuery_before = picture_urls_before[0]
 				picture_urls_before.shift()
 				i--
