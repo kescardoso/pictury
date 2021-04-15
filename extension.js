@@ -264,11 +264,9 @@ function getSearchBar(){
 function getImageHTML(imageSource, credits,username, id){
 	let html =`
 		<span class="figure">
-		<div class="pic-box" style="width:300px;height:300px;" onclick="overlay(${id})" >
+		<div class="pic-box" style="width:300px;height:300px;" onclick="Copy_Picture_URL('${imageSource}', ${id})" ondblclick="Download('${imageSource}')" >
 			<img style="width:300px;height:300px;"  src="${imageSource}" 
-				onmouseover="AttributeCredits('${imageSource}')"
-				onclick="Copy_Picture_URL('${imageSource}')" 
-				ondblclick="Download('${imageSource}')" 
+				
 				class="image" > </img> 
 			<div id="img${id}" class="copy">URL Copied!</div>
 		</div>
@@ -279,7 +277,7 @@ function getImageHTML(imageSource, credits,username, id){
 				on 
 				<a href="https://unsplash.com/?utm_source=picturye&utm_medium=referral">Unsplash</a>
 				</div>
-		</span>\n
+		</span>
 	`;
 	return html;
 }
@@ -356,8 +354,15 @@ function getSearchResult(pictures_urls, searchQuery, i, credits) {
 		<script>
 		var vscode=acquireVsCodeApi(); // initialize the VsCodeApi that is used to communicate between the extension and the webview
 
+		function overlay(id){
+			document.querySelector("#img" + id).style.opacity = "1";
+			setTimeout(function(){  document.querySelector("#img" + id).style.opacity = "0"; }, 1000);
+			console.log("called", id);
+		}
+		
 
-		function Copy_Picture_URL(txt) {
+		function Copy_Picture_URL(txt, id) {
+			overlay(id);
 			const el = document.createElement('textarea');
 			el.value = txt;
 			document.body.appendChild(el);
@@ -368,18 +373,17 @@ function getSearchResult(pictures_urls, searchQuery, i, credits) {
 			command: 'alert',
 			text: 'URL Copied!'
 			});
+			
 		}
-		function overlay(id){
-			document.querySelector("#img" + id).style.opacity = "1";
-			setTimeout(function(){  document.querySelector("#img" + id).style.opacity = "0"; }, 1000);
-			console.log("called", id)
-		}
+		
 		function Download(pictureSource) {
 			vscode.postMessage({
 			command: 'download',	
 			text: pictureSource
 			});
 		}
+		
+		
 		</script>
 		`;
 		html = html.concat(getSearchBar());
