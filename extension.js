@@ -303,7 +303,6 @@ function getInitialPage(){
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 	<script>
 	var vscode=acquireVsCodeApi();
-
 	document.getElementById('search').addEventListener("keypress",function(event){
 		if(event.keyCode===13){
 			i = 1;
@@ -318,6 +317,13 @@ function getInitialPage(){
 			})
 			.then(function(data){
 				data = JSON.parse(JSON.stringify(data))
+				if (data.total == 0){
+					return null;
+				};
+				return data;
+			})
+			.then(function(data){
+				if (data == null) return null;
 				for(let j=0;j<30;j++)
 				{
 				let elem = data.results[j].urls.small
@@ -325,16 +331,28 @@ function getInitialPage(){
 				let elename = data.results[j].user
 				name = name.concat(elename)
 				picture_urls = picture_urls.concat(elem)
-				
 				}
 				return picture_urls;
 			})
 			.then(function (picture_urls) {
+				if (picture_urls == null){
+					let searchBar = document.getElementsByClassName("col justify-content-center text-center")[0]
+					let hasChild = searchBar.querySelector(".noResult") != null;
+					if(!hasChild){
+					var notFoundMessage = document.createTextNode('No pictures found...')
+					var h = document.createElement("H2")
+					h.classList.add("noResult");
+					h.append(notFoundMessage)
+					searchBar.append(h);
+					}
+				}
+				else{
 				vscode.postMessage({
 				command: 'searchResult',	
 				text: picture_urls,
 				name : name
 				});
+				}
 			})
 		}
 	})
@@ -395,8 +413,8 @@ function getSearchResult(pictures_urls, searchQuery, i, credits) {
 			picture_div = getImageHTML(pictures_urls[s],credits[s].first_name,credits[s].username, s);
 			html = html.concat(picture_div);
 		}
-			if(i>1) html = html.concat('</div><div class="buttons" style="display: flex;justify-content: center; align-items: center;"><button class="btn btn-dark mt-4" type="button" style="display:inline-block;justify-content=center;" onClick=getPreviousPage()> ⇠ Previous Page </button> &nbsp;')
-			else html = html.concat('</div><div class="buttons" style="display: flex;justify-content: center; align-items: center;">')
+			if(i>1) html = html.concat('<div class="buttons" style="display: flex;justify-content: center; align-items: center;"><button class="btn btn-dark mt-4" type="button" style="display:inline-block;justify-content=center;" onClick=getPreviousPage()> ⇠ Previous Page </button> &nbsp;')
+			else html = html.concat('<div class="buttons" style="display: flex;justify-content: center; align-items: center;">')
 			html = html.concat(`
 				<button class="btn btn-dark mt-4" type="button" style="display:inline-block;display: flex;justify-content=center" onClick=getNextPage() > Next Page ⇢ </button> </div>
 				</div>
@@ -415,39 +433,63 @@ function getSearchResult(pictures_urls, searchQuery, i, credits) {
 
 				<!-- Search Form with jQuery Script : -->
 				<script>
-				var search = '${searchQuery}';
-				var i = ${i} ;
 				document.getElementById('search').addEventListener("keypress",function(event){
-
 					if(event.keyCode===13){
 						i = 1;
-						search = $(this).val()						
+						search = $(this).val()
+						
 						let url = "https://api.unsplash.com/search/photos?per_page=30&query=" + search + "&client_id=" + "lCw1Co0gKgCxSUnBjaXtxcuxFNJH9oAx8aD3QJF-aAc"
 						let picture_urls = search + "<sp>"
-
+						let name = []
 						fetch(url)
 						.then(function(response){
 							return response.json()
 						})
 						.then(function(data){
 							data = JSON.parse(JSON.stringify(data))
+							if (data.total == 0){
+								return null;
+							};
+							return data;
+						})
+						.then(function(data){
+							if (data == null) return null;
 							for(let j=0;j<30;j++)
 							{
 							let elem = data.results[j].urls.small
 							elem = elem.concat("<sp>")
+							let elename = data.results[j].user
+							name = name.concat(elename)
 							picture_urls = picture_urls.concat(elem)
 							}
 							return picture_urls;
 						})
 						.then(function (picture_urls) {
+							if (picture_urls == null){
+								let searchBar = document.getElementsByClassName("col justify-content-center text-center")[0]
+								let hasChild = searchBar.querySelector(".noResult") != null;
+								if(!hasChild){
+								var notFoundMessage = document.createTextNode('No pictures found... please try another query')
+								var h = document.createElement("H3")
+								h.classList.add("noResult");
+								h.append(notFoundMessage)
+								searchBar.append(h);
+								document.getElementById("images-container").remove();
+								let buttons = document.getElementsByClassName('btn btn-dark mt-4');
+								for(var o=0;o<buttons.length;o++){
+									buttons[o].remove();
+								}
+								}
+							}
+							else{
 							vscode.postMessage({
 							command: 'searchResult',	
-							text: picture_urls
+							text: picture_urls,
+							name : name
 							});
+							}
 						})
 					}
-				
-					
 				})				
 
 				function getNextPage(){
@@ -614,7 +656,6 @@ function activate(context) {
 			case 'searchResult' : // Handle Search Query from the user and display the results in WebView
 				i = 1
 				let picture_urls = message.text.split("<sp>")
-				console.log("here",message.name[0]);
 				let searchQuery = picture_urls[0]
 				picture_urls.shift()
 				
@@ -623,7 +664,6 @@ function activate(context) {
 
 			case 'nextPage':
 				let picture_urls_next = message.text.split("<sp>")
-				console.log("here next",message.name);
 
 				let searchQuery_next = picture_urls_next[0]
 				picture_urls_next.shift()
@@ -634,7 +674,6 @@ function activate(context) {
 				
 			case 'previousPage':
 				let picture_urls_before = message.text.split("<sp>")
-				console.log("here prev",message.name[0]);
 
 				let searchQuery_before = picture_urls_before[0]
 				picture_urls_before.shift()
