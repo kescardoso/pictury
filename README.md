@@ -86,5 +86,5 @@ Pagination Buttons
 2. Added a clearer notification to show that a URL has been copied and/or that a picture was downloaded
 3. Added Credits to each picture's photographer and to Unsplash
 4. Added a "No Results" message when a query doesn't return any result
-5. 
+
 **Enjoy!**
