@@ -67,7 +67,7 @@ Pagination Buttons
  Pictury is here! All the above mentionned features have been implemented, and
  we'll be working towards adding plenty of other functionalities!
 
-0.0.2:
+0.1.1:
 1. Changed the shortcut to open the webview from "SHIFT+A" to "CTRL+SHIFT+P"
 2. Added a clearer notification to show that a URL has been copied and/or that a picture was downloaded
 3. Added Credits to each picture's photographer and to Unsplash
