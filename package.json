@@ -79,21 +79,19 @@
           "when": "!explorerResourceIsFolder && resourceExtname != .jpg && resourceExtname != .png && resourceExtname != jpeg"
         }
       ],
-      
       "WebView": [
         {
           "command": "pictury.start",
           "group": "navigation"
         }
       ],
-
       "Pictury": [
         {
           "command": "pictury.downloadPathModifier",
           "group": "navigation"
         },
         {
-          "command" : "pictury.start",
+          "command": "pictury.start",
           "group": "navigation"
         }
       ],
@@ -171,4 +169,3 @@
     "node-fetch": "^2.6.1"
   }
 }
-
