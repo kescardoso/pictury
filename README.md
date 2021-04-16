@@ -10,21 +10,7 @@ Pictury is a VS Code plugin that will scrape popular free stock images from site
 
 You don’t need to google, you don’t need to leave your sandbox! With the Picture extension for VSCode, you can search, choose and use stock-free images on your project, with just 1 command line.
 
-Pictury is a must for all your development endevevors. And it's free. Download it now: <picture.download.link>
-
-**Technologies*# PICTURY (Project)
-
-**Problem (User Story):**
-
-Have you ever spent hours on google finding the perfect picture for your website or app? And then after you found them, facing the hassle of uploading all these files to your development environment in order to use them… All this takes time and patience.
-
-But, we now have the solution for you: Pictury!
-
-Pictury is a VS Code plugin that will scrape popular free stock images from sites such as Unsplash and display the best pictures for you from a search output, right from your development environment.
-
-You don’t need to google, you don’t need to leave your sandbox! With the Picture extension for VSCode, you can search, choose and use stock-free images on your project, with just 1 command line.
-
-Pictury is a must for all your development endevevors. And it's free. Download it now: <picture.download.link>
+Pictury is a must for all your development endevevors, and it's free!
 
 **Technologies**
 
